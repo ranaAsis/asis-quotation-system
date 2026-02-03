@@ -2640,10 +2640,11 @@ async function generateCoverPage(pdfDoc, fonts, formData) {
         yPos -= 22;
     }
     
-    // Address with icon placeholder
+    // Address with icon
     if (formData.custAddress) {
-        page.drawText(`📍 ${formData.custAddress}`, {
-            x: 60,
+        drawLocationPin(page, 68, yPos, darkGray);
+        page.drawText(formData.custAddress, {
+            x: 80,
             y: yPos,
             size: 10,
             font: fonts.helvetica,
@@ -2654,8 +2655,9 @@ async function generateCoverPage(pdfDoc, fonts, formData) {
     
     // Phone
     if (formData.custPhone) {
-        page.drawText(`📞 ${formData.custPhone}`, {
-            x: 60,
+        drawPhoneIcon(page, 68, yPos, darkGray);
+        page.drawText(formData.custPhone, {
+            x: 80,
             y: yPos,
             size: 10,
             font: fonts.helvetica,
@@ -2666,8 +2668,9 @@ async function generateCoverPage(pdfDoc, fonts, formData) {
     
     // Email
     if (formData.custEmail) {
-        page.drawText(`✉️ ${formData.custEmail}`, {
-            x: 60,
+        drawEnvelopeIcon(page, 68, yPos, darkGray);
+        page.drawText(formData.custEmail, {
+            x: 80,
             y: yPos,
             size: 10,
             font: fonts.helvetica,
@@ -2695,16 +2698,18 @@ async function generateCoverPage(pdfDoc, fonts, formData) {
             color: black
         });
         prepY -= 18;
-        page.drawText(`✉️ ${formData.salesmanInfo.email}`, {
-            x: 60,
+        drawEnvelopeIcon(page, 68, prepY, darkGray);
+        page.drawText(formData.salesmanInfo.email, {
+            x: 80,
             y: prepY,
             size: 10,
             font: fonts.helvetica,
             color: darkGray
         });
         prepY -= 16;
-        page.drawText(`📞 ${formData.salesmanInfo.phone}`, {
-            x: 60,
+        drawPhoneIcon(page, 68, prepY, darkGray);
+        page.drawText(formData.salesmanInfo.phone, {
+            x: 80,
             y: prepY,
             size: 10,
             font: fonts.helvetica,
@@ -2734,14 +2739,8 @@ async function generateQuotationPage(pdfDoc, fonts, formData) {
     const black = rgb(0, 0, 0);
     const lightGray = rgb(0.9, 0.9, 0.9);
     
-    // Diamond logo placeholder
-    page.drawText('◆', {
-        x: 285,
-        y: height - 40,
-        size: 24,
-        font: fonts.helvetica,
-        color: asiaRed
-    });
+    // Diamond logo
+    drawDiamond(page, 297, height - 35, 15, asiaRed);
     
     // Title
     page.drawText('QUOTATION', {
@@ -2975,7 +2974,7 @@ async function generateAnnexPages(pdfDoc, fonts, formData) {
     let y = height - 60;
     
     // Header
-    page.drawText('◆', { x: 285, y: height - 30, size: 20, font: fonts.helvetica, color: asiaRed });
+    drawDiamond(page, 297, height - 25, 12, asiaRed);
     page.drawText('PERFORMANCE - QUALITY - DESIGN - SAFETY', { x: 170, y: height - 50, size: 10, font: fonts.helveticaBold, color: black });
     
     y = height - 100;
@@ -2995,7 +2994,7 @@ async function generateAnnexPages(pdfDoc, fonts, formData) {
                 // Add new page
                 page = pdfDoc.addPage([595.28, 841.89]);
                 y = height - 60;
-                page.drawText('◆', { x: 285, y: height - 30, size: 20, font: fonts.helvetica, color: asiaRed });
+                drawDiamond(page, 297, height - 25, 12, asiaRed);
                 page.drawText('PERFORMANCE - QUALITY - DESIGN - SAFETY', { x: 170, y: height - 50, size: 10, font: fonts.helveticaBold, color: black });
                 y = height - 100;
             }
@@ -3011,7 +3010,7 @@ async function generateAnnexPages(pdfDoc, fonts, formData) {
     if (y < 150) {
         page = pdfDoc.addPage([595.28, 841.89]);
         y = height - 60;
-        page.drawText('◆', { x: 285, y: height - 30, size: 20, font: fonts.helvetica, color: asiaRed });
+        drawDiamond(page, 297, height - 25, 12, asiaRed);
         page.drawText('PERFORMANCE - QUALITY - DESIGN - SAFETY', { x: 170, y: height - 50, size: 10, font: fonts.helveticaBold, color: black });
         y = height - 100;
     }
@@ -3028,7 +3027,7 @@ async function generateAnnexPages(pdfDoc, fonts, formData) {
             if (y < 100) {
                 page = pdfDoc.addPage([595.28, 841.89]);
                 y = height - 60;
-                page.drawText('◆', { x: 285, y: height - 30, size: 20, font: fonts.helvetica, color: asiaRed });
+                drawDiamond(page, 297, height - 25, 12, asiaRed);
                 page.drawText('PERFORMANCE - QUALITY - DESIGN - SAFETY', { x: 170, y: height - 50, size: 10, font: fonts.helveticaBold, color: black });
                 y = height - 100;
             }
@@ -3134,6 +3133,40 @@ function drawDottedLine(page, x1, y1, x2, y2, color) {
         const x = x1 + (i * dotSpacing);
         page.drawCircle({ x, y: y1, size: 0.5, color });
     }
+}
+
+// Draw a diamond shape (ASIS logo placeholder)
+function drawDiamond(page, x, y, size, color) {
+    const half = size / 2;
+    // Draw as a rotated square using lines
+    page.drawLine({ start: { x: x, y: y + half }, end: { x: x + half, y: y }, thickness: 2, color });
+    page.drawLine({ start: { x: x + half, y: y }, end: { x: x, y: y - half }, thickness: 2, color });
+    page.drawLine({ start: { x: x, y: y - half }, end: { x: x - half, y: y }, thickness: 2, color });
+    page.drawLine({ start: { x: x - half, y: y }, end: { x: x, y: y + half }, thickness: 2, color });
+}
+
+// Draw a location pin icon
+function drawLocationPin(page, x, y, color) {
+    // Simple circle with a point below
+    page.drawCircle({ x: x, y: y + 3, size: 4, color, borderWidth: 1.5, borderColor: color });
+    page.drawLine({ start: { x: x - 3, y: y + 1 }, end: { x: x, y: y - 5 }, thickness: 1.5, color });
+    page.drawLine({ start: { x: x + 3, y: y + 1 }, end: { x: x, y: y - 5 }, thickness: 1.5, color });
+}
+
+// Draw a phone icon
+function drawPhoneIcon(page, x, y, color) {
+    // Simple rectangle for phone body
+    page.drawRectangle({ x: x - 3, y: y - 5, width: 6, height: 10, borderColor: color, borderWidth: 1.5 });
+    page.drawCircle({ x: x, y: y - 3, size: 1, color });
+}
+
+// Draw an envelope icon
+function drawEnvelopeIcon(page, x, y, color) {
+    // Rectangle body
+    page.drawRectangle({ x: x - 5, y: y - 3, width: 10, height: 7, borderColor: color, borderWidth: 1.5 });
+    // V shape for flap
+    page.drawLine({ start: { x: x - 5, y: y + 4 }, end: { x: x, y: y }, thickness: 1.5, color });
+    page.drawLine({ start: { x: x + 5, y: y + 4 }, end: { x: x, y: y }, thickness: 1.5, color });
 }
 
 function downloadCSV() {
