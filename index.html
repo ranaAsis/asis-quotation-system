@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASIS Boats - Professional Quotation System V30</title>
+    <title>ASIS Boats - Professional Quotation System V31</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- PDF Generation Libraries -->
     <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
@@ -2564,7 +2564,7 @@ async function generateCoverPage(pdfDoc, fonts, formData) {
         // PAGE1_FIELD: Quote Number (right-aligned, right edge position)
         const quoteNumWidth = fonts.helveticaBold.widthOfTextAtSize(formData.quoteNum, 18);
         page.drawText(formData.quoteNum, {
-            x: 444 - quoteNumWidth,  // LINE ~2567: Adjust X (right edge at 452)
+            x: 444 - quoteNumWidth,  // LINE ~2567: Adjust X (right edge at 444)
             y: 586,                   // LINE ~2568: Adjust Y
             size: 18,
             font: fonts.helveticaBold,
@@ -3099,7 +3099,7 @@ async function generateAnnexPages(pdfDoc, fonts, formData) {
     let page = await addAnnexPage();
     let { width } = page.getSize();
     height = 792;  // US Letter height
-    let y = height - 130;  // Start ~1cm lower (was -100)
+    let y = height - 100;  // Start higher on page (moved up from -130)
     
     // ANNEX 1: ASIS ACCESSORIES
     page.drawText('ANNEX 1:', { x: 60, y, size: 12, font: fonts.helveticaBold, color: black });
@@ -3115,7 +3115,7 @@ async function generateAnnexPages(pdfDoc, fonts, formData) {
             if (y < 100) {
                 // Add new page using template
                 page = await addAnnexPage();
-                y = height - 130;  // Start ~1cm lower
+                y = height - 100;  // Start higher on page
             }
             
             const itemText = `- ${item.name} (Qty: ${item.qty})`;
@@ -3128,7 +3128,7 @@ async function generateAnnexPages(pdfDoc, fonts, formData) {
     y -= 30;
     if (y < 150) {
         page = await addAnnexPage();
-        y = height - 130;  // Start ~1cm lower
+        y = height - 100;  // Start higher on page
     }
     
     page.drawText('ANNEX 2:', { x: 60, y, size: 12, font: fonts.helveticaBold, color: black });
@@ -3142,7 +3142,7 @@ async function generateAnnexPages(pdfDoc, fonts, formData) {
         for (const item of annexItems['ELECTRONICS & COMMUNICATION']) {
             if (y < 100) {
                 page = await addAnnexPage();
-                y = height - 130;  // Start ~1cm lower
+                y = height - 100;  // Start higher on page
             }
             
             const itemText = `- ${item.name} (Qty: ${item.qty})`;
@@ -3155,6 +3155,10 @@ async function generateAnnexPages(pdfDoc, fonts, formData) {
 }
 
 // ==================== EMBED STATIC PDF ====================
+// Standard page size - US Letter (612 x 792)
+const STANDARD_PAGE_WIDTH = 612;
+const STANDARD_PAGE_HEIGHT = 792;
+
 async function embedStaticPdf(pdfDoc, pdfPath, description) {
     try {
         const url = PDF_CONFIG.baseUrl + pdfPath;
@@ -3169,7 +3173,34 @@ async function embedStaticPdf(pdfDoc, pdfPath, description) {
         const externalPdf = await PDFLib.PDFDocument.load(pdfBytes);
         const pages = await pdfDoc.copyPages(externalPdf, externalPdf.getPageIndices());
         
-        pages.forEach(page => pdfDoc.addPage(page));
+        pages.forEach(page => {
+            // Scale page to standard Letter size if different
+            const { width, height } = page.getSize();
+            if (Math.abs(width - STANDARD_PAGE_WIDTH) > 1 || Math.abs(height - STANDARD_PAGE_HEIGHT) > 1) {
+                // Calculate scale to fit content
+                const scaleX = STANDARD_PAGE_WIDTH / width;
+                const scaleY = STANDARD_PAGE_HEIGHT / height;
+                const scale = Math.min(scaleX, scaleY); // Maintain aspect ratio
+                
+                // Set the page to standard size
+                page.setSize(STANDARD_PAGE_WIDTH, STANDARD_PAGE_HEIGHT);
+                
+                // Scale and center the content
+                page.scaleContent(scale, scale);
+                
+                // Center the content if aspect ratios differ
+                if (scaleX !== scaleY) {
+                    const newWidth = width * scale;
+                    const newHeight = height * scale;
+                    const xOffset = (STANDARD_PAGE_WIDTH - newWidth) / 2;
+                    const yOffset = (STANDARD_PAGE_HEIGHT - newHeight) / 2;
+                    page.translateContent(xOffset, yOffset);
+                }
+                
+                console.log(`Scaled ${description} page from ${width}x${height} to ${STANDARD_PAGE_WIDTH}x${STANDARD_PAGE_HEIGHT}`);
+            }
+            pdfDoc.addPage(page);
+        });
         console.log(`Embedded ${description}: ${pages.length} page(s)`);
     } catch (error) {
         console.warn(`Failed to embed ${description}:`, error);
