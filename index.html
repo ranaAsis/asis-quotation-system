@@ -2558,132 +2558,129 @@ async function generateCoverPage(pdfDoc, fonts, formData) {
         const black = rgb(0, 0, 0);
         
         // === ADD DYNAMIC TEXT ON TOP OF TEMPLATE ===
-        // Using exact PDF coordinates from measurement
-        // ALIGNMENT OFFSET - Adjust these if text needs to shift:
-        // Positive X_OFFSET moves text RIGHT, Negative Y_OFFSET moves text DOWN
-        const X_OFFSET = 10;   // Shift right (increased)
-        const Y_OFFSET = -24;  // Shift down ~0.5cm (was -10)
+        // Page 1 coordinates - adjust each field individually
+        // To find these lines: search for "PAGE1_FIELD:" in your editor
         
-        // Quote Number (RIGHT-ALIGNED, right edge at x=442, y=627)
+        // PAGE1_FIELD: Quote Number (right-aligned, right edge position)
         const quoteNumWidth = fonts.helveticaBold.widthOfTextAtSize(formData.quoteNum, 18);
         page.drawText(formData.quoteNum, {
-            x: 442 - quoteNumWidth + X_OFFSET,
-            y: 627 + Y_OFFSET,
+            x: 452 - quoteNumWidth,  // LINE ~2567: Adjust X (right edge at 452)
+            y: 603,                   // LINE ~2568: Adjust Y
             size: 18,
             font: fonts.helveticaBold,
             color: asiaRed
         });
         
-        // Quotation Title Line 1 (x=63, y=518)
+        // PAGE1_FIELD: Title Line 1
         const titleLines = splitTextToLines(formData.quoteTitle, 45);
         page.drawText(titleLines[0] || '', {
-            x: 63 + X_OFFSET,
-            y: 518 + Y_OFFSET,
+            x: 73,   // LINE ~2577: Adjust X
+            y: 494,  // LINE ~2578: Adjust Y
             size: 18,
             font: fonts.helveticaBold,
             color: black
         });
         
-        // Quotation Title Line 2 (x=62, y=494)
+        // PAGE1_FIELD: Title Line 2
         if (titleLines[1]) {
             page.drawText(titleLines[1], {
-                x: 62 + X_OFFSET,
-                y: 494 + Y_OFFSET,
+                x: 72,   // LINE ~2587: Adjust X
+                y: 470,  // LINE ~2588: Adjust Y
                 size: 18,
                 font: fonts.helveticaBold,
                 color: black
             });
         }
         
-        // Tender Number (x=62, y=474)
+        // PAGE1_FIELD: Tender Number
         if (formData.tender) {
             page.drawText('Tender No. ' + formData.tender, {
-                x: 62 + X_OFFSET,
-                y: 474 + Y_OFFSET,
+                x: 72,   // LINE ~2598: Adjust X
+                y: 450,  // LINE ~2599: Adjust Y
                 size: 11,
                 font: fonts.helvetica,
                 color: darkGray
             });
         }
         
-        // Customer Company (x=63, y=416)
+        // PAGE1_FIELD: Customer Company
         if (formData.custCompany) {
             page.drawText(formData.custCompany, {
-                x: 63 + X_OFFSET,
-                y: 416 + Y_OFFSET,
+                x: 73,   // LINE ~2609: Adjust X
+                y: 392,  // LINE ~2610: Adjust Y
                 size: 16,
                 font: fonts.helveticaBold,
                 color: black
             });
         }
         
-        // Customer Contact (x=62, y=392)
+        // PAGE1_FIELD: Customer Contact
         if (formData.custContact) {
             page.drawText(formData.custContact, {
-                x: 62 + X_OFFSET,
-                y: 392 + Y_OFFSET,
+                x: 72,   // LINE ~2620: Adjust X
+                y: 368,  // LINE ~2621: Adjust Y
                 size: 14,
                 font: fonts.helveticaBold,
                 color: black
             });
         }
         
-        // Customer Address (x=82, y=373)
+        // PAGE1_FIELD: Customer Address
         if (formData.custAddress) {
             page.drawText(formData.custAddress, {
-                x: 82 + X_OFFSET,
-                y: 373 + Y_OFFSET,
+                x: 92,   // LINE ~2632: Adjust X
+                y: 349,  // LINE ~2633: Adjust Y
                 size: 10,
                 font: fonts.helvetica,
                 color: darkGray
             });
         }
         
-        // Customer Phone (x=81, y=354)
+        // PAGE1_FIELD: Customer Phone
         if (formData.custPhone) {
             page.drawText(formData.custPhone, {
-                x: 81 + X_OFFSET,
-                y: 354 + Y_OFFSET,
+                x: 91,   // LINE ~2643: Adjust X
+                y: 330,  // LINE ~2644: Adjust Y
                 size: 10,
                 font: fonts.helvetica,
                 color: darkGray
             });
         }
         
-        // Customer Email (x=80, y=336)
+        // PAGE1_FIELD: Customer Email
         if (formData.custEmail) {
             page.drawText(formData.custEmail, {
-                x: 80 + X_OFFSET,
-                y: 336 + Y_OFFSET,
+                x: 90,   // LINE ~2654: Adjust X
+                y: 312,  // LINE ~2655: Adjust Y
                 size: 10,
                 font: fonts.helvetica,
                 color: darkGray
             });
         }
         
-        // Salesman Name (x=62, y=180)
+        // PAGE1_FIELD: Salesman Name
         if (formData.salesmanInfo) {
             page.drawText(formData.salesmanInfo.name.toUpperCase(), {
-                x: 62 + X_OFFSET,
-                y: 180 + Y_OFFSET,
+                x: 72,   // LINE ~2666: Adjust X
+                y: 156,  // LINE ~2667: Adjust Y
                 size: 14,
                 font: fonts.helveticaBold,
                 color: black
             });
             
-            // Salesman Email (x=80, y=160)
+            // PAGE1_FIELD: Salesman Email
             page.drawText(formData.salesmanInfo.email, {
-                x: 80 + X_OFFSET,
-                y: 160 + Y_OFFSET,
+                x: 90,   // LINE ~2676: Adjust X
+                y: 136,  // LINE ~2677: Adjust Y
                 size: 10,
                 font: fonts.helvetica,
                 color: darkGray
             });
             
-            // Salesman Phone (x=80, y=143)
+            // PAGE1_FIELD: Salesman Phone
             page.drawText(formData.salesmanInfo.phone, {
-                x: 80 + X_OFFSET,
-                y: 143 + Y_OFFSET,
+                x: 90,   // LINE ~2686: Adjust X
+                y: 119,  // LINE ~2687: Adjust Y
                 size: 10,
                 font: fonts.helvetica,
                 color: darkGray
@@ -2701,7 +2698,7 @@ async function generateCoverPage(pdfDoc, fonts, formData) {
 // Fallback cover page if template is not available
 async function generateCoverPageFallback(pdfDoc, fonts, formData) {
     const { rgb } = PDFLib;
-    const page = pdfDoc.addPage([595.28, 841.89]); // A4 size
+    const page = pdfDoc.addPage([612, 792]); // US Letter size
     const { width, height } = page.getSize();
     
     // Colors
@@ -2824,7 +2821,7 @@ async function generateCoverPageFallback(pdfDoc, fonts, formData) {
 // ==================== PAGE 3: QUOTATION DETAILS ====================
 async function generateQuotationPage(pdfDoc, fonts, formData) {
     const { rgb } = PDFLib;
-    const page = pdfDoc.addPage([595.28, 841.89]); // A4 size
+    const page = pdfDoc.addPage([612, 792]); // US Letter size
     const { width, height } = page.getSize();
     
     // Colors
@@ -3064,7 +3061,7 @@ async function generateAnnexPages(pdfDoc, fonts, formData) {
     
     // Try to load annex template
     let templatePage = null;
-    let height = 842;
+    let height = 792;  // US Letter height
     try {
         const templateUrl = PDF_CONFIG.baseUrl + 'assets/pdf/annex_template.pdf';
         const response = await fetch(templateUrl);
@@ -3090,10 +3087,10 @@ async function generateAnnexPages(pdfDoc, fonts, formData) {
             pdfDoc.addPage(newPage);
             page = pdfDoc.getPages()[pdfDoc.getPageCount() - 1];
         } else {
-            page = pdfDoc.addPage([595.56, 842.04]); // A4
+            page = pdfDoc.addPage([612, 792]); // US Letter
             // Draw header manually if no template
-            drawDiamond(page, 297, height - 25, 12, asiaRed);
-            page.drawText('PERFORMANCE - QUALITY - DESIGN - SAFETY', { x: 170, y: height - 50, size: 10, font: fonts.helveticaBold, color: black });
+            drawDiamond(page, 306, height - 25, 12, asiaRed);
+            page.drawText('PERFORMANCE - QUALITY - DESIGN - SAFETY', { x: 178, y: height - 50, size: 10, font: fonts.helveticaBold, color: black });
         }
         return page;
     }
@@ -3101,7 +3098,7 @@ async function generateAnnexPages(pdfDoc, fonts, formData) {
     // Generate first annex page
     let page = await addAnnexPage();
     let { width } = page.getSize();
-    height = 842;
+    height = 792;  // US Letter height
     let y = height - 130;  // Start ~1cm lower (was -100)
     
     // ANNEX 1: ASIS ACCESSORIES
