@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASIS Boats - Professional Quotation System V31</title>
+    <title>ASIS Boats - Professional Quotation System V32</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- PDF Generation Libraries -->
     <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
@@ -3060,34 +3060,54 @@ async function generateAnnexPages(pdfDoc, fonts, formData) {
     });
     
     // Try to load annex template
-    let templatePage = null;
-    let height = 792;  // US Letter height
+    let templateAvailable = false;
+    let height = STANDARD_PAGE_HEIGHT;  // US Letter height (792)
     try {
         const templateUrl = PDF_CONFIG.baseUrl + 'assets/pdf/annex_template.pdf';
         const response = await fetch(templateUrl);
         if (response.ok) {
-            const templateBytes = await response.arrayBuffer();
-            const templatePdf = await PDFLib.PDFDocument.load(templateBytes);
-            [templatePage] = await pdfDoc.copyPages(templatePdf, [0]);
+            templateAvailable = true;
         }
     } catch (e) {
         console.warn('Annex template not found, using blank page');
     }
     
-    // Helper function to add a new annex page
+    // Helper function to add a new annex page (scaled to Letter size)
     async function addAnnexPage() {
         let page;
-        if (templatePage) {
+        if (templateAvailable) {
             // Copy template for each new page
             const templateUrl = PDF_CONFIG.baseUrl + 'assets/pdf/annex_template.pdf';
             const response = await fetch(templateUrl);
             const templateBytes = await response.arrayBuffer();
             const templatePdf = await PDFLib.PDFDocument.load(templateBytes);
             const [newPage] = await pdfDoc.copyPages(templatePdf, [0]);
+            
+            // Scale to standard Letter size if needed
+            const { width: origWidth, height: origHeight } = newPage.getSize();
+            if (Math.abs(origWidth - STANDARD_PAGE_WIDTH) > 1 || Math.abs(origHeight - STANDARD_PAGE_HEIGHT) > 1) {
+                const scaleX = STANDARD_PAGE_WIDTH / origWidth;
+                const scaleY = STANDARD_PAGE_HEIGHT / origHeight;
+                const scale = Math.min(scaleX, scaleY);
+                
+                newPage.setSize(STANDARD_PAGE_WIDTH, STANDARD_PAGE_HEIGHT);
+                newPage.scaleContent(scale, scale);
+                
+                // Center content if aspect ratios differ
+                if (scaleX !== scaleY) {
+                    const newWidth = origWidth * scale;
+                    const newHeight = origHeight * scale;
+                    const xOffset = (STANDARD_PAGE_WIDTH - newWidth) / 2;
+                    const yOffset = (STANDARD_PAGE_HEIGHT - newHeight) / 2;
+                    newPage.translateContent(xOffset, yOffset);
+                }
+                console.log(`Scaled annex page from ${origWidth}x${origHeight} to ${STANDARD_PAGE_WIDTH}x${STANDARD_PAGE_HEIGHT}`);
+            }
+            
             pdfDoc.addPage(newPage);
             page = pdfDoc.getPages()[pdfDoc.getPageCount() - 1];
         } else {
-            page = pdfDoc.addPage([612, 792]); // US Letter
+            page = pdfDoc.addPage([STANDARD_PAGE_WIDTH, STANDARD_PAGE_HEIGHT]); // US Letter
             // Draw header manually if no template
             drawDiamond(page, 306, height - 25, 12, asiaRed);
             page.drawText('PERFORMANCE - QUALITY - DESIGN - SAFETY', { x: 178, y: height - 50, size: 10, font: fonts.helveticaBold, color: black });
@@ -3098,8 +3118,8 @@ async function generateAnnexPages(pdfDoc, fonts, formData) {
     // Generate first annex page
     let page = await addAnnexPage();
     let { width } = page.getSize();
-    height = 792;  // US Letter height
-    let y = height - 100;  // Start higher on page (moved up from -130)
+    height = STANDARD_PAGE_HEIGHT;  // US Letter height
+    let y = STANDARD_PAGE_HEIGHT - 100;  // Start higher on page (moved up from -130)
     
     // ANNEX 1: ASIS ACCESSORIES
     page.drawText('ANNEX 1:', { x: 60, y, size: 12, font: fonts.helveticaBold, color: black });
@@ -3115,7 +3135,7 @@ async function generateAnnexPages(pdfDoc, fonts, formData) {
             if (y < 100) {
                 // Add new page using template
                 page = await addAnnexPage();
-                y = height - 100;  // Start higher on page
+                y = STANDARD_PAGE_HEIGHT - 100;  // Start higher on page
             }
             
             const itemText = `- ${item.name} (Qty: ${item.qty})`;
@@ -3128,7 +3148,7 @@ async function generateAnnexPages(pdfDoc, fonts, formData) {
     y -= 30;
     if (y < 150) {
         page = await addAnnexPage();
-        y = height - 100;  // Start higher on page
+        y = STANDARD_PAGE_HEIGHT - 100;  // Start higher on page
     }
     
     page.drawText('ANNEX 2:', { x: 60, y, size: 12, font: fonts.helveticaBold, color: black });
@@ -3142,7 +3162,7 @@ async function generateAnnexPages(pdfDoc, fonts, formData) {
         for (const item of annexItems['ELECTRONICS & COMMUNICATION']) {
             if (y < 100) {
                 page = await addAnnexPage();
-                y = height - 100;  // Start higher on page
+                y = STANDARD_PAGE_HEIGHT - 100;  // Start higher on page
             }
             
             const itemText = `- ${item.name} (Qty: ${item.qty})`;
