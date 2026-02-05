@@ -2565,7 +2565,7 @@ async function generateCoverPage(pdfDoc, fonts, formData) {
         const quoteNumWidth = fonts.helveticaBold.widthOfTextAtSize(formData.quoteNum, 18);
         page.drawText(formData.quoteNum, {
             x: 452 - quoteNumWidth,  // LINE ~2567: Adjust X (right edge at 452)
-            y: 590,                   // LINE ~2568: Adjust Y
+            y: 595,                   // LINE ~2568: Adjust Y
             size: 18,
             font: fonts.helveticaBold,
             color: asiaRed
@@ -2574,8 +2574,8 @@ async function generateCoverPage(pdfDoc, fonts, formData) {
         // PAGE1_FIELD: Title Line 1
         const titleLines = splitTextToLines(formData.quoteTitle, 45);
         page.drawText(titleLines[0] || '', {
-            x: 73,   // LINE ~2577: Adjust X
-            y: 474,  // LINE ~2578: Adjust Y
+            x: 83,   // LINE ~2577: Adjust X
+            y: 475,  // LINE ~2578: Adjust Y
             size: 18,
             font: fonts.helveticaBold,
             color: black
