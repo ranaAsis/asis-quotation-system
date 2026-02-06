@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASIS Boats - Professional Quotation System V39</title>
+    <title>ASIS Boats - Professional Quotation System V40</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- PDF Generation Libraries -->
     <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
@@ -2899,11 +2899,12 @@ async function generateQuotationPage(pdfDoc, fonts, formData) {
     let y = height - 130;
     page.drawText('Ref. No.', { x: 60, y, size: 10, font: fonts.helvetica, color: darkGray });
     page.drawText(formData.quoteNum, { x: 110, y, size: 11, font: fonts.helveticaBold, color: black });
-    // Date - right-aligned to content area (last digit at ~550)
+    // Date - right-aligned with same spacing as Ref. No. (50px gap between label and value)
     const dateText = formData.quoteDate;
     const dateWidth = fonts.helveticaBold.widthOfTextAtSize(dateText, 11);
-    page.drawText('Date:', { x: 470, y, size: 10, font: fonts.helvetica, color: darkGray });
-    page.drawText(dateText, { x: 550 - dateWidth, y, size: 11, font: fonts.helveticaBold, color: black });
+    const dateLabelX = 552 - dateWidth - 50; // 50px gap like Ref. No.
+    page.drawText('Date:', { x: dateLabelX, y, size: 10, font: fonts.helvetica, color: darkGray });
+    page.drawText(dateText, { x: dateLabelX + 50, y, size: 11, font: fonts.helveticaBold, color: black });
     
     // Horizontal line under Ref/Date
     y -= 15;
@@ -2957,23 +2958,21 @@ async function generateQuotationPage(pdfDoc, fonts, formData) {
     page.drawText('Email:', { x: rightCol, y, size: 9, font: fonts.helvetica, color: darkGray });
     page.drawText(formData.salesmanInfo?.email || '-', { x: rightValCol, y, size: 9, font: fonts.helveticaBold, color: black });
     
-    // Description table header - same style as TO/FROM with left accent
-    y -= 35; // Reduced from 50
-    const tableHeaderHeight = 20;
-    // Light gray background for header row
-    page.drawRectangle({ x: 60, y: y - 5, width: 492, height: tableHeaderHeight, color: rgb(0.95, 0.95, 0.95) });
-    // Red accent bar on left
-    page.drawRectangle({ x: 60, y: y - 5, width: 4, height: tableHeaderHeight, color: asiaRed });
-    // Header text - vertically centered
-    const headerTextY = y + 2;
-    page.drawText('Description', { x: 70, y: headerTextY, size: 10, font: fonts.helveticaBold, color: black });
-    page.drawText('Qty.', { x: 420, y: headerTextY, size: 10, font: fonts.helveticaBold, color: black });
+    // Description table header - Option C: Same style as TO/FROM (red accent bar, red ALL CAPS text, no background)
+    y -= 35;
+    // Red accent bar on left only
+    page.drawRectangle({ x: 60, y: y - 6, width: 4, height: 16, color: asiaRed });
+    // Header text in red ALL CAPS
+    page.drawText('DESCRIPTION', { x: 68, y, size: 11, font: fonts.helveticaBold, color: asiaRed });
+    page.drawText('QTY.', { x: 415, y, size: 11, font: fonts.helveticaBold, color: asiaRed });
     if (!formData.hideSubPrices) {
-        page.drawText('Price', { x: 480, y: headerTextY, size: 10, font: fonts.helveticaBold, color: black });
+        // Center "PRICE USD" - calculate width for centering
+        const priceLabel = 'PRICE ' + currencyDisplay;
+        page.drawText(priceLabel, { x: 480, y, size: 11, font: fonts.helveticaBold, color: asiaRed });
     }
     
     // Table rows - reduced gap after header
-    y -= 22; // Reduced from 30
+    y -= 20;
     
     // Row 1: Boat Type and Size (format: "ASIS 9.5M Aluminium RHIB")
     const boatTypeLabels = {
@@ -2988,8 +2987,8 @@ async function generateQuotationPage(pdfDoc, fonts, formData) {
         page.drawText(formatNumber(formData.boatPrice), { x: 470, y, size: 10, font: fonts.helvetica, color: black });
     }
     
-    // Dotted line UNDER boat type row (removed the first dotted line above it)
-    y -= 15;
+    // Dotted line UNDER boat type row - reduced spacing
+    y -= 10;
     drawDottedLine(page, 70, y, 542, y, lightGray);
     
     // Row 2: Engine (BOLD) - with line wrapping for long names
@@ -3050,9 +3049,10 @@ async function generateQuotationPage(pdfDoc, fonts, formData) {
         });
     }
     
-    // Total with currency
-    page.drawText('TOTAL', { x: 410, y: noteBoxY - 18, size: 11, font: fonts.helveticaBold, color: black });
-    page.drawText(`${currencyDisplay} ${formatNumber(formData.total)}`, { x: 450, y: noteBoxY - 18, size: 14, font: fonts.helveticaBold, color: black });
+    // Total with currency - "TOTAL USD" same font, ~1cm space, then amount
+    const totalLabel = `TOTAL ${currencyDisplay}`;
+    page.drawText(totalLabel, { x: 400, y: noteBoxY - 18, size: 11, font: fonts.helveticaBold, color: black });
+    page.drawText(formatNumber(formData.total), { x: 480, y: noteBoxY - 18, size: 14, font: fonts.helveticaBold, color: black });
     
     // === TERMS SECTION ===
     y = noteBoxY - noteBoxHeight - 15;
@@ -3086,8 +3086,8 @@ async function generateQuotationPage(pdfDoc, fonts, formData) {
     page.drawText(':  United Arab Emirates', { x: termValueX, y: termY - lineHeight * 5, size: 9, font: fonts.helveticaBold, color: black });
     drawDottedLine(page, termValueX + 5, termY - lineHeight * 5 - 3, termLineEnd, termY - lineHeight * 5 - 3, lightGray);
     
-    // === SIGNATURE SECTION (after Country of Origin) ===
-    const sigY = termY - lineHeight * 6 - 10;
+    // === SIGNATURE SECTION (after Country of Origin - with more space) ===
+    const sigY = termY - lineHeight * 6 - 25; // Increased space from -10 to -25
     
     // Left side: "For ASIS Boats L.L.C," and salesman name
     page.drawText('For ', { x: termLabelX, y: sigY, size: 10, font: fonts.helvetica, color: black });
@@ -3097,12 +3097,10 @@ async function generateQuotationPage(pdfDoc, fonts, formData) {
     // Salesman name below
     page.drawText(formData.salesmanInfo?.name || '', { x: termLabelX, y: sigY - 18, size: 10, font: fonts.helveticaBold, color: black });
     
-    // Right side: SIGN AND STAMP box
+    // Right side: SIGN AND STAMP - dotted line with text below (replaced rectangle)
     const stampX = 420;
-    const stampBoxHeight = 60;
-    page.drawRectangle({ x: stampX, y: sigY - stampBoxHeight + 15, width: 125, height: stampBoxHeight, borderColor: black, borderWidth: 0.5 });
-    // Text at bottom of rectangle, smaller font
-    page.drawText('SIGN AND STAMP', { x: stampX + 28, y: sigY - stampBoxHeight + 20, size: 7, font: fonts.helvetica, color: darkGray });
+    drawDottedLine(page, stampX, sigY - 35, stampX + 120, sigY - 35, darkGray);
+    page.drawText('SIGN AND STAMP', { x: stampX + 25, y: sigY - 48, size: 7, font: fonts.helvetica, color: darkGray });
 }
 
 // ==================== PAGE 4: ANNEX PAGES ====================
