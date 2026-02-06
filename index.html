@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASIS Boats - Professional Quotation System V33</title>
+    <title>ASIS Boats - Professional Quotation System V35</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- PDF Generation Libraries -->
     <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
@@ -2940,8 +2940,14 @@ async function generateQuotationPage(pdfDoc, fonts, formData) {
     // Table rows
     y -= 30;
     
-    // Row 1: Boat/Quotation Title
-    page.drawText(formData.quoteTitle, { x: 70, y, size: 10, font: fonts.helveticaBold, color: black });
+    // Row 1: Boat Type and Size (format: "ASIS 9.5M Aluminium RHIB")
+    const boatTypeLabels = {
+        'aluminum': 'Aluminium RHIB',
+        'fiberglass': 'GRP RHIB',
+        'inflatable': 'HDIB'
+    };
+    const boatDescription = `ASIS ${formData.boatSize} ${boatTypeLabels[formData.boatType] || formData.boatTypeName}`;
+    page.drawText(boatDescription, { x: 70, y, size: 10, font: fonts.helveticaBold, color: black });
     page.drawText(formData.boatQty.toString(), { x: 405, y, size: 10, font: fonts.helvetica, color: black });
     if (!formData.hideSubPrices) {
         page.drawText(formatNumber(formData.boatPrice), { x: 440, y, size: 10, font: fonts.helvetica, color: black });
