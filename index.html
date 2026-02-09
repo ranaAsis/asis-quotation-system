@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASIS Boats - Professional Quotation System V42</title>
+    <title>ASIS Boats - Professional Quotation System V43</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- PDF Generation Libraries -->
     <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
@@ -2654,9 +2654,12 @@ async function generateCoverPage(pdfDoc, fonts, formData) {
             });
         }
         
-        // PAGE1_FIELD: Customer Address
+        // PAGE1_FIELD: Customer Address (compounded into one line with semicolons)
         if (formData.custAddress) {
-            page.drawText(formData.custAddress, {
+            const addressOneLine = formData.custAddress.replace(/\n/g, '; ').replace(/;\s*;/g, ';').trim();
+            const maxLen = 50;
+            const displayAddr = addressOneLine.length > maxLen ? addressOneLine.substring(0, maxLen) + '...' : addressOneLine;
+            page.drawText(displayAddr, {
                 x: 100,   // LINE ~2632: Adjust X
                 y: 346,  // LINE ~2633: Adjust Y
                 size: 10,
@@ -2910,14 +2913,21 @@ async function generateQuotationPage(pdfDoc, fonts, formData) {
     y -= 15;
     page.drawLine({ start: { x: 60, y }, end: { x: 552, y }, thickness: 0.5, color: lightGray });
     
-    // TO: section - Layout A: styled with left border accent
-    y -= 25;
-    page.drawRectangle({ x: 60, y: y - 6, width: 4, height: 16, color: asiaRed });
-    page.drawText('TO:', { x: 68, y, size: 11, font: fonts.helveticaBold, color: asiaRed });
+    // === STYLE 5: Modern Light - Gray background + Red accent bar ===
+    const lightGrayBg = rgb(0.97, 0.97, 0.97); // #f8f8f8
     
-    // FROM: section - Layout A: styled with left border accent
-    page.drawRectangle({ x: 310, y: y - 6, width: 4, height: 16, color: asiaRed });
-    page.drawText('FROM:', { x: 318, y, size: 11, font: fonts.helveticaBold, color: asiaRed });
+    // TO: section - Style 5: Gray bg + red accent bar
+    y -= 25;
+    // Gray background
+    page.drawRectangle({ x: 60, y: y - 8, width: 50, height: 22, color: lightGrayBg });
+    // Red accent bar
+    page.drawRectangle({ x: 60, y: y - 8, width: 4, height: 22, color: asiaRed });
+    page.drawText('TO:', { x: 70, y, size: 11, font: fonts.helveticaBold, color: asiaRed });
+    
+    // FROM: section - Style 5: Gray bg + red accent bar
+    page.drawRectangle({ x: 310, y: y - 8, width: 60, height: 22, color: lightGrayBg });
+    page.drawRectangle({ x: 310, y: y - 8, width: 4, height: 22, color: asiaRed });
+    page.drawText('FROM:', { x: 320, y, size: 11, font: fonts.helveticaBold, color: asiaRed });
     
     // Customer and Company details
     y -= 25;
@@ -2960,9 +2970,15 @@ async function generateQuotationPage(pdfDoc, fonts, formData) {
     page.drawText('Email:', { x: rightCol, y, size: 9, font: fonts.helvetica, color: darkGray });
     page.drawText(formData.salesmanInfo?.email || '-', { x: rightValCol, y, size: 9, font: fonts.helveticaBold, color: black });
     
-    // Description table header - Layout C: Underline style (red text + red underline)
+    // Description table header - Style 5: Gray background + red accent bar
     y -= 35;
-    page.drawText('DESCRIPTION', { x: 60, y, size: 11, font: fonts.helveticaBold, color: asiaRed });
+    const tableHeaderHeight = 24;
+    // Gray background for full width
+    page.drawRectangle({ x: 60, y: y - 8, width: 492, height: tableHeaderHeight, color: lightGrayBg });
+    // Red accent bar on left
+    page.drawRectangle({ x: 60, y: y - 8, width: 4, height: tableHeaderHeight, color: asiaRed });
+    // Header text
+    page.drawText('DESCRIPTION', { x: 70, y, size: 11, font: fonts.helveticaBold, color: asiaRed });
     page.drawText('QTY.', { x: 415, y, size: 11, font: fonts.helveticaBold, color: asiaRed });
     if (!formData.hideSubPrices) {
         const priceLabel = 'PRICE ' + currencyDisplay;
@@ -2970,12 +2986,9 @@ async function generateQuotationPage(pdfDoc, fonts, formData) {
         const priceLabelWidth = fonts.helveticaBold.widthOfTextAtSize(priceLabel, 11);
         page.drawText(priceLabel, { x: 542 - priceLabelWidth, y, size: 11, font: fonts.helveticaBold, color: asiaRed });
     }
-    // Red underline
-    y -= 8;
-    page.drawLine({ start: { x: 60, y }, end: { x: 552, y }, thickness: 2, color: asiaRed });
     
     // Table rows
-    y -= 18;
+    y -= 22;
     
     // Row 1: Boat Type and Size (format: "ASIS 9.5M Aluminium RHIB")
     const boatTypeLabels = {
@@ -3043,19 +3056,21 @@ async function generateQuotationPage(pdfDoc, fonts, formData) {
     y -= 15;
     drawDottedLine(page, 70, y, 542, y, lightGray);
     
-    // === NOTE SECTION - Option 3: Accent bar + dotted borders (no solid box) ===
+    // === NOTE SECTION - Style 5: Gray background + red accent bar ===
     y -= 25;
     const noteBoxY = y;
-    // Top dotted line
-    drawDottedLine(page, 60, noteBoxY + 5, 552, noteBoxY + 5, lightGray);
+    const noteHeight = 35;
+    // Gray background for full width
+    page.drawRectangle({ x: 60, y: noteBoxY - noteHeight + 10, width: 492, height: noteHeight, color: lightGrayBg });
+    // Red accent bar on left
+    page.drawRectangle({ x: 60, y: noteBoxY - noteHeight + 10, width: 4, height: noteHeight, color: asiaRed });
     
-    // Note label with accent bar (Layout A style)
-    page.drawRectangle({ x: 60, y: noteBoxY - 8, width: 3, height: 12, color: asiaRed });
-    page.drawText('NOTE:', { x: 67, y: noteBoxY - 5, size: 9, font: fonts.helveticaBold, color: asiaRed });
+    // Note label and text
+    page.drawText('NOTE:', { x: 70, y: noteBoxY - 5, size: 9, font: fonts.helveticaBold, color: asiaRed });
     if (formData.notes) {
         const noteLines = splitTextToLines(formData.notes, 40);
         noteLines.slice(0, 2).forEach((line, i) => {
-            page.drawText(line, { x: 100, y: noteBoxY - 5 - (i * 12), size: 9, font: fonts.helvetica, color: black });
+            page.drawText(line, { x: 110, y: noteBoxY - 5 - (i * 12), size: 9, font: fonts.helvetica, color: black });
         });
     }
     
@@ -3066,11 +3081,8 @@ async function generateQuotationPage(pdfDoc, fonts, formData) {
     const totalAmountWidth = fonts.helveticaBold.widthOfTextAtSize(totalAmountText, 14);
     page.drawText(totalAmountText, { x: 542 - totalAmountWidth, y: noteBoxY - 12, size: 14, font: fonts.helveticaBold, color: black });
     
-    // Bottom dotted line
-    drawDottedLine(page, 60, noteBoxY - 30, 552, noteBoxY - 30, lightGray);
-    
     // === TERMS SECTION ===
-    y = noteBoxY - 55;
+    y = noteBoxY - noteHeight - 20;
     const termY = y;
     const termLabelX = 60;
     const termValueX = 155;
@@ -3101,17 +3113,16 @@ async function generateQuotationPage(pdfDoc, fonts, formData) {
     page.drawText(':  United Arab Emirates', { x: termValueX, y: termY - lineHeight * 5, size: 9, font: fonts.helveticaBold, color: black });
     drawDottedLine(page, termValueX + 5, termY - lineHeight * 5 - 3, termLineEnd, termY - lineHeight * 5 - 3, lightGray);
     
-    // === SIGNATURE SECTION (with space for stamp/signature) ===
-    const sigY = termY - lineHeight * 6 - 20;
+    // === SIGNATURE SECTION (with more space for stamp/signature) ===
+    const sigY = termY - lineHeight * 6 - 15;
     
     // "For ASIS Boats L.L.C,"
     page.drawText('For ', { x: termLabelX, y: sigY, size: 10, font: fonts.helvetica, color: black });
     page.drawText('ASIS Boats L.L.C', { x: termLabelX + 20, y: sigY, size: 10, font: fonts.helveticaBold, color: black });
     page.drawText(',', { x: termLabelX + 105, y: sigY, size: 10, font: fonts.helvetica, color: black });
     
-    // Space for signature/stamp (about 60px gap)
-    // Salesman name at the bottom
-    page.drawText(formData.salesmanInfo?.name || '', { x: termLabelX, y: sigY - 70, size: 10, font: fonts.helveticaBold, color: black });
+    // Salesman name much lower (90px gap for signature/stamp space)
+    page.drawText(formData.salesmanInfo?.name || '', { x: termLabelX, y: sigY - 90, size: 10, font: fonts.helveticaBold, color: black });
 }
 
 // ==================== PAGE 4: ANNEX PAGES ====================
