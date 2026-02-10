@@ -3089,7 +3089,7 @@ async function generateQuotationPage(pdfDoc, fonts, formData) {
     
     const noteLineHeight = 10; // Tighter line spacing
     const noteTextHeight = Math.max(1, noteLines.length) * noteLineHeight;
-    const noteHeight = Math.max(35, noteTextHeight + 20); // Dynamic height, min 35
+    const noteHeight = Math.max(25, noteTextHeight + 12); // Dynamic height, less padding
     
     // Gradient background (using gradientLightRed defined earlier)
     page.drawRectangle({ x: 60, y: noteBoxY - noteHeight + 10, width: 492, height: noteHeight, color: gradientLightRed });
@@ -3508,7 +3508,61 @@ function downloadCSV() {
     a.click();
 }
 
+// Auto-capitalize first letter of inputs and limit notes to 4 lines
+function setupStep3Inputs() {
+    // Text inputs to auto-capitalize (first letter)
+    const textInputIds = ['quoteTitle', 'custCompany', 'custName', 'tenderNum', 'deliveryTerms', 'deliveryCustom'];
+    
+    textInputIds.forEach(id => {
+        const input = document.getElementById(id);
+        if (input) {
+            input.addEventListener('input', function() {
+                if (this.value.length === 1) {
+                    this.value = this.value.charAt(0).toUpperCase();
+                } else if (this.value.length > 1 && this.value.charAt(0) !== this.value.charAt(0).toUpperCase()) {
+                    this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1);
+                }
+            });
+        }
+    });
+    
+    // Auto-capitalize textareas (custAddr, quoteNotes)
+    const textareaIds = ['custAddr', 'quoteNotes'];
+    textareaIds.forEach(id => {
+        const textarea = document.getElementById(id);
+        if (textarea) {
+            textarea.addEventListener('input', function() {
+                if (this.value.length === 1) {
+                    this.value = this.value.charAt(0).toUpperCase();
+                } else if (this.value.length > 1 && this.value.charAt(0) !== this.value.charAt(0).toUpperCase()) {
+                    this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1);
+                }
+            });
+        }
+    });
+    
+    // Limit notes to 4 lines
+    const notesTextarea = document.getElementById('quoteNotes');
+    if (notesTextarea) {
+        notesTextarea.addEventListener('input', function() {
+            const lines = this.value.split('\n');
+            if (lines.length > 4) {
+                this.value = lines.slice(0, 4).join('\n');
+            }
+        });
+        notesTextarea.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const lines = this.value.split('\n');
+                if (lines.length >= 4) {
+                    e.preventDefault();
+                }
+            }
+        });
+    }
+}
+
 // Init
+setupStep3Inputs();
 init();
 </script>
 </body>
