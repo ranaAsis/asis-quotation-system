@@ -3109,12 +3109,12 @@ async function generateQuotationPage(pdfDoc, fonts, formData) {
     // Total with currency - vertically centered in box
     const boxTopY = noteBoxY + 10;
     const boxBottomY = noteBoxY - noteHeight + 10;
-    const boxCenterY = (boxTopY + boxBottomY) / 2;
+    const boxCenterY = (boxTopY + boxBottomY) / 2 - 2;
     const totalLabel = `TOTAL ${currencyDisplay}`;
-    page.drawText(totalLabel, { x: 400, y: boxCenterY + 3, size: 11, font: fonts.helveticaBold, color: black });
+    page.drawText(totalLabel, { x: 400, y: boxCenterY, size: 11, font: fonts.helveticaBold, color: black });
     const totalAmountText = formatNumber(formData.total);
     const totalAmountWidth = fonts.helveticaBold.widthOfTextAtSize(totalAmountText, 14);
-    page.drawText(totalAmountText, { x: 542 - totalAmountWidth, y: boxCenterY - 3, size: 14, font: fonts.helveticaBold, color: asiaRed });
+    page.drawText(totalAmountText, { x: 542 - totalAmountWidth, y: boxCenterY, size: 14, font: fonts.helveticaBold, color: asiaRed });
     
     // === TERMS SECTION ===
     y = noteBoxY - noteHeight - 20;
