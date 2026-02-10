@@ -3072,7 +3072,24 @@ async function generateQuotationPage(pdfDoc, fonts, formData) {
     // === NOTE SECTION - Design K: Top/bottom borders + gradient ===
     y -= 25;
     const noteBoxY = y;
-    const noteHeight = 35;
+    
+    // Calculate note lines - support up to 4 lines with tighter spacing
+    let noteLines = [];
+    if (formData.notes) {
+        // Split by newlines first, then wrap each line if needed
+        const rawLines = formData.notes.split(/\n/);
+        rawLines.forEach(rawLine => {
+            if (rawLine.trim()) {
+                const wrapped = splitTextToLines(rawLine, 50);
+                noteLines = noteLines.concat(wrapped);
+            }
+        });
+        noteLines = noteLines.slice(0, 4); // Max 4 lines
+    }
+    
+    const noteLineHeight = 10; // Tighter line spacing
+    const noteTextHeight = Math.max(1, noteLines.length) * noteLineHeight;
+    const noteHeight = Math.max(35, noteTextHeight + 20); // Dynamic height, min 35
     
     // Gradient background (using gradientLightRed defined earlier)
     page.drawRectangle({ x: 60, y: noteBoxY - noteHeight + 10, width: 492, height: noteHeight, color: gradientLightRed });
@@ -3083,12 +3100,9 @@ async function generateQuotationPage(pdfDoc, fonts, formData) {
     
     // Note label and text
     page.drawText('NOTE:', { x: 70, y: noteBoxY - 5, size: 9, font: fonts.helveticaBold, color: asiaRed });
-    if (formData.notes) {
-        const noteLines = splitTextToLines(formData.notes, 40);
-        noteLines.slice(0, 2).forEach((line, i) => {
-            page.drawText(line, { x: 110, y: noteBoxY - 5 - (i * 12), size: 9, font: fonts.helvetica, color: black });
-        });
-    }
+    noteLines.forEach((line, i) => {
+        page.drawText(line, { x: 110, y: noteBoxY - 5 - (i * noteLineHeight), size: 9, font: fonts.helvetica, color: black });
+    });
     
     // Total with currency - right aligned (Design K: red total amount)
     const totalLabel = `TOTAL ${currencyDisplay}`;
