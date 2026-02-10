@@ -3088,8 +3088,10 @@ async function generateQuotationPage(pdfDoc, fonts, formData) {
     }
     
     const noteLineHeight = 10; // Tighter line spacing
-    const noteTextHeight = Math.max(1, noteLines.length) * noteLineHeight;
-    const noteHeight = Math.max(25, noteTextHeight + 12); // Dynamic height, less padding
+    const minLines = 2; // Minimum box height = 2 lines
+    const actualLines = Math.max(minLines, noteLines.length);
+    const noteTextHeight = actualLines * noteLineHeight;
+    const noteHeight = noteTextHeight + 12; // Dynamic height based on lines
     
     // Gradient background (using gradientLightRed defined earlier)
     page.drawRectangle({ x: 60, y: noteBoxY - noteHeight + 10, width: 492, height: noteHeight, color: gradientLightRed });
@@ -3104,12 +3106,15 @@ async function generateQuotationPage(pdfDoc, fonts, formData) {
         page.drawText(line, { x: 110, y: noteBoxY - 5 - (i * noteLineHeight), size: 9, font: fonts.helvetica, color: black });
     });
     
-    // Total with currency - right aligned (Design K: red total amount)
+    // Total with currency - vertically centered in box
+    const boxTopY = noteBoxY + 10;
+    const boxBottomY = noteBoxY - noteHeight + 10;
+    const boxCenterY = (boxTopY + boxBottomY) / 2;
     const totalLabel = `TOTAL ${currencyDisplay}`;
-    page.drawText(totalLabel, { x: 400, y: noteBoxY - 12, size: 11, font: fonts.helveticaBold, color: black });
+    page.drawText(totalLabel, { x: 400, y: boxCenterY + 3, size: 11, font: fonts.helveticaBold, color: black });
     const totalAmountText = formatNumber(formData.total);
     const totalAmountWidth = fonts.helveticaBold.widthOfTextAtSize(totalAmountText, 14);
-    page.drawText(totalAmountText, { x: 542 - totalAmountWidth, y: noteBoxY - 12, size: 14, font: fonts.helveticaBold, color: asiaRed });
+    page.drawText(totalAmountText, { x: 542 - totalAmountWidth, y: boxCenterY - 3, size: 14, font: fonts.helveticaBold, color: asiaRed });
     
     // === TERMS SECTION ===
     y = noteBoxY - noteHeight - 20;
