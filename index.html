@@ -3073,9 +3073,8 @@ async function generateQuotationPage(pdfDoc, fonts, formData) {
     y -= 25;
     const noteBoxY = y;
     const noteHeight = 35;
-    const gradientLightRed = rgb(0.97, 0.93, 0.94); // rgba(184,50,64,0.08)
     
-    // Gradient background
+    // Gradient background (using gradientLightRed defined earlier)
     page.drawRectangle({ x: 60, y: noteBoxY - noteHeight + 10, width: 492, height: noteHeight, color: gradientLightRed });
     // Top border
     page.drawLine({ start: { x: 60, y: noteBoxY + 10 }, end: { x: 552, y: noteBoxY + 10 }, thickness: 2, color: asiaRed });
