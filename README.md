@@ -1,148 +1,101 @@
-# ASIS Boats Quotation System v28
+# ASIS Boats - Professional Quotation System V62
 
-A professional quotation generator for ASIS Boats salesmen.
+## What's New in V62 — Cloud Save & Dashboard
 
-## Features
+### Cloud Persistence (Firebase Firestore)
+- Autosave — Quotations save automatically 3 seconds after any change
+- Cloud indicator in the editor header shows save status in real-time
+- localStorage fallback — If Firebase isn't configured, everything still works locally
+- Offline support — Firestore offline persistence caches data locally
 
-- **6-Page Professional PDF Generation:**
-  1. Cover Page (dynamic)
-  2. Company Presentation (static)
-  3. Quotation Details (dynamic)
-  4. Accessory Annex (dynamic, multi-page)
-  5. Technical Specifications (boat-specific)
-  6. Terms & Conditions (static)
+### Quotation Dashboard
+- My Quotations — See all saved quotes at a glance
+- Search — Find quotes by quote number, customer name, company, boat type
+- Filter by status — Draft, Sent, Accepted, Expired
+- Filter by amount — Under $50K, $50K-$100K, $100K-$500K, Over $500K
+- Filter by date — Last 7 days, 30 days, This Quarter, This Year
+- Sortable columns — Click any column header to sort
+- Quick actions — Edit, Duplicate, Change Status, Delete
 
-- Multi-currency support (USD, AED, EUR)
-- Dynamic pricing calculations
-- Boat configuration (GRP, Aluminum, HDIB)
-- Accessory selection with category grouping
+### Salesman Login
+- Each salesman logs in with their name + PIN
+- Auto-login remembers the last session
+- Each salesman sees only their own quotations
 
-## Folder Structure
+### Save Features
+- Autosave every 3 seconds after changes
+- Manual Save button on the Review page
+- Save on navigation — Auto-saves when going back to dashboard
+- Browser warning — Alerts if closing tab with unsaved changes
+- Duplicate quotes — One-click duplication for similar configurations
 
-```
-asis-quotation-system/
-├── index.html              # Main application
-├── assets/
-│   ├── pdf/
-│   │   ├── company_presentation.pdf   # Page 2 - static
-│   │   └── terms_conditions.pdf       # Page 6 - static
-│   └── images/
-│       ├── arrow.png       # Cover page decoration
-│       ├── shield.png      # ASIS shield logo
-│       └── stamp.png       # Quality stamp
-└── specs/                  # Technical specification PDFs
-    ├── grp_4_1.pdf        # GRP 4.1M specs
-    ├── grp_5_1.pdf        # GRP 5.1M specs
-    ├── grp_5_5.pdf        # GRP 5.5M specs
-    ├── grp_6_5.pdf        # GRP 6.5M specs
-    ├── grp_7_2.pdf        # GRP 7.2M specs
-    ├── grp_8_0.pdf        # GRP 8.0M specs
-    ├── grp_9_5.pdf        # GRP 9.5M specs
-    ├── grp_12.pdf         # GRP 12M specs
-    ├── alu_6_5.pdf        # Aluminum 6.5M specs
-    ├── alu_7_6.pdf        # Aluminum 7.6M specs
-    ├── alu_8_5.pdf        # Aluminum 8.5M specs
-    ├── alu_9_5.pdf        # Aluminum 9.5M specs
-    ├── alu_11_5.pdf       # Aluminum 11.5M specs
-    └── alu_13.pdf         # Aluminum 13M specs
-```
+---
 
-## Deployment to Vercel
+## Firebase Setup (5 minutes)
 
-1. **Push to GitHub:**
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit"
-   git remote add origin https://github.com/YOUR_USERNAME/asis-quotation-system.git
-   git push -u origin main
-   ```
+### Step 1: Create Firebase Project
+1. Go to https://console.firebase.google.com
+2. Click "Create a project"
+3. Name it (e.g., asis-quotation-system)
+4. Create Project
 
-2. **Deploy on Vercel:**
-   - Go to [vercel.com](https://vercel.com)
-   - Import your GitHub repository
-   - Deploy (no build configuration needed)
+### Step 2: Enable Firestore
+1. Go to Build > Firestore Database
+2. Click "Create database"
+3. Select "Start in test mode"
+4. Choose nearest region (e.g., europe-west1 for UAE)
 
-3. **Update Base URL (if needed):**
-   In `index.html`, find the `PDF_CONFIG` object and update the `baseUrl`:
-   ```javascript
-   const PDF_CONFIG = {
-       baseUrl: 'https://your-app.vercel.app', // Update this
-       // ...
-   };
-   ```
+### Step 3: Get Config
+1. Go to Project Settings (gear icon)
+2. Under "Your apps", click the Web icon
+3. Register app, copy the firebaseConfig object
 
-## Adding New Spec Sheets
+### Step 4: Paste Config
+Open index.html and replace the placeholder at the top of the script:
 
-### Naming Convention:
-- **GRP boats:** `grp_X_X.pdf` (e.g., `grp_7_2.pdf` for 7.2M)
-- **Aluminum boats:** `alu_X_X.pdf` (e.g., `alu_8_5.pdf` for 8.5M)
-- **HDIB boats:** `hdib_X_X.pdf` (future - not yet implemented)
+    const FIREBASE_CONFIG = {
+        apiKey: "AIzaSyD...",
+        authDomain: "asis-quotation-system.firebaseapp.com",
+        projectId: "asis-quotation-system",
+        storageBucket: "asis-quotation-system.appspot.com",
+        messagingSenderId: "123456789",
+        appId: "1:123456789:web:abc..."
+    };
 
-### To Add:
-1. Name the PDF following the convention above
-2. Place it in the `/specs/` folder
-3. Commit and push to GitHub
-4. Vercel will auto-deploy
+### Step 5: Set Security Rules
+In Firestore > Rules tab, paste:
 
-## Local Testing
-
-To test locally, use a simple HTTP server:
-
-```bash
-# Using Python
-python -m http.server 8000
-
-# Using Node.js
-npx serve
-```
-
-Then open `http://localhost:8000` in your browser.
-
-## PDF Configuration
-
-The PDF generation is controlled by the `PDF_CONFIG` object in `index.html`:
-
-```javascript
-const PDF_CONFIG = {
-    baseUrl: '',  // Set to your Vercel URL for production
-    
-    staticPdfs: {
-        companyPresentation: '/assets/pdf/company_presentation.pdf',
-        termsConditions: '/assets/pdf/terms_conditions.pdf'
-    },
-    
-    specsFolder: '/specs/',
-    
-    images: {
-        asusLogo: '/assets/images/asis_logo.png',
-        shield: '/assets/images/shield.png',
-        arrow: '/assets/images/arrow.png',
-        stamp: '/assets/images/stamp.png',
-        diamondLogo: '/assets/images/diamond_logo.png'
+    rules_version = '2';
+    service cloud.firestore {
+      match /databases/{database}/documents {
+        match /quotations/{docId} {
+          allow read, write: if true;
+        }
+      }
     }
-};
-```
 
-## Future Updates
+### Step 6: Change PINs
+Update the PIN codes in index.html:
 
-When you update the UI and need to update PDF generation:
+    const SALESMAN_PINS = { mario: '5678', soufiane: '9012', toji: '3456' };
 
-1. Tell me: **"Field X changed ID from Y to Z"**
-2. Or: **"Added new field X"** (and where it should appear in PDF)
-3. Or: **"Removed field X"**
-4. Upload the new HTML version
+### Step 7: Deploy to Vercel as before.
 
-## Technical Notes
+---
 
-- Uses **pdf-lib** library for PDF generation and merging
-- Static PDFs are embedded into the final document
-- Dynamic pages are generated programmatically
-- Supports multi-page annex if many accessories selected
-- Falls back to simplified PDF if static assets are unavailable
+## Firestore Data Structure
 
-## Version History
+Each quotation document has queryable top-level fields:
+- quoteNumber, title, salesmanId, salesmanName
+- status (draft/sent/accepted/expired)
+- totalAmountUSD (always in USD for queries like "over $100K")
+- boatType, boatSize, customerCompany, customerName
+- createdAt, updatedAt (timestamps)
+- fullState (JSON blob for restoring the full editor)
 
-- **v28:** Complete 6-page PDF generation system
-- **v27:** Added boat quantity field
-- **v11-v26:** UI refinements and accessory updates
+---
+
+## Quick Start (No Firebase)
+
+Leave config as YOUR_API_KEY — system uses localStorage automatically.
+Everything works, but data is per-browser only.
