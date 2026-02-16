@@ -1,101 +1,58 @@
-# ASIS Boats - Professional Quotation System V62
+# ASIS Boats — Quotation Management System V63
 
-## What's New in V62 — Cloud Save & Dashboard
+## What's New in V63
 
-### Cloud Persistence (Firebase Firestore)
-- Autosave — Quotations save automatically 3 seconds after any change
-- Cloud indicator in the editor header shows save status in real-time
-- localStorage fallback — If Firebase isn't configured, everything still works locally
-- Offline support — Firestore offline persistence caches data locally
+### Login Redesign
+- **Avatar circle picker** replaces dropdown — click your circle, enter PIN, sign in
+- Visual divider separates salesmen from management
+- Proper ASIS branding with red logo and favicon
 
-### Quotation Dashboard
-- My Quotations — See all saved quotes at a glance
-- Search — Find quotes by quote number, customer name, company, boat type
-- Filter by status — Draft, Sent, Accepted, Expired
-- Filter by amount — Under $50K, $50K-$100K, $100K-$500K, Over $500K
-- Filter by date — Last 7 days, 30 days, This Quarter, This Year
-- Sortable columns — Click any column header to sort
-- Quick actions — Edit, Duplicate, Change Status, Delete
+### Logo & Branding
+- Real ASIS logo replaces text headers in dashboard and editor
+- "Aces of the Sea" logo in footer
+- ASIS arrow used as favicon
+- Professional footer on all pages with company contact info
 
-### Salesman Login
-- Each salesman logs in with their name + PIN
-- Auto-login remembers the last session
-- Each salesman sees only their own quotations
+### User Roles & Access
+- **Salesmen** (Mario/Soufiane/Toji): See own quotations, salesman dropdown locked to the 3 salesmen only
+- **Admin** (Pierre/Rana): See ALL quotations, can assign any salesman or use custom
+- **Guest**: Has full dashboard, sees only own quotations, can use custom salesman
 
-### Save Features
-- Autosave every 3 seconds after changes
-- Manual Save button on the Review page
-- Save on navigation — Auto-saves when going back to dashboard
-- Browser warning — Alerts if closing tab with unsaved changes
-- Duplicate quotes — One-click duplication for similar configurations
+### Salesman Logic (Step 3)
+- Salesman logged in → dropdown shows all 3 salesmen, theirs pre-selected, no blank/custom option
+- Non-salesman logged in → dropdown starts blank, can pick a salesman or "Custom" with name/email/phone
+- If blank → PDF omits Sales Person, Contact #, and Email fields entirely
 
----
+### PDF Improvements
+- **"Page X of Y"** printed on every page (bottom-right corner)
 
-## Firebase Setup (5 minutes)
+### UI Improvements
+- Step 4 buttons have hover animations (translateY + shadow)
+- Cloud status is clickable for manual save
+- Removed Save and New Quote buttons from Step 4 (autosave handles it)
+- Dashboard sign out button more visible (higher contrast)
+- More spacing between progress bar and sidebar
+- Professional footer across all pages
 
-### Step 1: Create Firebase Project
-1. Go to https://console.firebase.google.com
-2. Click "Create a project"
-3. Name it (e.g., asis-quotation-system)
-4. Create Project
+### Safety Features
+- **Step 1 reset protection**: Confirmation popup if changing boat type/size would clear existing selections
+- **Load quotation → Step 2**: Opening a saved quote goes directly to Configuration, not Step 1
 
-### Step 2: Enable Firestore
-1. Go to Build > Firestore Database
-2. Click "Create database"
-3. Select "Start in test mode"
-4. Choose nearest region (e.g., europe-west1 for UAE)
+## Login Credentials
 
-### Step 3: Get Config
-1. Go to Project Settings (gear icon)
-2. Under "Your apps", click the Web icon
-3. Register app, copy the firebaseConfig object
+| User | PIN | Role |
+|------|-----|------|
+| Mario Hoyek | 4827 | Salesman |
+| Soufiane Tangi | 9051 | Salesman |
+| Toji Paul | 1364 | Salesman |
+| Pierre Nawfal | 1966 | Admin (all quotes) |
+| Rana Nawfal | 1996 | Admin (all quotes) |
+| Guest | 9876 | Guest (own quotes) |
 
-### Step 4: Paste Config
-Open index.html and replace the placeholder at the top of the script:
+## Firebase Setup
 
-    const FIREBASE_CONFIG = {
-        apiKey: "AIzaSyD...",
-        authDomain: "asis-quotation-system.firebaseapp.com",
-        projectId: "asis-quotation-system",
-        storageBucket: "asis-quotation-system.appspot.com",
-        messagingSenderId: "123456789",
-        appId: "1:123456789:web:abc..."
-    };
-
-### Step 5: Set Security Rules
-In Firestore > Rules tab, paste:
-
-    rules_version = '2';
-    service cloud.firestore {
-      match /databases/{database}/documents {
-        match /quotations/{docId} {
-          allow read, write: if true;
-        }
-      }
-    }
-
-### Step 6: Change PINs
-Update the PIN codes in index.html:
-
-    const SALESMAN_PINS = { mario: '5678', soufiane: '9012', toji: '3456' };
-
-### Step 7: Deploy to Vercel as before.
-
----
-
-## Firestore Data Structure
-
-Each quotation document has queryable top-level fields:
-- quoteNumber, title, salesmanId, salesmanName
-- status (draft/sent/accepted/expired)
-- totalAmountUSD (always in USD for queries like "over $100K")
-- boatType, boatSize, customerCompany, customerName
-- createdAt, updatedAt (timestamps)
-- fullState (JSON blob for restoring the full editor)
-
----
-
-## Quick Start (No Firebase)
-
-Leave config as YOUR_API_KEY — system uses localStorage automatically.
-Everything works, but data is per-browser only.
+1. Go to Firebase Console
+2. Open project: asis-quotation-system
+3. Build → Firestore Database → Create database
+4. Start in test mode → Region: europe-west1 → Enable
+5. Deploy to Vercel

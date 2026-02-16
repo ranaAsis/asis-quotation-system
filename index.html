@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASIS Boats - Professional Quotation System V62</title>
+    <title>ASIS Boats — Quotation Management System</title>
+    <link rel="icon" type="image/png" href="assets/images/asis_arrow.png">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- PDF Generation Libraries -->
     <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
@@ -76,16 +77,25 @@
 
         /* Login Screen */
         .login-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 50%, var(--navy-light) 100%); padding: 20px; }
-        .login-card { background: white; border-radius: 16px; padding: 48px 42px; max-width: 420px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,0.3); text-align: center; }
-        .login-card img { height: 50px; margin-bottom: 8px; }
-        .login-card h2 { color: var(--navy); font-size: 20px; margin-bottom: 4px; }
-        .login-card p { color: var(--gray-600); font-size: 13px; margin-bottom: 28px; }
-        .login-card .form-group { text-align: left; margin-bottom: 16px; }
-        .login-card .form-group label { font-size: 12px; font-weight: 600; color: var(--gray-700); margin-bottom: 6px; display: block; }
-        .login-card select, .login-card input[type="password"] { width: 100%; padding: 12px 14px; border: 1px solid var(--gray-300); border-radius: 8px; font-size: 14px; font-family: 'Montserrat', sans-serif; transition: border-color 0.2s; }
-        .login-card select:focus, .login-card input:focus { outline: none; border-color: var(--navy); box-shadow: 0 0 0 3px rgba(15,40,71,0.1); }
-        .login-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, var(--navy), var(--navy-light)); color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'Montserrat', sans-serif; transition: all 0.2s; }
-        .login-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(15,40,71,0.3); }
+        .login-card { background: white; border-radius: 16px; padding: 40px 36px 36px; max-width: 520px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,0.3); text-align: center; }
+        .login-card .login-logo { height: 42px; margin-bottom: 6px; }
+        .login-card .login-tagline { font-size: 11px; color: var(--gray-500); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 28px; }
+        .login-card .login-subtitle { font-size: 13px; color: var(--gray-600); margin-bottom: 18px; font-weight: 500; }
+        .avatar-row { display: flex; justify-content: center; gap: 14px; margin-bottom: 24px; flex-wrap: wrap; }
+        .avatar-item { cursor: pointer; text-align: center; width: 70px; transition: all 0.25s ease; }
+        .avatar-item:hover { transform: translateY(-3px); }
+        .avatar-item .circle { width: 48px; height: 48px; border-radius: 50%; background: var(--gray-100); border: 2px solid var(--gray-200); display: flex; align-items: center; justify-content: center; margin: 0 auto 6px; font-size: 14px; font-weight: 700; color: var(--gray-600); transition: all 0.25s ease; }
+        .avatar-item:hover .circle { border-color: var(--navy-light); box-shadow: 0 4px 12px rgba(15,40,71,0.15); }
+        .avatar-item.selected .circle { background: var(--gold); border-color: var(--gold); color: white; box-shadow: 0 4px 15px rgba(184,50,64,0.3); }
+        .avatar-item .aname { font-size: 10px; font-weight: 600; color: var(--navy); line-height: 1.2; }
+        .avatar-item .arole { font-size: 9px; color: var(--gray-500); }
+        .avatar-item.selected .aname { color: var(--gold); }
+        .avatar-divider { width: 1px; height: 48px; background: var(--gray-200); align-self: flex-start; flex-shrink: 0; }
+        .pin-row { display: flex; gap: 10px; align-items: center; }
+        .pin-row input { flex: 1; padding: 12px 14px; border: 1px solid var(--gray-300); border-radius: 8px; font-size: 14px; font-family: 'Montserrat', sans-serif; text-align: center; letter-spacing: 6px; }
+        .pin-row input:focus { outline: none; border-color: var(--navy); box-shadow: 0 0 0 3px rgba(15,40,71,0.1); }
+        .login-btn { flex-shrink: 0; padding: 12px 24px; background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: white; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'Montserrat', sans-serif; transition: all 0.2s; }
+        .login-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(184,50,64,0.3); }
         .login-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
         .login-error { color: var(--danger); font-size: 12px; margin-top: 12px; display: none; }
 
@@ -95,10 +105,10 @@
         .dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
         .dash-header h2 { font-size: 22px; color: var(--navy); font-weight: 700; }
         .dash-header-actions { display: flex; gap: 10px; align-items: center; }
-        .dash-user { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--gray-600); background: var(--gray-100); padding: 8px 14px; border-radius: 8px; }
-        .dash-user strong { color: var(--navy); }
-        .logout-btn { background: none; border: 1px solid var(--gray-300); padding: 8px 14px; border-radius: 8px; font-size: 12px; cursor: pointer; color: var(--gray-600); font-family: 'Montserrat', sans-serif; transition: all 0.2s; }
-        .logout-btn:hover { border-color: var(--danger); color: var(--danger); }
+        .dash-user { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.1); padding: 8px 14px; border-radius: 8px; }
+        .dash-user strong { color: white; }
+        .logout-btn { background: none; border: 1.5px solid var(--gray-400); padding: 8px 14px; border-radius: 8px; font-size: 12px; cursor: pointer; color: var(--gray-700); font-family: 'Montserrat', sans-serif; font-weight: 500; transition: all 0.2s; }
+        .logout-btn:hover { border-color: var(--danger); color: var(--danger); background: rgba(220,53,69,0.05); }
         
         /* Dashboard Stats */
         .dash-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 24px; }
@@ -137,6 +147,27 @@
         .dash-actions button.danger:hover { border-color: var(--danger); color: var(--danger); }
         .status-select { padding: 4px 8px !important; border-radius: 6px !important; font-size: 11px !important; min-width: 0 !important; border: 1px solid var(--gray-300) !important; font-family: 'Montserrat', sans-serif; }
         .dash-loading { text-align: center; padding: 40px; color: var(--gray-500); }
+
+        /* Professional Footer */
+        .app-footer { background: var(--navy-dark); padding: 14px 30px; text-align: center; border-top: 1px solid rgba(255,255,255,0.06); margin-top: 40px; }
+        .app-footer-inner { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+        .app-footer .footer-logo { height: 22px; opacity: 0.5; }
+        .app-footer .footer-text { font-size: 10px; color: rgba(255,255,255,0.35); letter-spacing: 0.5px; }
+        .app-footer .footer-text a { color: rgba(255,255,255,0.45); text-decoration: none; }
+        .app-footer .footer-text a:hover { color: rgba(255,255,255,0.7); }
+
+        /* Step 4 Button Hover Animations */
+        #page4 .btn { transition: all 0.25s cubic-bezier(0.4,0,0.2,1); }
+        #page4 .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+        #page4 .btn:active { transform: translateY(0); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+
+        /* Clickable Cloud Status */
+        .cloud-status { cursor: pointer; transition: all 0.2s; }
+        .cloud-status:hover { background: rgba(255,255,255,0.15); }
+
+        /* Header Logo */
+        .header-logo { height: 30px; display: block; }
+        .login-card .login-logo-container { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 6px; }
 
         /* Main */
         .main { max-width: 1400px; margin: 0 auto; padding: 30px; }
@@ -185,7 +216,7 @@
         
         /* Summary Sidebar */
         .summary { background: linear-gradient(135deg, var(--navy-dark), var(--navy)); border-radius: 12px; padding: 22px; color: var(--white); }
-        #page2 aside, #page1 aside, #page3 aside { position: sticky; top: 120px; align-self: start; max-height: calc(100vh - 140px); overflow-y: auto; }
+        #page2 aside, #page1 aside, #page3 aside { position: sticky; top: 135px; align-self: start; max-height: calc(100vh - 155px); overflow-y: auto; }
         .summary-title { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: white; margin-bottom: 15px; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .summary-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .summary-row .lbl { color: var(--gray-400); }
@@ -503,25 +534,48 @@
     <!-- ==================== LOGIN SCREEN ==================== -->
     <div id="loginScreen" class="login-screen">
         <div class="login-card">
-            <h2 style="margin-bottom:2px;">⚓ ASIS BOATS</h2>
-            <p style="margin-bottom:24px;">Quotation Management System</p>
-            <div class="form-group">
-                <label>Salesman</label>
-                <select id="loginSalesman">
-                    <option value="">-- Select Your Name --</option>
-                    <option value="mario">Mario Hoyek</option>
-                    <option value="soufiane">Soufiane Tangi</option>
-                    <option value="toji">Toji Paul</option>
-                    <option value="pierre">Pierre Nawfal</option>
-                    <option value="rana">Rana Nawfal</option>
-                    <option value="guest">Guest</option>
-                </select>
+            <div class="login-logo-container">
+                <img src="assets/images/asis_logo_red.jpg" class="login-logo" alt="ASIS Boats">
             </div>
-            <div class="form-group">
-                <label>PIN Code</label>
-                <input type="password" id="loginPin" placeholder="Enter your 4-digit PIN" maxlength="4" onkeydown="if(event.key==='Enter')loginUser()">
+            <div class="login-tagline">Quotation Management System</div>
+            <div class="login-subtitle">Select your profile to sign in</div>
+            <div class="avatar-row" id="avatarRow">
+                <div class="avatar-item" onclick="selectLoginUser('mario', this)" data-user="mario">
+                    <div class="circle">MH</div>
+                    <div class="aname">Mario</div>
+                    <div class="arole">Sales</div>
+                </div>
+                <div class="avatar-item" onclick="selectLoginUser('soufiane', this)" data-user="soufiane">
+                    <div class="circle">ST</div>
+                    <div class="aname">Soufiane</div>
+                    <div class="arole">Sales</div>
+                </div>
+                <div class="avatar-item" onclick="selectLoginUser('toji', this)" data-user="toji">
+                    <div class="circle">TP</div>
+                    <div class="aname">Toji</div>
+                    <div class="arole">Sales</div>
+                </div>
+                <div class="avatar-divider"></div>
+                <div class="avatar-item" onclick="selectLoginUser('pierre', this)" data-user="pierre">
+                    <div class="circle">PN</div>
+                    <div class="aname">Pierre</div>
+                    <div class="arole">Manager</div>
+                </div>
+                <div class="avatar-item" onclick="selectLoginUser('rana', this)" data-user="rana">
+                    <div class="circle">RN</div>
+                    <div class="aname">Rana</div>
+                    <div class="arole">Developer</div>
+                </div>
+                <div class="avatar-item" onclick="selectLoginUser('guest', this)" data-user="guest">
+                    <div class="circle">G</div>
+                    <div class="aname">Guest</div>
+                    <div class="arole">Limited</div>
+                </div>
             </div>
-            <button class="login-btn" onclick="loginUser()">Sign In</button>
+            <div class="pin-row">
+                <input type="password" id="loginPin" placeholder="PIN" maxlength="4" onkeydown="if(event.key==='Enter')loginUser()">
+                <button class="login-btn" onclick="loginUser()">Sign In →</button>
+            </div>
             <div class="login-error" id="loginError"></div>
         </div>
     </div>
@@ -534,11 +588,11 @@
         <header class="header">
             <div class="header-inner">
                 <div class="logo-area">
-                    <div class="logo-text"><span>Advanced Maritime Solutions</span><h1>ASIS BOATS</h1></div>
+                    <img src="assets/images/asis_logo_red.jpg" class="header-logo" alt="ASIS Boats">
                 </div>
                 <div class="header-right">
                     <div class="dash-user">👤 <strong id="dashUserName"></strong></div>
-                    <button class="logout-btn" onclick="logoutUser()">Sign Out</button>
+                    <button class="logout-btn" onclick="logoutUser()" style="border-color:rgba(255,255,255,0.4);color:rgba(255,255,255,0.85);font-weight:500;">Sign Out</button>
                 </div>
             </div>
         </header>
@@ -611,13 +665,10 @@
                     <span class="back-label">Dashboard</span>
                 </button>
                 <div class="logo-divider"></div>
-                <div class="logo-text">
-                    <span>Advanced Maritime Solutions</span>
-                    <h1>ASIS BOATS</h1>
-                </div>
+                <img src="assets/images/asis_logo_red.jpg" class="header-logo" alt="ASIS Boats">
             </div>
             <div class="header-right">
-                <div class="cloud-status" id="cloudStatus">
+                <div class="cloud-status" id="cloudStatus" onclick="saveQuotationToCloud()" title="Click to save now">
                     <span class="dot saved" id="cloudDot"></span>
                     <span id="cloudText">Saved</span>
                 </div>
@@ -760,11 +811,7 @@
                                 <div class="form-group"><label>Validity</label><select id="validity"><option selected>30 Days</option><option>90 Days</option></select></div>
                                 <div class="form-group"><label>Salesman</label>
                                     <select id="salesman" onchange="toggleCustomSalesman()">
-                                        <option value="">-- No Salesman --</option>
-                                        <option value="mario">Mario Hoyek</option>
-                                        <option value="soufiane">Soufiane Tangi</option>
-                                        <option value="toji">Toji Paul</option>
-                                        <option value="custom">✏️ Custom...</option>
+                                        <!-- Populated dynamically by populateSalesmanDropdown() -->
                                     </select>
                                 </div>
                                 <div id="customSalesmanFields" style="display:none;grid-column:span 2;">
@@ -862,8 +909,6 @@
                     <button class="btn" style="background:linear-gradient(135deg,#c41230,#a00f28);color:white;border:none;padding:10px 20px;font-size:12px;" onclick="downloadPDF()">📄 Download PDF</button>
                     <button class="btn btn-outline" style="padding:10px 20px;font-size:12px;" onclick="downloadCSV()">📊 Export Excel</button>
                     <button class="btn btn-outline" style="padding:10px 20px;font-size:12px;" onclick="window.print()">🖨️ Print</button>
-                    <button class="btn" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);color:white;border:none;padding:10px 20px;font-size:12px;" onclick="saveQuotationToCloud()">💾 Save</button>
-                    <button class="btn" style="background:linear-gradient(135deg,var(--success),#1e7e34);color:white;border:none;padding:10px 20px;font-size:12px;" onclick="startNewQuote()">✚ New Quote</button>
                 </div>
             </div>
             <div class="preview" id="previewArea">
@@ -891,13 +936,19 @@
                     <div class="preview-notes" id="prevNotes" style="display:none;"><h4>Notes</h4><p id="prevNotesText"></p></div>
                 </div>
             </div>
-            <div style="text-align:center;padding:20px 0 10px;color:var(--gray-500);font-size:11px;">
-                ASIS Boats LLC — Professional Quotation System
-            </div>
         </div>
     </main>
 
     </div><!-- /editorScreen -->
+
+    <!-- Professional Footer -->
+    <footer class="app-footer">
+        <div class="app-footer-inner">
+            <img src="assets/images/asis_aces.jpg" class="footer-logo" alt="ASIS Boats">
+            <div class="footer-text">© 2025 ASIS Boats L.L.C. — Jebel Ali Industrial Area 2, Dubai, UAE &nbsp;|&nbsp; Tel: +971 4 880 4441 &nbsp;|&nbsp; <a href="https://www.asisboats.com" target="_blank">www.asisboats.com</a></div>
+        </div>
+    </footer>
+
     </div><!-- /appWrapper -->
 
 <script>
@@ -965,23 +1016,32 @@ function initFirebase() {
 initFirebase();
 
 // ==================== AUTH ====================
+let selectedLoginUser = null;
+
+function selectLoginUser(userId, el) {
+    selectedLoginUser = userId;
+    document.querySelectorAll('#avatarRow .avatar-item').forEach(a => a.classList.remove('selected'));
+    el.classList.add('selected');
+    document.getElementById('loginPin').focus();
+}
+
 function loginUser() {
-    const salesmanId = document.getElementById('loginSalesman').value;
     const pin = document.getElementById('loginPin').value;
     const errorEl = document.getElementById('loginError');
     
-    if (!salesmanId) {
-        errorEl.textContent = 'Please select your name';
+    if (!selectedLoginUser) {
+        errorEl.textContent = 'Please select your profile';
         errorEl.style.display = 'block';
         return;
     }
-    if (pin !== SALESMAN_PINS[salesmanId]) {
+    if (pin !== SALESMAN_PINS[selectedLoginUser]) {
         errorEl.textContent = 'Incorrect PIN';
         errorEl.style.display = 'block';
         return;
     }
     
-    currentUser = { id: salesmanId, role: USER_ROLES[salesmanId], ...ALL_USERS[salesmanId] };
+    errorEl.style.display = 'none';
+    currentUser = { id: selectedLoginUser, role: USER_ROLES[selectedLoginUser], ...ALL_USERS[selectedLoginUser] };
     localStorage.setItem('asis_user', JSON.stringify(currentUser));
     
     document.getElementById('loginScreen').style.display = 'none';
@@ -993,11 +1053,13 @@ function logoutUser() {
     if (hasUnsavedChanges && !confirm('You have unsaved changes. Sign out anyway?')) return;
     currentUser = null;
     currentDocId = null;
+    selectedLoginUser = null;
     localStorage.removeItem('asis_user');
     document.getElementById('appWrapper').style.display = 'none';
     document.getElementById('loginScreen').style.display = 'flex';
     document.getElementById('loginPin').value = '';
     document.getElementById('loginError').style.display = 'none';
+    document.querySelectorAll('#avatarRow .avatar-item').forEach(a => a.classList.remove('selected'));
 }
 
 function checkAutoLogin() {
@@ -1027,27 +1089,10 @@ function showDashboard() {
     document.getElementById('dashTitle').textContent = currentUser.role === 'admin' ? '📋 All Quotations' : '📋 My Quotations';
     currentDocId = null;
     hasUnsavedChanges = false;
-    
-    if (currentUser.role === 'guest') {
-        // Guest goes straight to new quotation editor
-        startNewEditor();
-        return;
-    }
-    
     loadAllQuotations();
 }
 
 function backToDashboard() {
-    if (currentUser.role === 'guest') {
-        // Guest has no dashboard — save then logout
-        if (hasUnsavedChanges) {
-            saveQuotationToCloud(true).then(() => logoutUser());
-        } else {
-            logoutUser();
-        }
-        return;
-    }
-    
     if (hasUnsavedChanges) {
         // Auto-save before leaving
         saveQuotationToCloud().then(() => {
@@ -1316,6 +1361,7 @@ function deserializeQuotation(data) {
     document.getElementById('boatQty').value = f.boatQty || '1';
     document.getElementById('quoteDate').value = f.quoteDate || new Date().toISOString().split('T')[0];
     document.getElementById('validity').value = f.validity || '30 Days';
+    populateSalesmanDropdown();
     document.getElementById('salesman').value = f.salesman || '';
     document.getElementById('custCompany').value = f.custCompany || '';
     document.getElementById('custName').value = f.custName || '';
@@ -1447,7 +1493,7 @@ async function loadQuotation(docId) {
     deserializeQuotation(data);
     hasUnsavedChanges = false;
     updateCloudStatus('saved');
-    goTo(1);
+    goTo(2); // Go to Step 2 (Configuration) to prevent accidental reset in Step 1
     showToast('Quotation loaded: ' + (data.quoteNumber || docId), 'info', 2500);
 }
 
@@ -1557,12 +1603,6 @@ function showEditor() {
     document.getElementById('dashboardScreen').style.display = 'none';
     document.getElementById('dashboardScreen').classList.remove('active');
     document.getElementById('editorScreen').style.display = 'block';
-    
-    // Update back button label based on role
-    const backBtn = document.getElementById('editorBackBtn');
-    if (backBtn) {
-        backBtn.querySelector('.back-label').textContent = currentUser.role === 'guest' ? 'Sign Out' : 'Dashboard';
-    }
 }
 
 function startNewEditor() {
@@ -1590,12 +1630,8 @@ function startNewEditor() {
     document.getElementById('tenderNum').value = '';
     document.getElementById('custAddr').value = '';
     document.getElementById('quoteNotes').value = '';
-    // Pre-select the logged-in salesman only if they ARE a salesman
-    if (currentUser && currentUser.role === 'salesman') {
-        document.getElementById('salesman').value = currentUser.id;
-    } else {
-        document.getElementById('salesman').value = '';
-    }
+    // Populate salesman dropdown based on role
+    populateSalesmanDropdown();
     document.getElementById('customSalesmanFields').style.display = 'none';
     document.getElementById('customSalesmanName').value = '';
     document.getElementById('customSalesmanEmail').value = '';
@@ -2167,6 +2203,35 @@ function toggleDeliveryInput() {
 }
 
 // Toggle custom salesman fields
+// Populate salesman dropdown based on logged-in user's role
+function populateSalesmanDropdown() {
+    const select = document.getElementById('salesman');
+    const salesmenList = [
+        { id: 'mario', name: 'Mario Hoyek' },
+        { id: 'soufiane', name: 'Soufiane Tangi' },
+        { id: 'toji', name: 'Toji Paul' }
+    ];
+    
+    let html = '';
+    
+    if (currentUser && currentUser.role === 'salesman') {
+        // Salesmen: their name is default, can switch to other 2 salesmen only
+        salesmenList.forEach(s => {
+            const selected = s.id === currentUser.id ? ' selected' : '';
+            html += `<option value="${s.id}"${selected}>${s.name}</option>`;
+        });
+    } else {
+        // Non-salesmen (admin/guest): blank default + all salesmen + custom
+        html += '<option value="">-- No Salesman --</option>';
+        salesmenList.forEach(s => {
+            html += `<option value="${s.id}">${s.name}</option>`;
+        });
+        html += '<option value="custom">✏️ Custom...</option>';
+    }
+    
+    select.innerHTML = html;
+}
+
 function toggleCustomSalesman() {
     const select = document.getElementById('salesman');
     const customFields = document.getElementById('customSalesmanFields');
@@ -2294,9 +2359,22 @@ function renderBoatSizes() {
     });
 }
 
+function hasExistingSelections() {
+    if (!state.items || Object.keys(state.items).length === 0) return false;
+    // Check if any category has actual selections (not just empty radio "None")
+    return Object.values(state.items).some(catItems => {
+        return Object.entries(catItems).some(([key, item]) => {
+            if (key === 'radio') return item.itemIdx !== -1;
+            return item.qty > 0;
+        });
+    });
+}
+
 function selectBoatType(type) {
-    // Check if boat type is actually changing
-    const isChanging = state.boatType !== null && state.boatType !== type;
+    // Check if this would reset existing selections
+    if (state.boatType !== null && state.boatType !== type && hasExistingSelections()) {
+        if (!confirm('⚠️ Changing boat type will reset all your current accessories and configuration.\n\nAre you sure you want to continue?')) return;
+    }
     
     // Always reset items when clicking on a boat type
     state.items = {};
@@ -2313,6 +2391,11 @@ function selectBoatType(type) {
 }
 
 function selectBoatSize(idx) {
+    // Check if changing size would reset existing selections
+    if (state.sizeIdx !== null && state.sizeIdx !== idx && hasExistingSelections()) {
+        if (!confirm('⚠️ Changing boat size will reset all your current accessories and configuration.\n\nAre you sure you want to continue?')) return;
+    }
+    
     state.sizeIdx = idx;
     
     // Always reset items when clicking on a boat size
@@ -4336,6 +4419,23 @@ async function downloadPDF() {
         
         // Page 6: Terms & Conditions (static PDF)
         await embedStaticPdf(pdfDoc, PDF_CONFIG.staticPdfs.termsConditions, 'Terms & Conditions');
+        
+        // Add "Page X of Y" to every page (bottom-right corner)
+        const allPages = pdfDoc.getPages();
+        const totalPages = allPages.length;
+        for (let i = 0; i < totalPages; i++) {
+            const pg = allPages[i];
+            const { width } = pg.getSize();
+            const pageNumText = `Page ${i + 1} of ${totalPages}`;
+            const textWidth = fonts.helvetica.widthOfTextAtSize(pageNumText, 8);
+            pg.drawText(pageNumText, {
+                x: width - textWidth - 30,
+                y: 18,
+                size: 8,
+                font: fonts.helvetica,
+                color: PDFLib.rgb(0.5, 0.5, 0.5)
+            });
+        }
         
         // Save and download
         const pdfBytes = await pdfDoc.save();
