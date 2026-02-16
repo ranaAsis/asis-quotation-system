@@ -916,10 +916,10 @@ function initFirebase() {
         }
         firebase.initializeApp(FIREBASE_CONFIG);
         db = firebase.firestore();
-        // Enable offline persistence
-        db.enablePersistence({ synchronizeTabs: true }).catch(err => {
-            console.warn('Firestore persistence failed:', err.code);
-        });
+        // Enable offline persistence (ignore errors - some browsers don't support it)
+        try {
+            db.enablePersistence({ synchronizeTabs: true }).catch(() => {});
+        } catch(e) {}
         firebaseReady = true;
         console.log('Firebase initialized successfully');
     } catch (e) {
@@ -1014,16 +1014,22 @@ async function loadAllQuotations() {
     }
     
     try {
+        // Simple query — no composite index needed. Sort client-side.
         const snapshot = await db.collection('quotations')
             .where('salesmanId', '==', currentUser.id)
-            .orderBy('updatedAt', 'desc')
             .get();
         
         allQuotations = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        // Sort by updatedAt descending (newest first)
+        allQuotations.sort((a, b) => {
+            const aTime = a.updatedAt?.toDate ? a.updatedAt.toDate() : new Date(a.updatedAt || 0);
+            const bTime = b.updatedAt?.toDate ? b.updatedAt.toDate() : new Date(b.updatedAt || 0);
+            return bTime - aTime;
+        });
         renderDashboard();
     } catch(e) {
         console.error('Error loading quotations:', e);
-        // Fallback to local
+        showToast('Cloud load failed — using local backup', 'warning', 3000);
         loadFromLocalStorage();
     }
 }
@@ -1449,6 +1455,9 @@ function updateCloudStatus(status) {
 
 // ==================== AUTOSAVE ====================
 function triggerAutosave() {
+    // Don't autosave if there's no meaningful content yet
+    if (!state.boatType && !document.getElementById('custCompany')?.value) return;
+    
     hasUnsavedChanges = true;
     updateCloudStatus('saving');
     
@@ -3268,32 +3277,73 @@ function restoreSelections() {
         
         Object.entries(items).forEach(([key, item]) => {
             if (key === 'radio' && item.itemIdx !== -1) {
-                // Radio option - restore selection
-                // First, deselect the "None" option
-                const radioGroup = document.getElementById('radio-' + catId);
-                if (radioGroup) {
-                    radioGroup.querySelectorAll('.radio-option').forEach(opt => opt.classList.remove('selected'));
-                    const noneRadio = radioGroup.querySelector('.none-option input[type="radio"]');
-                    if (noneRadio) noneRadio.checked = false;
-                }
-                
-                const radioOpt = document.getElementById(`radio-opt-${catId}-${item.itemIdx}`);
-                if (radioOpt) {
-                    radioOpt.classList.add('selected');
-                    const radioInput = radioOpt.querySelector('input[type="radio"]');
-                    if (radioInput) radioInput.checked = true;
+                if (item.isCustom) {
+                    // Restore custom radio item
+                    const radioGroup = document.getElementById('radio-' + catId);
+                    if (radioGroup) {
+                        radioGroup.querySelectorAll('.radio-option').forEach(opt => opt.classList.remove('selected'));
+                        const noneRadio = radioGroup.querySelector('.none-option input[type="radio"]');
+                        if (noneRadio) noneRadio.checked = false;
+                        
+                        const customLabel = document.createElement('label');
+                        customLabel.className = 'radio-option selected custom-added-item';
+                        customLabel.innerHTML = `
+                            <input type="radio" name="radio-${catId}" value="${item.itemIdx}" checked>
+                            <div class="option-details"><div class="option-name">✨ ${item.name}</div></div>
+                            <div class="option-price" style="color:var(--success);">$${fmt(item.price)}</div>
+                        `;
+                        const noneOption = radioGroup.querySelector('.none-option');
+                        if (noneOption) noneOption.after(customLabel);
+                    }
+                } else {
+                    // Regular radio option - restore selection
+                    const radioGroup = document.getElementById('radio-' + catId);
+                    if (radioGroup) {
+                        radioGroup.querySelectorAll('.radio-option').forEach(opt => opt.classList.remove('selected'));
+                        const noneRadio = radioGroup.querySelector('.none-option input[type="radio"]');
+                        if (noneRadio) noneRadio.checked = false;
+                    }
                     
-                    // Restore qty if applicable
-                    const qtyInput = document.getElementById(`qty-radio-${catId}-${item.itemIdx}`);
-                    if (qtyInput && item.qty > 0) {
-                        qtyInput.value = item.qty;
-                        const extEl = document.getElementById(`ext-radio-${catId}-${item.itemIdx}`);
-                        if (extEl && !item.isTBD) {
-                            extEl.textContent = '$' + (item.price * item.qty).toLocaleString();
+                    const radioOpt = document.getElementById(`radio-opt-${catId}-${item.itemIdx}`);
+                    if (radioOpt) {
+                        radioOpt.classList.add('selected');
+                        const radioInput = radioOpt.querySelector('input[type="radio"]');
+                        if (radioInput) radioInput.checked = true;
+                        
+                        // Restore qty if applicable
+                        const qtyInput = document.getElementById(`qty-radio-${catId}-${item.itemIdx}`);
+                        if (qtyInput && item.qty > 0) {
+                            qtyInput.value = item.qty;
+                            const extEl = document.getElementById(`ext-radio-${catId}-${item.itemIdx}`);
+                            if (extEl && !item.isTBD) {
+                                extEl.textContent = '$' + (item.price * item.qty).toLocaleString();
+                            }
                         }
                     }
                 }
-            } else if (key !== 'radio' && !String(key).startsWith('custom-')) {
+            } else if (String(key).startsWith('custom-')) {
+                // Restore custom checkbox item
+                const checkboxGroup = document.getElementById('checkbox-' + catId);
+                if (checkboxGroup && item.qty > 0) {
+                    const customLabel = document.createElement('label');
+                    customLabel.className = 'checkbox-option selected custom-added-item';
+                    customLabel.id = `chk-${catId}-${key}`;
+                    customLabel.innerHTML = `
+                        <input type="checkbox" checked>
+                        <div class="option-details"><div class="option-name">✨ ${item.name}</div></div>
+                        <div class="qty-stepper">
+                            <button type="button" onclick="event.stopPropagation();updateCustomQty('${category}','${key}',Math.max(0,parseInt(this.nextElementSibling.value)||0)-1+'');this.nextElementSibling.value=Math.max(0,parseInt(this.nextElementSibling.value)||0)" tabindex="-1">−</button>
+                            <input type="number" value="${item.qty}" min="0" max="99" onchange="updateCustomQty('${category}','${key}',this.value)" onclick="event.stopPropagation()">
+                            <button type="button" onclick="event.stopPropagation();updateCustomQty('${category}','${key}',Math.min(99,parseInt(this.previousElementSibling.value)||0)+1+'');this.previousElementSibling.value=Math.min(99,parseInt(this.previousElementSibling.value)||0)" tabindex="-1">+</button>
+                        </div>
+                        <div class="option-price" style="color:var(--success);">$${fmt(item.price)}</div>
+                        <div class="option-extended" style="color:var(--success);">$${fmt(item.price * item.qty)}</div>
+                    `;
+                    const customRow = checkboxGroup.querySelector('.custom-item-row');
+                    if (customRow) checkboxGroup.insertBefore(customLabel, customRow);
+                    else checkboxGroup.appendChild(customLabel);
+                }
+            } else if (key !== 'radio') {
                 // Checkbox option - restore selection (key can be number or string)
                 const checkOpt = document.getElementById(`chk-${catId}-${key}`);
                 if (checkOpt) {
