@@ -512,6 +512,9 @@
                     <option value="mario">Mario Hoyek</option>
                     <option value="soufiane">Soufiane Tangi</option>
                     <option value="toji">Toji Paul</option>
+                    <option value="pierre">Pierre Nawfal</option>
+                    <option value="rana">Rana Nawfal</option>
+                    <option value="guest">Guest</option>
                 </select>
             </div>
             <div class="form-group">
@@ -520,7 +523,6 @@
             </div>
             <button class="login-btn" onclick="loginUser()">Sign In</button>
             <div class="login-error" id="loginError"></div>
-            <p style="margin-top:20px;font-size:11px;color:var(--gray-400);">Default PIN: 1234 — Change in Firebase Console</p>
         </div>
     </div>
 
@@ -542,7 +544,7 @@
         </header>
         <main class="main">
             <div class="dash-header">
-                <h2>📋 My Quotations</h2>
+                <h2 id="dashTitle">📋 My Quotations</h2>
                 <div class="dash-header-actions">
                     <button class="login-btn" style="width:auto;padding:12px 24px;" onclick="startNewEditor()">✚ New Quotation</button>
                 </div>
@@ -585,6 +587,7 @@
                             <th onclick="sortDashboard('customerCompany')">Customer <span class="sort-arrow">↕</span></th>
                             <th onclick="sortDashboard('boatType')">Boat <span class="sort-arrow">↕</span></th>
                             <th onclick="sortDashboard('totalAmountUSD')">Amount <span class="sort-arrow">↕</span></th>
+                            <th onclick="sortDashboard('salesmanName')" id="thCreatedBy" style="display:none;">Created By <span class="sort-arrow">↕</span></th>
                             <th onclick="sortDashboard('status')">Status <span class="sort-arrow">↕</span></th>
                             <th onclick="sortDashboard('updatedAt')">Last Modified <span class="sort-arrow">↕</span></th>
                             <th>Actions</th>
@@ -603,6 +606,11 @@
     <header class="header">
         <div class="header-inner">
             <div class="logo-area">
+                <button id="editorBackBtn" class="logout-btn" onclick="backToDashboard()" style="border-color:rgba(255,255,255,0.3);color:rgba(255,255,255,0.8);display:inline-flex;align-items:center;gap:6px;padding:8px 14px;">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="flex-shrink:0;"><path d="M12 7H2m0 0l4.5-4.5M2 7l4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span class="back-label">Dashboard</span>
+                </button>
+                <div class="logo-divider"></div>
                 <div class="logo-text">
                     <span>Advanced Maritime Solutions</span>
                     <h1>ASIS BOATS</h1>
@@ -616,7 +624,6 @@
                 <input type="text" class="quote-badge-input" id="quoteBadgeInput" value="ASIS-25-0001" 
                     oninput="syncQuoteNumber(this.value, 'header')" 
                     onclick="this.select()">
-                <button class="logout-btn" onclick="backToDashboard()" style="border-color:rgba(255,255,255,0.3);color:rgba(255,255,255,0.8);">← Dashboard</button>
             </div>
         </div>
     </header>
@@ -751,7 +758,22 @@
                                 <div class="form-group"><label>Boat Quantity</label><input type="number" id="boatQty" value="1" min="1" max="100" onchange="updateTotals()"></div>
                                 <div class="form-group"><label>Date <span style="color:var(--gold);font-weight:700;">*</span></label><input type="date" id="quoteDate"></div>
                                 <div class="form-group"><label>Validity</label><select id="validity"><option selected>30 Days</option><option>90 Days</option></select></div>
-                                <div class="form-group"><label>Salesman <span style="color:var(--gold);font-weight:700;">*</span></label><select id="salesman"><option value="">-- Select Salesman --</option><option value="mario">Mario Hoyek</option><option value="soufiane">Soufiane Tangi</option><option value="toji">Toji Paul</option></select></div>
+                                <div class="form-group"><label>Salesman</label>
+                                    <select id="salesman" onchange="toggleCustomSalesman()">
+                                        <option value="">-- No Salesman --</option>
+                                        <option value="mario">Mario Hoyek</option>
+                                        <option value="soufiane">Soufiane Tangi</option>
+                                        <option value="toji">Toji Paul</option>
+                                        <option value="custom">✏️ Custom...</option>
+                                    </select>
+                                </div>
+                                <div id="customSalesmanFields" style="display:none;grid-column:span 2;">
+                                    <div class="form-grid" style="margin-bottom:0;">
+                                        <div class="form-group"><label>Salesman Name</label><input type="text" id="customSalesmanName" placeholder="Full name"></div>
+                                        <div class="form-group"><label>Email</label><input type="email" id="customSalesmanEmail" placeholder="email@company.com"></div>
+                                        <div class="form-group"><label>Phone</label><input type="tel" id="customSalesmanPhone" placeholder="+971 XX XXX XXXX"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -904,8 +926,21 @@ let isSaving = false;
 let hasUnsavedChanges = false;
 let useLocalFallback = false;
 
-// PIN codes for each salesman (change these or move to Firebase)
-const SALESMAN_PINS = { mario: '1234', soufiane: '1234', toji: '1234' };
+// PIN codes for each user
+const SALESMAN_PINS = { mario: '4827', soufiane: '9051', toji: '1364', pierre: '1966', rana: '1996', guest: '9876' };
+
+// User roles: 'salesman' auto-selects themselves, 'admin' sees all quotes, 'guest' can only create
+const USER_ROLES = { mario: 'salesman', soufiane: 'salesman', toji: 'salesman', pierre: 'admin', rana: 'admin', guest: 'guest' };
+
+// All users info (extends SALESMEN for non-salesman users)
+const ALL_USERS = {
+    mario: { name: "Mario Hoyek", email: "marioh@asisboats.com", phone: "+971 50 462 9258" },
+    soufiane: { name: "Soufiane Tangi", email: "soufianet@asisboats.com", phone: "+971 50 551 2985" },
+    toji: { name: "Toji Paul", email: "tojip@asisboats.com", phone: "+971 54 791 3337" },
+    pierre: { name: "Pierre Nawfal", email: "", phone: "" },
+    rana: { name: "Rana Nawfal", email: "", phone: "" },
+    guest: { name: "Guest", email: "", phone: "" }
+};
 
 function initFirebase() {
     try {
@@ -946,7 +981,7 @@ function loginUser() {
         return;
     }
     
-    currentUser = { id: salesmanId, ...SALESMEN[salesmanId] };
+    currentUser = { id: salesmanId, role: USER_ROLES[salesmanId], ...ALL_USERS[salesmanId] };
     localStorage.setItem('asis_user', JSON.stringify(currentUser));
     
     document.getElementById('loginScreen').style.display = 'none';
@@ -971,7 +1006,7 @@ function checkAutoLogin() {
         try {
             currentUser = JSON.parse(saved);
             // Validate it's still a valid salesman
-            if (SALESMEN[currentUser.id]) {
+            if (ALL_USERS[currentUser.id]) {
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('appWrapper').style.display = 'block';
                 showDashboard();
@@ -989,12 +1024,30 @@ function showDashboard() {
     document.getElementById('dashboardScreen').classList.add('active');
     document.getElementById('editorScreen').style.display = 'none';
     document.getElementById('dashUserName').textContent = currentUser.name;
+    document.getElementById('dashTitle').textContent = currentUser.role === 'admin' ? '📋 All Quotations' : '📋 My Quotations';
     currentDocId = null;
     hasUnsavedChanges = false;
+    
+    if (currentUser.role === 'guest') {
+        // Guest goes straight to new quotation editor
+        startNewEditor();
+        return;
+    }
+    
     loadAllQuotations();
 }
 
 function backToDashboard() {
+    if (currentUser.role === 'guest') {
+        // Guest has no dashboard — save then logout
+        if (hasUnsavedChanges) {
+            saveQuotationToCloud(true).then(() => logoutUser());
+        } else {
+            logoutUser();
+        }
+        return;
+    }
+    
     if (hasUnsavedChanges) {
         // Auto-save before leaving
         saveQuotationToCloud().then(() => {
@@ -1014,10 +1067,16 @@ async function loadAllQuotations() {
     }
     
     try {
-        // Simple query — no composite index needed. Sort client-side.
-        const snapshot = await db.collection('quotations')
-            .where('salesmanId', '==', currentUser.id)
-            .get();
+        let snapshot;
+        if (currentUser.role === 'admin') {
+            // Admins see ALL quotations from everyone
+            snapshot = await db.collection('quotations').get();
+        } else {
+            // Salesmen and guests see only their own
+            snapshot = await db.collection('quotations')
+                .where('salesmanId', '==', currentUser.id)
+                .get();
+        }
         
         allQuotations = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         // Sort by updatedAt descending (newest first)
@@ -1048,6 +1107,13 @@ function saveToLocalStorage() {
 }
 
 function renderDashboard() {
+    const isAdmin = currentUser.role === 'admin';
+    const colSpan = isAdmin ? 8 : 7;
+    
+    // Show/hide Created By column
+    const thCreatedBy = document.getElementById('thCreatedBy');
+    if (thCreatedBy) thCreatedBy.style.display = isAdmin ? '' : 'none';
+    
     let filtered = [...allQuotations];
     
     // Apply search filter
@@ -1059,7 +1125,8 @@ function renderDashboard() {
             (q.customerName || '').toLowerCase().includes(search) ||
             (q.title || '').toLowerCase().includes(search) ||
             (q.boatType || '').toLowerCase().includes(search) ||
-            (q.boatSize || '').toLowerCase().includes(search)
+            (q.boatSize || '').toLowerCase().includes(search) ||
+            (isAdmin && (q.salesmanName || '').toLowerCase().includes(search))
         );
     }
     
@@ -1116,7 +1183,7 @@ function renderDashboard() {
     // Render table
     const tbody = document.getElementById('dashTableBody');
     if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" class="dash-empty">
+        tbody.innerHTML = `<tr><td colspan="${colSpan}" class="dash-empty">
             <h3>${allQuotations.length === 0 ? 'No quotations yet' : 'No matching results'}</h3>
             <p>${allQuotations.length === 0 ? 'Click "New Quotation" to create your first quote' : 'Try adjusting your filters'}</p>
         </td></tr>`;
@@ -1129,12 +1196,14 @@ function renderDashboard() {
         const timeStr = date.toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit' });
         const amt = q.totalAmountUSD ? '$' + q.totalAmountUSD.toLocaleString('en-US', {maximumFractionDigits:0}) : '-';
         const boatLabel = q.boatSize ? `${q.boatSize} ${(q.boatType || '').charAt(0).toUpperCase() + (q.boatType || '').slice(1)}` : '-';
+        const createdByCol = isAdmin ? `<td>${q.salesmanName || '<span style="color:var(--gray-400)">-</span>'}</td>` : '';
         
         return `<tr ondblclick="loadQuotation('${q.id}')">
             <td><strong>${q.quoteNumber || 'Untitled'}</strong></td>
             <td>${q.customerCompany || '<span style="color:var(--gray-400)">No customer</span>'}</td>
             <td>${boatLabel}</td>
             <td style="font-weight:600;">${amt}</td>
+            ${createdByCol}
             <td><span class="status-badge status-${q.status || 'draft'}">${q.status || 'draft'}</span></td>
             <td>${dateStr}<br><span style="color:var(--gray-400);font-size:11px;">${timeStr}</span></td>
             <td class="dash-actions" onclick="event.stopPropagation()">
@@ -1220,6 +1289,9 @@ function serializeQuotation() {
                 quoteNotes: document.getElementById('quoteNotes')?.value || '',
                 showCategoryTotals: document.getElementById('showCategoryTotals')?.checked || false,
                 showAllPrices: document.getElementById('showAllPrices')?.checked || false,
+                customSalesmanName: document.getElementById('customSalesmanName')?.value || '',
+                customSalesmanEmail: document.getElementById('customSalesmanEmail')?.value || '',
+                customSalesmanPhone: document.getElementById('customSalesmanPhone')?.value || '',
             }
         })
     };
@@ -1258,6 +1330,17 @@ function deserializeQuotation(data) {
     document.getElementById('quoteNotes').value = f.quoteNotes || '';
     document.getElementById('showCategoryTotals').checked = f.showCategoryTotals || false;
     document.getElementById('showAllPrices').checked = f.showAllPrices || false;
+    document.getElementById('customSalesmanName').value = f.customSalesmanName || '';
+    document.getElementById('customSalesmanEmail').value = f.customSalesmanEmail || '';
+    document.getElementById('customSalesmanPhone').value = f.customSalesmanPhone || '';
+    
+    // Handle custom salesman visibility
+    const customFields = document.getElementById('customSalesmanFields');
+    if (f.salesman === 'custom') {
+        customFields.style.display = 'block';
+    } else {
+        customFields.style.display = 'none';
+    }
     
     // Handle custom delivery
     const dc = document.getElementById('deliveryCustom');
@@ -1474,6 +1557,12 @@ function showEditor() {
     document.getElementById('dashboardScreen').style.display = 'none';
     document.getElementById('dashboardScreen').classList.remove('active');
     document.getElementById('editorScreen').style.display = 'block';
+    
+    // Update back button label based on role
+    const backBtn = document.getElementById('editorBackBtn');
+    if (backBtn) {
+        backBtn.querySelector('.back-label').textContent = currentUser.role === 'guest' ? 'Sign Out' : 'Dashboard';
+    }
 }
 
 function startNewEditor() {
@@ -1501,8 +1590,16 @@ function startNewEditor() {
     document.getElementById('tenderNum').value = '';
     document.getElementById('custAddr').value = '';
     document.getElementById('quoteNotes').value = '';
-    // Pre-select the logged-in salesman
-    document.getElementById('salesman').value = currentUser ? currentUser.id : '';
+    // Pre-select the logged-in salesman only if they ARE a salesman
+    if (currentUser && currentUser.role === 'salesman') {
+        document.getElementById('salesman').value = currentUser.id;
+    } else {
+        document.getElementById('salesman').value = '';
+    }
+    document.getElementById('customSalesmanFields').style.display = 'none';
+    document.getElementById('customSalesmanName').value = '';
+    document.getElementById('customSalesmanEmail').value = '';
+    document.getElementById('customSalesmanPhone').value = '';
     document.getElementById('deliveryTerms').value = 'Ex Factory';
     document.getElementById('deliverySelect').value = 'TBD';
     const dc = document.getElementById('deliveryCustom');
@@ -2067,6 +2164,31 @@ function toggleDeliveryInput() {
         customInput.style.display = 'none';
         customInput.value = '';
     }
+}
+
+// Toggle custom salesman fields
+function toggleCustomSalesman() {
+    const select = document.getElementById('salesman');
+    const customFields = document.getElementById('customSalesmanFields');
+    if (select.value === 'custom') {
+        customFields.style.display = 'block';
+    } else {
+        customFields.style.display = 'none';
+    }
+}
+
+// Get salesman info for PDF/preview — returns {name, email, phone} or null if empty
+function getSalesmanInfo() {
+    const salesmanKey = document.getElementById('salesman')?.value;
+    if (!salesmanKey || salesmanKey === '') return null;
+    if (salesmanKey === 'custom') {
+        const name = document.getElementById('customSalesmanName')?.value || '';
+        const email = document.getElementById('customSalesmanEmail')?.value || '';
+        const phone = document.getElementById('customSalesmanPhone')?.value || '';
+        if (!name && !email && !phone) return null;
+        return { name, email, phone };
+    }
+    return SALESMEN[salesmanKey] || null;
 }
 
 // Get delivery timeline value
@@ -3971,8 +4093,7 @@ function toggleAllCategories() {
 function buildPreview() {
     const boat = BOATS[state.boatType].sizes[state.sizeIdx];
     const boatQty = parseInt(document.getElementById('boatQty')?.value) || 1;
-    const salesmanKey = document.getElementById('salesman').value;
-    const salesmanInfo = salesmanKey ? SALESMEN[salesmanKey] : null;
+    const salesmanInfo = getSalesmanInfo();
     const tender = document.getElementById('tenderNum').value;
     const quoteTitle = document.getElementById('quoteTitle').value;
     
@@ -3986,11 +4107,9 @@ function buildPreview() {
         <span class="label">Validity:</span><span class="value">${document.getElementById('validity').value}</span>
     `;
     if (salesmanInfo) {
-        quoteInfoHtml += `
-            <span class="label">Salesman:</span><span class="value">${salesmanInfo.name}</span>
-            <span class="label">Email:</span><span class="value">${salesmanInfo.email}</span>
-            <span class="label">Phone:</span><span class="value">${salesmanInfo.phone}</span>
-        `;
+        if (salesmanInfo.name) quoteInfoHtml += `<span class="label">Salesman:</span><span class="value">${salesmanInfo.name}</span>`;
+        if (salesmanInfo.email) quoteInfoHtml += `<span class="label">Email:</span><span class="value">${salesmanInfo.email}</span>`;
+        if (salesmanInfo.phone) quoteInfoHtml += `<span class="label">Phone:</span><span class="value">${salesmanInfo.phone}</span>`;
     }
     quoteInfoHtml += `
         <span class="label">Payment:</span><span class="value">${document.getElementById('payTerms').value}</span>
@@ -4245,8 +4364,7 @@ async function downloadPDF() {
 function gatherFormData() {
     const boat = BOATS[state.boatType].sizes[state.sizeIdx];
     const boatQty = parseInt(document.getElementById('boatQty')?.value) || 1;
-    const salesmanKey = document.getElementById('salesman').value;
-    const salesmanInfo = salesmanKey ? SALESMEN[salesmanKey] : null;
+    const salesmanInfo = getSalesmanInfo();
     const showCategoryTotals = document.getElementById('showCategoryTotals').checked;
     const showAllPrices = document.getElementById('showAllPrices').checked;
     
@@ -4671,11 +4789,17 @@ async function generateCoverPageFallback(pdfDoc, fonts, formData) {
     prepY -= 25;
     
     if (formData.salesmanInfo) {
-        page.drawText(formData.salesmanInfo.name.toUpperCase(), { x: 50, y: prepY, size: 14, font: fonts.helveticaBold, color: black });
-        prepY -= 18;
-        page.drawText(formData.salesmanInfo.email, { x: 50, y: prepY, size: 10, font: fonts.helvetica, color: darkGray });
-        prepY -= 16;
-        page.drawText(formData.salesmanInfo.phone, { x: 50, y: prepY, size: 10, font: fonts.helvetica, color: darkGray });
+        if (formData.salesmanInfo.name) {
+            page.drawText(formData.salesmanInfo.name.toUpperCase(), { x: 50, y: prepY, size: 14, font: fonts.helveticaBold, color: black });
+            prepY -= 18;
+        }
+        if (formData.salesmanInfo.email) {
+            page.drawText(formData.salesmanInfo.email, { x: 50, y: prepY, size: 10, font: fonts.helvetica, color: darkGray });
+            prepY -= 16;
+        }
+        if (formData.salesmanInfo.phone) {
+            page.drawText(formData.salesmanInfo.phone, { x: 50, y: prepY, size: 10, font: fonts.helvetica, color: darkGray });
+        }
     }
     
     // Footer
@@ -4797,14 +4921,18 @@ async function generateQuotationPage(pdfDoc, fonts, formData) {
     y -= 18;
     page.drawText('Contact #:', { x: leftCol, y, size: 9, font: fonts.helvetica, color: darkGray });
     page.drawText(formData.custPhone || '-', { x: leftValCol, y, size: 9, font: fonts.helveticaBold, color: black });
-    page.drawText('Sales Person:', { x: rightCol, y, size: 9, font: fonts.helvetica, color: darkGray });
-    page.drawText(formData.salesmanInfo?.name || '-', { x: rightValCol, y, size: 9, font: fonts.helveticaBold, color: black });
+    if (formData.salesmanInfo) {
+        page.drawText('Sales Person:', { x: rightCol, y, size: 9, font: fonts.helvetica, color: darkGray });
+        page.drawText(formData.salesmanInfo.name || '', { x: rightValCol, y, size: 9, font: fonts.helveticaBold, color: black });
+    }
     
     y -= 18;
     page.drawText('Email:', { x: leftCol, y, size: 9, font: fonts.helvetica, color: darkGray });
     page.drawText(formData.custEmail || '-', { x: leftValCol, y, size: 9, font: fonts.helveticaBold, color: black });
-    page.drawText('Contact #:', { x: rightCol, y, size: 9, font: fonts.helvetica, color: darkGray });
-    page.drawText(formData.salesmanInfo?.phone || '-', { x: rightValCol, y, size: 9, font: fonts.helveticaBold, color: black });
+    if (formData.salesmanInfo && formData.salesmanInfo.phone) {
+        page.drawText('Contact #:', { x: rightCol, y, size: 9, font: fonts.helvetica, color: darkGray });
+        page.drawText(formData.salesmanInfo.phone, { x: rightValCol, y, size: 9, font: fonts.helveticaBold, color: black });
+    }
     
     y -= 18;
     page.drawText('Address:', { x: leftCol, y, size: 9, font: fonts.helvetica, color: darkGray });
@@ -4814,8 +4942,10 @@ async function generateQuotationPage(pdfDoc, fonts, formData) {
     const maxAddrLength = 40;
     const displayAddress = addressOneLine.length > maxAddrLength ? addressOneLine.substring(0, maxAddrLength) + '...' : addressOneLine;
     page.drawText(displayAddress, { x: leftValCol, y, size: 9, font: fonts.helvetica, color: black });
-    page.drawText('Email:', { x: rightCol, y, size: 9, font: fonts.helvetica, color: darkGray });
-    page.drawText(formData.salesmanInfo?.email || '-', { x: rightValCol, y, size: 9, font: fonts.helveticaBold, color: black });
+    if (formData.salesmanInfo && formData.salesmanInfo.email) {
+        page.drawText('Email:', { x: rightCol, y, size: 9, font: fonts.helvetica, color: darkGray });
+        page.drawText(formData.salesmanInfo.email, { x: rightValCol, y, size: 9, font: fonts.helveticaBold, color: black });
+    }
     
     // Description table header - Design K: Top/bottom borders + gradient
     y -= 35;
@@ -5346,8 +5476,7 @@ function drawEnvelopeIcon(page, x, y, color) {
 function downloadCSV() {
     const boat = BOATS[state.boatType].sizes[state.sizeIdx];
     const boatQty = parseInt(document.getElementById('boatQty')?.value) || 1;
-    const salesmanKey = document.getElementById('salesman').value;
-    const salesmanInfo = salesmanKey ? SALESMEN[salesmanKey] : null;
+    const salesmanInfo = getSalesmanInfo();
     const discountPct = parseFloat(document.getElementById('discount').value) || 0;
     
     // Calculate totals
