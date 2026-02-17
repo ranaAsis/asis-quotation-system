@@ -1,33 +1,27 @@
-# ASIS Boats — Quotation Management System V64
+# ASIS Boats — Quotation Management System V65
 
-## What's New in V64
+## What's New in V65
+
+### Titles
+- "Quotation Management System" now in header bar between logo and user/save area
+- Visible on both dashboard and editor headers
+- Subtle uppercase lettering, doesn't compete with logo
 
 ### Login
-- Bigger SVG logo from asisboats.com
-- 3x2 grid layout (no divider), roles removed for cleaner look
-- Browser favicon from asisboats.com
+- Bigger SVG logo (60px)
+- 3x2 grid, no roles under names
 
-### Branding
-- All logos now use asisboats.com SVG (no local image dependency for logo)
-- Footer: centered text with small arrow icon only
-- Dashboard header: SVG user icon replaces emoji for visibility
+### Reset Confirmation
+- Now triggers for same boat type/size click too (not just when changing)
+- Beautiful animated modal with backdrop blur
 
-### Custom Confirmation Modal
-- Beautiful animated modal replaces browser confirm() dialogs
-- Smooth scale + fade animation, backdrop blur
-- Used for Step 1 reset warnings (boat type/size change)
-
-### Dashboard
-- Salesman filter dropdown for Pierre & Rana (admin)
-- Subtle "Quotation Management System" title above main heading
-- Better sign-out button contrast
+### Dashboard Fixes
+- Footer now sticks to bottom of page (not floating in middle)
+- Search filter is wider (fills available space)
+- Salesman filter for Pierre & Rana (admin)
 
 ### PDF
-- Page 1 number now white (visible on dark cover)
-- Pages 2+ remain gray as before
-
-### All V63 features carried forward
-- See V63 README for full feature list
+- Page 1 number white (visible on dark cover), others gray
 
 ## Login Credentials
 

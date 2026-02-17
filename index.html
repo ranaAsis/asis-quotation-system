@@ -34,6 +34,7 @@
         .logo-text span { font-size: 10px; color: rgba(255,255,255,0.8); text-transform: uppercase; letter-spacing: 2px; }
         .logo-text h1 { color: var(--white); font-size: 18px; font-weight: 600; }
         .header-right { display: flex; align-items: center; gap: 15px; }
+        .header-title { font-size: 12px; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 2.5px; font-weight: 500; white-space: nowrap; }
         .quote-badge { background: var(--gold); border: 1px solid var(--gold); color: white; padding: 8px 18px; border-radius: 8px; font-weight: 600; font-size: 13px; }
         .quote-badge-input { background: var(--gold); border: 2px solid var(--gold); color: white; padding: 8px 18px; border-radius: 8px; font-weight: 600; font-size: 13px; text-align: center; width: 160px; cursor: text; transition: all 0.2s; }
         .quote-badge-input:hover { background: #d4a800; border-color: #d4a800; }
@@ -98,8 +99,11 @@
         .login-error { color: var(--danger); font-size: 12px; margin-top: 12px; display: none; }
 
         /* Dashboard */
-        .dashboard-screen { display: none; }
-        .dashboard-screen.active { display: block; }
+        .dashboard-screen { display: none; flex: 1; }
+        .dashboard-screen.active { display: flex; flex-direction: column; }
+        .dashboard-screen > main { flex: 1; }
+        #appWrapper.visible { display: flex !important; flex-direction: column; min-height: 100vh; }
+        #editorScreen { flex: 1; }
         .dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
         .dash-header h2 { font-size: 22px; color: var(--navy); font-weight: 700; }
         .dash-header-actions { display: flex; gap: 10px; align-items: center; }
@@ -118,7 +122,7 @@
         /* Dashboard Filters */
         .dash-filters { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
         .dash-filters input, .dash-filters select { padding: 9px 14px; border: 1px solid var(--gray-300); border-radius: 8px; font-size: 13px; font-family: 'Montserrat', sans-serif; background: white; }
-        .dash-filters input { min-width: 260px; }
+        .dash-filters input { min-width: 260px; flex: 1; }
         .dash-filters input:focus, .dash-filters select:focus { outline: none; border-color: var(--navy); box-shadow: 0 0 0 3px rgba(15,40,71,0.08); }
         .dash-filter-label { font-size: 11px; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.5px; }
 
@@ -162,7 +166,7 @@
         .confirm-modal .confirm-btn.danger:hover { transform: translateY(-1px); box-shadow: 0 4px 15px rgba(184,50,64,0.3); }
 
         /* Professional Footer */
-        .app-footer { background: var(--navy-dark); padding: 14px 30px; text-align: center; border-top: 1px solid rgba(255,255,255,0.06); margin-top: 40px; }
+        .app-footer { background: var(--navy-dark); padding: 14px 30px; text-align: center; border-top: 1px solid rgba(255,255,255,0.06); margin-top: auto; }
         .app-footer-inner { max-width: 1400px; margin: 0 auto; display: flex; justify-content: center; align-items: center; gap: 10px; }
         .app-footer .footer-arrow { height: 16px; opacity: 0.4; }
         .app-footer .footer-text { font-size: 10px; color: rgba(255,255,255,0.35); letter-spacing: 0.5px; }
@@ -608,6 +612,7 @@
                 <div class="logo-area">
                     <img src="https://asisboats.com/images/2021/09/asis-logo-aces-1.svg" class="header-logo" alt="ASIS Boats">
                 </div>
+                <div class="header-title">Quotation Management System</div>
                 <div class="header-right">
                     <div class="dash-user"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> <strong id="dashUserName"></strong></div>
                     <button class="logout-btn" onclick="logoutUser()" style="border-color:rgba(255,255,255,0.4);color:rgba(255,255,255,0.85);font-weight:500;">Sign Out</button>
@@ -615,7 +620,6 @@
             </div>
         </header>
         <main class="main">
-            <div style="text-align:center;padding:6px 0 2px;"><span style="font-size:10px;color:var(--gray-400);text-transform:uppercase;letter-spacing:2px;">Quotation Management System</span></div>
             <div class="dash-header">
                 <h2 id="dashTitle">📋 My Quotations</h2>
                 <div class="dash-header-actions">
@@ -693,6 +697,7 @@
                 <div class="logo-divider"></div>
                 <img src="https://asisboats.com/images/2021/09/asis-logo-aces-1.svg" class="header-logo" alt="ASIS Boats">
             </div>
+            <div class="header-title">Quotation Management System</div>
             <div class="header-right">
                 <div class="cloud-status" id="cloudStatus" onclick="saveQuotationToCloud()" title="Click to save now">
                     <span class="dot saved" id="cloudDot"></span>
@@ -1091,7 +1096,7 @@ function loginUser() {
     localStorage.setItem('asis_user', JSON.stringify(currentUser));
     
     document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('appWrapper').style.display = 'block';
+    document.getElementById('appWrapper').classList.add('visible');
     showDashboard();
 }
 
@@ -1101,7 +1106,7 @@ function logoutUser() {
     currentDocId = null;
     selectedLoginUser = null;
     localStorage.removeItem('asis_user');
-    document.getElementById('appWrapper').style.display = 'none';
+    document.getElementById('appWrapper').classList.remove('visible');
     document.getElementById('loginScreen').style.display = 'flex';
     document.getElementById('loginPin').value = '';
     document.getElementById('loginError').style.display = 'none';
@@ -1116,7 +1121,7 @@ function checkAutoLogin() {
             // Validate it's still a valid salesman
             if (ALL_USERS[currentUser.id]) {
                 document.getElementById('loginScreen').style.display = 'none';
-                document.getElementById('appWrapper').style.display = 'block';
+                document.getElementById('appWrapper').classList.add('visible');
                 showDashboard();
                 return;
             }
@@ -2424,10 +2429,9 @@ function hasExistingSelections() {
 }
 
 async function selectBoatType(type) {
-    // Check if this would reset existing selections (including clicking same type)
+    // Check if this would reset existing selections (even clicking same type)
     if (state.boatType !== null && hasExistingSelections()) {
-        if (state.boatType === type) return; // Same type, no change needed
-        const ok = await showConfirm('Change Boat Type?', 'Switching boat types will clear all your current accessories and configuration. This cannot be undone.');
+        const ok = await showConfirm('Reset Configuration?', 'This will clear all your current accessories and configuration. This cannot be undone.');
         if (!ok) return;
     }
     
@@ -2446,9 +2450,9 @@ async function selectBoatType(type) {
 }
 
 async function selectBoatSize(idx) {
-    // Check if changing size would reset existing selections
-    if (state.sizeIdx !== null && state.sizeIdx !== idx && hasExistingSelections()) {
-        const ok = await showConfirm('Change Boat Size?', 'Switching sizes will clear all your current accessories and configuration. This cannot be undone.');
+    // Check if selecting any size would reset existing selections
+    if (state.sizeIdx !== null && hasExistingSelections()) {
+        const ok = await showConfirm('Reset Configuration?', 'This will clear all your current accessories and configuration. This cannot be undone.');
         if (!ok) return;
     }
     
