@@ -4486,15 +4486,15 @@ async function downloadPDF() {
         for (let i = 0; i < totalPages; i++) {
             const pg = allPages[i];
             const { width } = pg.getSize();
-            const pageNumText = `Page ${i + 1} of ${totalPages}`;
-            const textWidth = fonts.helvetica.widthOfTextAtSize(pageNumText, 8);
+            const pageNumText = `\u2014 Page ${i + 1} of ${totalPages} \u2014`;
+            const textWidth = fonts.timesRoman.widthOfTextAtSize(pageNumText, 9);
             // Page 1 (cover) has dark background — use white text
-            const pageColor = i === 0 ? PDFLib.rgb(1, 1, 1) : PDFLib.rgb(0.5, 0.5, 0.5);
+            const pageColor = i === 0 ? PDFLib.rgb(1, 1, 1) : PDFLib.rgb(0.45, 0.45, 0.45);
             pg.drawText(pageNumText, {
                 x: width - textWidth - 30,
                 y: 18,
-                size: 8,
-                font: fonts.helvetica,
+                size: 9,
+                font: fonts.timesRoman,
                 color: pageColor
             });
         }
@@ -4808,29 +4808,56 @@ async function generateCoverPage(pdfDoc, fonts, formData) {
             });
         }
         
-        // PAGE1_FIELD: Salesman Name
+        // PAGE1_FIELD: Salesman Name (or Company if no salesman)
         if (formData.salesmanInfo) {
             page.drawText(formData.salesmanInfo.name.toUpperCase(), {
-                x: 82,   // LINE ~2666: Adjust X
-                y: 165,  // LINE ~2667: Adjust Y
+                x: 82,
+                y: 165,
                 size: 14,
                 font: fonts.helveticaBold,
                 color: black
             });
             
             // PAGE1_FIELD: Salesman Email
-            page.drawText(formData.salesmanInfo.email, {
-                x: 100,   // LINE ~2676: Adjust X
-                y: 149,  // LINE ~2677: Adjust Y
+            if (formData.salesmanInfo.email) {
+                page.drawText(formData.salesmanInfo.email, {
+                    x: 100,
+                    y: 149,
+                    size: 10,
+                    font: fonts.helvetica,
+                    color: darkGray
+                });
+            }
+            
+            // PAGE1_FIELD: Salesman Phone
+            if (formData.salesmanInfo.phone) {
+                page.drawText(formData.salesmanInfo.phone, {
+                    x: 100,
+                    y: 131,
+                    size: 10,
+                    font: fonts.helvetica,
+                    color: darkGray
+                });
+            }
+        } else {
+            // No salesman — show company info instead
+            page.drawText('ASIS BOATS L.L.C.', {
+                x: 82,
+                y: 165,
+                size: 14,
+                font: fonts.helveticaBold,
+                color: black
+            });
+            page.drawText('info@asisboats.com', {
+                x: 100,
+                y: 149,
                 size: 10,
                 font: fonts.helvetica,
                 color: darkGray
             });
-            
-            // PAGE1_FIELD: Salesman Phone
-            page.drawText(formData.salesmanInfo.phone, {
-                x: 100,   // LINE ~2686: Adjust X
-                y: 131,  // LINE ~2687: Adjust Y
+            page.drawText('+971 (0)4 880 4441', {
+                x: 100,
+                y: 131,
                 size: 10,
                 font: fonts.helvetica,
                 color: darkGray
@@ -4962,6 +4989,13 @@ async function generateCoverPageFallback(pdfDoc, fonts, formData) {
         if (formData.salesmanInfo.phone) {
             page.drawText(formData.salesmanInfo.phone, { x: 50, y: prepY, size: 10, font: fonts.helvetica, color: darkGray });
         }
+    } else {
+        // No salesman — show company info
+        page.drawText('ASIS BOATS L.L.C.', { x: 50, y: prepY, size: 14, font: fonts.helveticaBold, color: black });
+        prepY -= 18;
+        page.drawText('info@asisboats.com', { x: 50, y: prepY, size: 10, font: fonts.helvetica, color: darkGray });
+        prepY -= 16;
+        page.drawText('+971 (0)4 880 4441', { x: 50, y: prepY, size: 10, font: fonts.helvetica, color: darkGray });
     }
     
     // Footer
