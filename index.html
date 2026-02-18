@@ -4709,8 +4709,13 @@ async function generateCoverPage(pdfDoc, fonts, formData) {
         const [templatePage] = await pdfDoc.copyPages(templatePdf, [0]);
         pdfDoc.addPage(templatePage);
         
-        // Get the page we just added (last page) and resize to A4
+        // Get the page we just added (last page)
         const page = pdfDoc.getPages()[pdfDoc.getPageCount() - 1];
+        
+        // Scale template from Letter (612x792) to A4 (595.28x841.89)
+        const SX = 595.28 / 612;   // ~0.9727
+        const SY = 841.89 / 792;   // ~1.0630
+        page.scaleContent(SX, SY);
         page.setSize(595.28, 841.89);
         const { width, height } = page.getSize();
         
@@ -4726,8 +4731,8 @@ async function generateCoverPage(pdfDoc, fonts, formData) {
         // PAGE1_FIELD: Quote Number (right-aligned, right edge position)
         const quoteNumWidth = fonts.helveticaBold.widthOfTextAtSize(formData.quoteNum, 18);
         page.drawText(formData.quoteNum, {
-            x: 444 - quoteNumWidth,  // LINE ~2567: Adjust X (right edge at 444)
-            y: 586,                   // LINE ~2568: Adjust Y
+            x: 444 * SX - quoteNumWidth,
+            y: 586 * SY,
             size: 18,
             font: fonts.helveticaBold,
             color: asiaRed
@@ -4743,26 +4748,22 @@ async function generateCoverPage(pdfDoc, fonts, formData) {
         let title1Y, title2Y, tenderY;
         
         if (hasTitle2 && hasTender) {
-            // All three present: stack normally
-            title1Y = 480;
-            title2Y = 456;
-            tenderY = 436;
+            title1Y = 480 * SY;
+            title2Y = 456 * SY;
+            tenderY = 436 * SY;
         } else if (!hasTitle2 && hasTender) {
-            // No title line 2: title1 moves to title2 position
-            title1Y = 456;
-            tenderY = 436;
+            title1Y = 456 * SY;
+            tenderY = 436 * SY;
         } else if (hasTitle2 && !hasTender) {
-            // No tender: both titles move down
-            title1Y = 456;
-            title2Y = 436;
+            title1Y = 456 * SY;
+            title2Y = 436 * SY;
         } else {
-            // Only title line 1: moves to bottom position
-            title1Y = 436;
+            title1Y = 436 * SY;
         }
         
         // Draw Title Line 1
         page.drawText(titleLines[0] || '', {
-            x: 73,
+            x: 73 * SX,
             y: title1Y,
             size: 18,
             font: fonts.helveticaBold,
@@ -4772,7 +4773,7 @@ async function generateCoverPage(pdfDoc, fonts, formData) {
         // Draw Title Line 2 (if exists)
         if (hasTitle2) {
             page.drawText(titleLines[1], {
-                x: 73,
+                x: 73 * SX,
                 y: title2Y,
                 size: 18,
                 font: fonts.helveticaBold,
@@ -4783,7 +4784,7 @@ async function generateCoverPage(pdfDoc, fonts, formData) {
         // Draw Tender Number (if exists)
         if (hasTender) {
             page.drawText('Tender No. ' + formData.tender, {
-                x: 73,
+                x: 73 * SX,
                 y: tenderY,
                 size: 11,
                 font: fonts.helvetica,
@@ -4794,8 +4795,8 @@ async function generateCoverPage(pdfDoc, fonts, formData) {
         // PAGE1_FIELD: Customer Company
         if (formData.custCompany) {
             page.drawText(formData.custCompany, {
-                x: 83,   // LINE ~2609: Adjust X
-                y: 388,  // LINE ~2610: Adjust Y
+                x: 83 * SX,
+                y: 388 * SY,
                 size: 16,
                 font: fonts.helveticaBold,
                 color: black
@@ -4805,8 +4806,8 @@ async function generateCoverPage(pdfDoc, fonts, formData) {
         // PAGE1_FIELD: Customer Contact
         if (formData.custContact) {
             page.drawText(formData.custContact, {
-                x: 83,   // LINE ~2620: Adjust X
-                y: 367,  // LINE ~2621: Adjust Y
+                x: 83 * SX,
+                y: 367 * SY,
                 size: 14,
                 font: fonts.helveticaBold,
                 color: black
@@ -4819,8 +4820,8 @@ async function generateCoverPage(pdfDoc, fonts, formData) {
             const maxLen = 50;
             const displayAddr = addressOneLine.length > maxLen ? addressOneLine.substring(0, maxLen) + '...' : addressOneLine;
             page.drawText(displayAddr, {
-                x: 100,   // LINE ~2632: Adjust X
-                y: 346,  // LINE ~2633: Adjust Y
+                x: 100 * SX,
+                y: 346 * SY,
                 size: 10,
                 font: fonts.helvetica,
                 color: darkGray
@@ -4830,8 +4831,8 @@ async function generateCoverPage(pdfDoc, fonts, formData) {
         // PAGE1_FIELD: Customer Phone
         if (formData.custPhone) {
             page.drawText(formData.custPhone, {
-                x: 100,   // LINE ~2643: Adjust X
-                y: 329,  // LINE ~2644: Adjust Y
+                x: 100 * SX,
+                y: 329 * SY,
                 size: 10,
                 font: fonts.helvetica,
                 color: darkGray
@@ -4841,8 +4842,8 @@ async function generateCoverPage(pdfDoc, fonts, formData) {
         // PAGE1_FIELD: Customer Email
         if (formData.custEmail) {
             page.drawText(formData.custEmail, {
-                x: 100,   // LINE ~2654: Adjust X
-                y: 312,  // LINE ~2655: Adjust Y
+                x: 100 * SX,
+                y: 312 * SY,
                 size: 10,
                 font: fonts.helvetica,
                 color: darkGray
@@ -4852,8 +4853,8 @@ async function generateCoverPage(pdfDoc, fonts, formData) {
         // PAGE1_FIELD: Salesman Name (or Company if no salesman)
         if (formData.salesmanInfo) {
             page.drawText(formData.salesmanInfo.name.toUpperCase(), {
-                x: 82,
-                y: 165,
+                x: 82 * SX,
+                y: 165 * SY,
                 size: 14,
                 font: fonts.helveticaBold,
                 color: black
@@ -4862,8 +4863,8 @@ async function generateCoverPage(pdfDoc, fonts, formData) {
             // PAGE1_FIELD: Salesman Email
             if (formData.salesmanInfo.email) {
                 page.drawText(formData.salesmanInfo.email, {
-                    x: 100,
-                    y: 149,
+                    x: 100 * SX,
+                    y: 149 * SY,
                     size: 10,
                     font: fonts.helvetica,
                     color: darkGray
@@ -4873,8 +4874,8 @@ async function generateCoverPage(pdfDoc, fonts, formData) {
             // PAGE1_FIELD: Salesman Phone
             if (formData.salesmanInfo.phone) {
                 page.drawText(formData.salesmanInfo.phone, {
-                    x: 100,
-                    y: 131,
+                    x: 100 * SX,
+                    y: 131 * SY,
                     size: 10,
                     font: fonts.helvetica,
                     color: darkGray
@@ -4883,22 +4884,22 @@ async function generateCoverPage(pdfDoc, fonts, formData) {
         } else {
             // No salesman — show company info instead
             page.drawText('ASIS BOATS L.L.C.', {
-                x: 82,
-                y: 165,
+                x: 82 * SX,
+                y: 165 * SY,
                 size: 14,
                 font: fonts.helveticaBold,
                 color: black
             });
             page.drawText('info@asisboats.com', {
-                x: 100,
-                y: 149,
+                x: 100 * SX,
+                y: 149 * SY,
                 size: 10,
                 font: fonts.helvetica,
                 color: darkGray
             });
             page.drawText('+971 (0)4 880 4441', {
-                x: 100,
-                y: 131,
+                x: 100 * SX,
+                y: 131 * SY,
                 size: 10,
                 font: fonts.helvetica,
                 color: darkGray
@@ -5074,7 +5075,9 @@ async function generateQuotationPage(pdfDoc, fonts, formData) {
             const [templatePage] = await pdfDoc.copyPages(templatePdf, [0]);
             pdfDoc.addPage(templatePage);
             page = pdfDoc.getPages()[pdfDoc.getPageCount() - 1];
-            page.setSize(595.28, 841.89); // Resize to A4
+            // Scale template from Letter to A4
+            page.scaleContent(595.28 / 612, 841.89 / 792);
+            page.setSize(595.28, 841.89);
             console.log('Page 3 template loaded successfully');
         } else {
             page = pdfDoc.addPage([595.28, 841.89]);
