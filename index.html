@@ -4488,19 +4488,18 @@ async function downloadPDF() {
         for (let i = 0; i < totalPages; i++) {
             const pg = allPages[i];
             const { width } = pg.getSize();
-            const isDark = i === 0; // Cover page has dark background
-            
             const bigNum = `${i + 1}`;
             const totalNum = `${totalPages}`;
             
-            // Colors: navy on white pages, white on dark cover
-            const bigColor = isDark ? PDFLib.rgb(1, 1, 1) : PDFLib.rgb(0.059, 0.157, 0.278);
-            const smallColor = isDark ? PDFLib.rgb(0.7, 0.7, 0.7) : PDFLib.rgb(0.5, 0.5, 0.5);
+            // Colors: always navy number with white outline
+            const bigColor = PDFLib.rgb(0.059, 0.157, 0.278);
+            const outlineColor = PDFLib.rgb(1, 1, 1);
+            const smallColor = PDFLib.rgb(0.5, 0.5, 0.5);
             
             // Big bold page number
             const bigSize = 18;
             const bigWidth = fonts.helveticaBold.widthOfTextAtSize(bigNum, bigSize);
-            const rightEdge = width - 15;
+            const rightEdge = width - 8;
             const baseY = 14;
             
             // Layout: [big number] [gold line] [of / total]
@@ -4513,9 +4512,7 @@ async function downloadPDF() {
             const totalBlockW = bigWidth + 4 + smallBlockW; // 4px gap for gold line
             const startX = rightEdge - totalBlockW;
             
-            // Draw big number with contrasting outline
-            // Outline color: white on dark pages, navy-dark on light pages
-            const outlineColor = isDark ? PDFLib.rgb(0.059, 0.157, 0.278) : PDFLib.rgb(1, 1, 1);
+            // Draw big number with white outline for contrast
             // Draw outline in 8 directions
             for (const [ox, oy] of [[0.8,0],[-0.8,0],[0,0.8],[0,-0.8],[0.6,0.6],[-0.6,-0.6],[0.6,-0.6],[-0.6,0.6]]) {
                 pg.drawText(bigNum, { x: startX + ox, y: baseY + oy, size: bigSize, font: fonts.helveticaBold, color: outlineColor });
@@ -4532,8 +4529,12 @@ async function downloadPDF() {
                 color: goldColor
             });
             
-            // Draw "of" (top) and total (bottom)
+            // Draw "of" (top) and total (bottom) with white outline
             const smallX = lineX + 3;
+            for (const [ox, oy] of [[0.5,0],[-0.5,0],[0,0.5],[0,-0.5]]) {
+                pg.drawText(ofText, { x: smallX + ox, y: baseY + 8 + oy, size: smallSize, font: fonts.timesRoman, color: outlineColor });
+                pg.drawText(totalNum, { x: smallX + ox, y: baseY - 1 + oy, size: smallSize, font: fonts.timesRoman, color: outlineColor });
+            }
             pg.drawText(ofText, { x: smallX, y: baseY + 8, size: smallSize, font: fonts.timesRoman, color: smallColor });
             pg.drawText(totalNum, { x: smallX, y: baseY - 1, size: smallSize, font: fonts.timesRoman, color: smallColor });
         }
