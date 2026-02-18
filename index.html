@@ -4483,27 +4483,59 @@ async function downloadPDF() {
         // Add "Page X of Y" to every page (bottom-right corner)
         const allPages = pdfDoc.getPages();
         const totalPages = allPages.length;
+        const goldColor = PDFLib.rgb(0.788, 0.659, 0.298); // ASIS gold
+        
         for (let i = 0; i < totalPages; i++) {
             const pg = allPages[i];
             const { width } = pg.getSize();
-            const pageNumText = `\u00b7 Page ${i + 1} of ${totalPages} \u00b7`;
-            const textWidth = fonts.timesRoman.widthOfTextAtSize(pageNumText, 9);
-            const baseX = width - textWidth - 15;
-            const baseY = 18;
+            const isDark = i === 0; // Cover page has dark background
             
-            // Outline effect: draw text multiple times with offset
-            // Layer 1: Dark outline in 4 cardinal directions
-            const darkOutline = PDFLib.rgb(0.15, 0.15, 0.15);
-            for (const [ox, oy] of [[0.4,0],[-0.4,0],[0,0.4],[0,-0.4]]) {
-                pg.drawText(pageNumText, { x: baseX + ox, y: baseY + oy, size: 9, font: fonts.timesRoman, color: darkOutline });
+            const bigNum = `${i + 1}`;
+            const totalNum = `${totalPages}`;
+            
+            // Colors: navy on white pages, white on dark cover
+            const bigColor = isDark ? PDFLib.rgb(1, 1, 1) : PDFLib.rgb(0.059, 0.157, 0.278);
+            const smallColor = isDark ? PDFLib.rgb(0.7, 0.7, 0.7) : PDFLib.rgb(0.5, 0.5, 0.5);
+            
+            // Big bold page number
+            const bigSize = 18;
+            const bigWidth = fonts.helveticaBold.widthOfTextAtSize(bigNum, bigSize);
+            const rightEdge = width - 15;
+            const baseY = 14;
+            
+            // Layout: [big number] [gold line] [of / total]
+            const smallSize = 8;
+            const ofText = 'of';
+            const ofWidth = fonts.timesRoman.widthOfTextAtSize(ofText, smallSize);
+            const totalWidth = fonts.timesRoman.widthOfTextAtSize(totalNum, smallSize);
+            const smallBlockW = Math.max(ofWidth, totalWidth);
+            
+            const totalBlockW = bigWidth + 4 + smallBlockW; // 4px gap for gold line
+            const startX = rightEdge - totalBlockW;
+            
+            // Draw big number with contrasting outline
+            // Outline color: white on dark pages, navy-dark on light pages
+            const outlineColor = isDark ? PDFLib.rgb(0.059, 0.157, 0.278) : PDFLib.rgb(1, 1, 1);
+            // Draw outline in 8 directions
+            for (const [ox, oy] of [[0.8,0],[-0.8,0],[0,0.8],[0,-0.8],[0.6,0.6],[-0.6,-0.6],[0.6,-0.6],[-0.6,0.6]]) {
+                pg.drawText(bigNum, { x: startX + ox, y: baseY + oy, size: bigSize, font: fonts.helveticaBold, color: outlineColor });
             }
-            // Layer 2: White outline in 4 diagonal directions
-            const whiteOutline = PDFLib.rgb(1, 1, 1);
-            for (const [ox, oy] of [[0.7,0.7],[-0.7,-0.7],[0.7,-0.7],[-0.7,0.7]]) {
-                pg.drawText(pageNumText, { x: baseX + ox, y: baseY + oy, size: 9, font: fonts.timesRoman, color: whiteOutline });
-            }
-            // Layer 3: Top text in mid gray
-            pg.drawText(pageNumText, { x: baseX, y: baseY, size: 9, font: fonts.timesRoman, color: PDFLib.rgb(0.5, 0.5, 0.5) });
+            // Draw main number on top
+            pg.drawText(bigNum, { x: startX, y: baseY, size: bigSize, font: fonts.helveticaBold, color: bigColor });
+            
+            // Draw gold vertical line
+            const lineX = startX + bigWidth + 1.5;
+            pg.drawLine({
+                start: { x: lineX, y: baseY - 2 },
+                end: { x: lineX, y: baseY + 16 },
+                thickness: 0.8,
+                color: goldColor
+            });
+            
+            // Draw "of" (top) and total (bottom)
+            const smallX = lineX + 3;
+            pg.drawText(ofText, { x: smallX, y: baseY + 8, size: smallSize, font: fonts.timesRoman, color: smallColor });
+            pg.drawText(totalNum, { x: smallX, y: baseY - 1, size: smallSize, font: fonts.timesRoman, color: smallColor });
         }
         
         // Save and download
