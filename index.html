@@ -4487,7 +4487,8 @@ async function downloadPDF() {
         
         for (let i = 0; i < totalPages; i++) {
             const pg = allPages[i];
-            const { width } = pg.getSize();
+            const { width, height } = pg.getSize();
+            
             const bigNum = `${i + 1}`;
             const totalNum = `${totalPages}`;
             
@@ -4499,7 +4500,7 @@ async function downloadPDF() {
             // Big bold page number
             const bigSize = 18;
             const bigWidth = fonts.helveticaBold.widthOfTextAtSize(bigNum, bigSize);
-            const rightEdge = 587; // Fixed position — consistent across Letter (612) and A4 (595) pages
+            const rightEdge = width - 25; // All pages now 612x792 with clean coordinates
             const baseY = 14;
             
             // Layout: [big number] [gold line] [of / total]
@@ -5446,36 +5447,30 @@ async function generateAnnexPages(pdfDoc, fonts, formData) {
     async function addAnnexPage() {
         let page;
         if (templateAvailable) {
-            // Copy template for each new page
+            // Embed template as background XObject on a clean page
             const templateUrl = PDF_CONFIG.baseUrl + 'assets/pdf/annex_template.pdf';
             const response = await fetch(templateUrl);
             const templateBytes = await response.arrayBuffer();
             const templatePdf = await PDFLib.PDFDocument.load(templateBytes);
-            const [newPage] = await pdfDoc.copyPages(templatePdf, [0]);
+            const origPage = templatePdf.getPage(0);
+            const { width: origWidth, height: origHeight } = origPage.getSize();
             
-            // Scale to standard Letter size if needed
-            const { width: origWidth, height: origHeight } = newPage.getSize();
+            const embeddedPage = await pdfDoc.embedPage(origPage);
+            page = pdfDoc.addPage([STANDARD_PAGE_WIDTH, STANDARD_PAGE_HEIGHT]);
+            
+            // Draw template background scaled to fit
             if (Math.abs(origWidth - STANDARD_PAGE_WIDTH) > 1 || Math.abs(origHeight - STANDARD_PAGE_HEIGHT) > 1) {
                 const scaleX = STANDARD_PAGE_WIDTH / origWidth;
                 const scaleY = STANDARD_PAGE_HEIGHT / origHeight;
                 const scale = Math.min(scaleX, scaleY);
-                
-                newPage.setSize(STANDARD_PAGE_WIDTH, STANDARD_PAGE_HEIGHT);
-                newPage.scaleContent(scale, scale);
-                
-                // Center content if aspect ratios differ
-                if (scaleX !== scaleY) {
-                    const newWidth = origWidth * scale;
-                    const newHeight = origHeight * scale;
-                    const xOffset = (STANDARD_PAGE_WIDTH - newWidth) / 2;
-                    const yOffset = (STANDARD_PAGE_HEIGHT - newHeight) / 2;
-                    newPage.translateContent(xOffset, yOffset);
-                }
-                console.log(`Scaled annex page from ${origWidth}x${origHeight} to ${STANDARD_PAGE_WIDTH}x${STANDARD_PAGE_HEIGHT}`);
+                const drawWidth = origWidth * scale;
+                const drawHeight = origHeight * scale;
+                const xOffset = (STANDARD_PAGE_WIDTH - drawWidth) / 2;
+                const yOffset = (STANDARD_PAGE_HEIGHT - drawHeight) / 2;
+                page.drawPage(embeddedPage, { x: xOffset, y: yOffset, width: drawWidth, height: drawHeight });
+            } else {
+                page.drawPage(embeddedPage, { x: 0, y: 0, width: STANDARD_PAGE_WIDTH, height: STANDARD_PAGE_HEIGHT });
             }
-            
-            pdfDoc.addPage(newPage);
-            page = pdfDoc.getPages()[pdfDoc.getPageCount() - 1];
         } else {
             page = pdfDoc.addPage([STANDARD_PAGE_WIDTH, STANDARD_PAGE_HEIGHT]); // US Letter
             // Draw header manually if no template
@@ -5569,37 +5564,40 @@ async function embedStaticPdf(pdfDoc, pdfPath, description) {
         
         const pdfBytes = await response.arrayBuffer();
         const externalPdf = await PDFLib.PDFDocument.load(pdfBytes);
-        const pages = await pdfDoc.copyPages(externalPdf, externalPdf.getPageIndices());
         
-        pages.forEach(page => {
-            // Scale page to standard Letter size if different
-            const { width, height } = page.getSize();
-            if (Math.abs(width - STANDARD_PAGE_WIDTH) > 1 || Math.abs(height - STANDARD_PAGE_HEIGHT) > 1) {
-                // Calculate scale to fit content
+        for (let i = 0; i < externalPdf.getPageCount(); i++) {
+            const origPage = externalPdf.getPage(i);
+            const { width, height } = origPage.getSize();
+            
+            // If page already matches standard size, just copy it directly
+            if (Math.abs(width - STANDARD_PAGE_WIDTH) <= 1 && Math.abs(height - STANDARD_PAGE_HEIGHT) <= 1) {
+                const [copiedPage] = await pdfDoc.copyPages(externalPdf, [i]);
+                pdfDoc.addPage(copiedPage);
+            } else {
+                // Embed original page as XObject, draw on clean new page
+                const embeddedPage = await pdfDoc.embedPage(origPage);
+                const newPage = pdfDoc.addPage([STANDARD_PAGE_WIDTH, STANDARD_PAGE_HEIGHT]);
+                
                 const scaleX = STANDARD_PAGE_WIDTH / width;
                 const scaleY = STANDARD_PAGE_HEIGHT / height;
-                const scale = Math.min(scaleX, scaleY); // Maintain aspect ratio
+                const scale = Math.min(scaleX, scaleY);
                 
-                // Set the page to standard size
-                page.setSize(STANDARD_PAGE_WIDTH, STANDARD_PAGE_HEIGHT);
+                const drawWidth = width * scale;
+                const drawHeight = height * scale;
+                const xOffset = (STANDARD_PAGE_WIDTH - drawWidth) / 2;
+                const yOffset = (STANDARD_PAGE_HEIGHT - drawHeight) / 2;
                 
-                // Scale and center the content
-                page.scaleContent(scale, scale);
+                newPage.drawPage(embeddedPage, {
+                    x: xOffset,
+                    y: yOffset,
+                    width: drawWidth,
+                    height: drawHeight
+                });
                 
-                // Center the content if aspect ratios differ
-                if (scaleX !== scaleY) {
-                    const newWidth = width * scale;
-                    const newHeight = height * scale;
-                    const xOffset = (STANDARD_PAGE_WIDTH - newWidth) / 2;
-                    const yOffset = (STANDARD_PAGE_HEIGHT - newHeight) / 2;
-                    page.translateContent(xOffset, yOffset);
-                }
-                
-                console.log(`Scaled ${description} page from ${width}x${height} to ${STANDARD_PAGE_WIDTH}x${STANDARD_PAGE_HEIGHT}`);
+                console.log(`Scaled ${description} page ${i+1} from ${width.toFixed(0)}x${height.toFixed(0)} to fit ${STANDARD_PAGE_WIDTH}x${STANDARD_PAGE_HEIGHT}`);
             }
-            pdfDoc.addPage(page);
-        });
-        console.log(`Embedded ${description}: ${pages.length} page(s)`);
+        }
+        console.log(`Embedded ${description}: ${externalPdf.getPageCount()} page(s)`);
     } catch (error) {
         console.warn(`Failed to embed ${description}:`, error);
     }
