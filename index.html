@@ -4499,7 +4499,7 @@ async function downloadPDF() {
             // Big bold page number
             const bigSize = 18;
             const bigWidth = fonts.helveticaBold.widthOfTextAtSize(bigNum, bigSize);
-            const rightEdge = Math.min(width - 8, 587); // Cap so wider pages align with A4 pages
+            const rightEdge = Math.min(width, 595) - 8; // Cap to A4 width so all pages align
             const baseY = 14;
             
             // Layout: [big number] [gold line] [of / total]
