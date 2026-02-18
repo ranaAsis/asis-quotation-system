@@ -4499,7 +4499,7 @@ async function downloadPDF() {
             // Big bold page number
             const bigSize = 18;
             const bigWidth = fonts.helveticaBold.widthOfTextAtSize(bigNum, bigSize);
-            const rightEdge = Math.min(width, 595) - 8; // Cap to A4 width so all pages align
+            const rightEdge = width - 8; // All pages now A4, consistent positioning
             const baseY = 14;
             
             // Layout: [big number] [gold line] [of / total]
@@ -4709,8 +4709,9 @@ async function generateCoverPage(pdfDoc, fonts, formData) {
         const [templatePage] = await pdfDoc.copyPages(templatePdf, [0]);
         pdfDoc.addPage(templatePage);
         
-        // Get the page we just added (last page)
+        // Get the page we just added (last page) and resize to A4
         const page = pdfDoc.getPages()[pdfDoc.getPageCount() - 1];
+        page.setSize(595.28, 841.89);
         const { width, height } = page.getSize();
         
         // Colors
@@ -4915,7 +4916,7 @@ async function generateCoverPage(pdfDoc, fonts, formData) {
 // Fallback cover page if template is not available
 async function generateCoverPageFallback(pdfDoc, fonts, formData) {
     const { rgb } = PDFLib;
-    const page = pdfDoc.addPage([612, 792]); // US Letter size
+    const page = pdfDoc.addPage([595.28, 841.89]); // A4
     const { width, height } = page.getSize();
     
     // Colors
@@ -5061,7 +5062,7 @@ async function generateQuotationPage(pdfDoc, fonts, formData) {
     
     // Try to load the page 3 template
     let page;
-    let height = 792;
+    let height = 841.89; // A4
     
     try {
         const templateUrl = PDF_CONFIG.baseUrl + '/assets/pdf/page3_template.pdf';
@@ -5073,9 +5074,10 @@ async function generateQuotationPage(pdfDoc, fonts, formData) {
             const [templatePage] = await pdfDoc.copyPages(templatePdf, [0]);
             pdfDoc.addPage(templatePage);
             page = pdfDoc.getPages()[pdfDoc.getPageCount() - 1];
+            page.setSize(595.28, 841.89); // Resize to A4
             console.log('Page 3 template loaded successfully');
         } else {
-            page = pdfDoc.addPage([612, 792]);
+            page = pdfDoc.addPage([595.28, 841.89]);
             // Draw header manually if no template
             drawDiamond(page, 306, height - 25, 12, asiaRed);
             page.drawText('QUOTATION', { x: 200, y: height - 90, size: 28, font: fonts.timesItalic, color: black });
@@ -5084,7 +5086,7 @@ async function generateQuotationPage(pdfDoc, fonts, formData) {
             page.drawText('www.asisboats.com', { x: 255, y: 35, size: 10, font: fonts.helveticaBold, color: black });
         }
     } catch (e) {
-        page = pdfDoc.addPage([612, 792]);
+        page = pdfDoc.addPage([595.28, 841.89]);
         drawDiamond(page, 306, height - 25, 12, asiaRed);
         page.drawText('QUOTATION', { x: 200, y: height - 90, size: 28, font: fonts.timesItalic, color: black });
         page.drawLine({ start: { x: 180, y: 50 }, end: { x: 415, y: 50 }, thickness: 0.5, color: darkGray });
@@ -5115,8 +5117,8 @@ async function generateQuotationPage(pdfDoc, fonts, formData) {
     
     // Draw the split frame border
     const frameThickness = 8;
-    const pageWidth = 612;
-    const pageHeight = 792;
+    const pageWidth = 595.28;  // A4
+    const pageHeight = 841.89; // A4
     
     // Left border (full height)
     page.drawRectangle({ x: 0, y: 0, width: frameThickness, height: pageHeight, color: asiaRed });
@@ -5431,7 +5433,7 @@ async function generateAnnexPages(pdfDoc, fonts, formData) {
     
     // Try to load annex template
     let templateAvailable = false;
-    let height = STANDARD_PAGE_HEIGHT;  // US Letter height (792)
+    let height = STANDARD_PAGE_HEIGHT;  // A4 height (841.89)
     try {
         const templateUrl = PDF_CONFIG.baseUrl + 'assets/pdf/annex_template.pdf';
         const response = await fetch(templateUrl);
@@ -5442,7 +5444,7 @@ async function generateAnnexPages(pdfDoc, fonts, formData) {
         console.warn('Annex template not found, using blank page');
     }
     
-    // Helper function to add a new annex page (scaled to Letter size)
+    // Helper function to add a new annex page (scaled to A4 size)
     async function addAnnexPage() {
         let page;
         if (templateAvailable) {
@@ -5453,7 +5455,7 @@ async function generateAnnexPages(pdfDoc, fonts, formData) {
             const templatePdf = await PDFLib.PDFDocument.load(templateBytes);
             const [newPage] = await pdfDoc.copyPages(templatePdf, [0]);
             
-            // Scale to standard Letter size if needed
+            // Scale to standard A4 size if needed
             const { width: origWidth, height: origHeight } = newPage.getSize();
             if (Math.abs(origWidth - STANDARD_PAGE_WIDTH) > 1 || Math.abs(origHeight - STANDARD_PAGE_HEIGHT) > 1) {
                 const scaleX = STANDARD_PAGE_WIDTH / origWidth;
@@ -5477,7 +5479,7 @@ async function generateAnnexPages(pdfDoc, fonts, formData) {
             pdfDoc.addPage(newPage);
             page = pdfDoc.getPages()[pdfDoc.getPageCount() - 1];
         } else {
-            page = pdfDoc.addPage([STANDARD_PAGE_WIDTH, STANDARD_PAGE_HEIGHT]); // US Letter
+            page = pdfDoc.addPage([STANDARD_PAGE_WIDTH, STANDARD_PAGE_HEIGHT]); // A4
             // Draw header manually if no template
             drawDiamond(page, 306, height - 25, 12, asiaRed);
             page.drawText('PERFORMANCE - QUALITY - DESIGN - SAFETY', { x: 178, y: height - 50, size: 10, font: fonts.helveticaBold, color: black });
@@ -5488,7 +5490,7 @@ async function generateAnnexPages(pdfDoc, fonts, formData) {
     // Generate first annex page
     let page = await addAnnexPage();
     let { width } = page.getSize();
-    height = STANDARD_PAGE_HEIGHT;  // US Letter height
+    height = STANDARD_PAGE_HEIGHT;  // A4 height
     let y = STANDARD_PAGE_HEIGHT - 100;  // Start higher on page (moved up from -130)
     
     // ANNEX 1: ASIS ACCESSORIES
@@ -5553,9 +5555,9 @@ async function generateAnnexPages(pdfDoc, fonts, formData) {
 }
 
 // ==================== EMBED STATIC PDF ====================
-// Standard page size - US Letter (612 x 792)
-const STANDARD_PAGE_WIDTH = 612;
-const STANDARD_PAGE_HEIGHT = 792;
+// Standard page size - A4 (595.28 x 841.89)
+const STANDARD_PAGE_WIDTH = 595.28;
+const STANDARD_PAGE_HEIGHT = 841.89;
 
 async function embedStaticPdf(pdfDoc, pdfPath, description) {
     try {
@@ -5572,7 +5574,7 @@ async function embedStaticPdf(pdfDoc, pdfPath, description) {
         const pages = await pdfDoc.copyPages(externalPdf, externalPdf.getPageIndices());
         
         pages.forEach(page => {
-            // Scale page to standard Letter size if different
+            // Scale page to standard A4 size if different
             const { width, height } = page.getSize();
             if (Math.abs(width - STANDARD_PAGE_WIDTH) > 1 || Math.abs(height - STANDARD_PAGE_HEIGHT) > 1) {
                 // Calculate scale to fit content
