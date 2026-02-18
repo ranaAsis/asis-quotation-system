@@ -213,7 +213,7 @@
         .boat-type.selected { border-color: var(--gold); background: linear-gradient(135deg, #fef5f6, #fdeaec); }
         .boat-type.selected::before { background: var(--gold); }
         .boat-type.selected::after { content: '✓'; position: absolute; top: 12px; right: 12px; width: 24px; height: 24px; background: var(--gold); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; }
-        .boat-type-icon { width: 80px; height: 80px; margin: 0 auto 15px; background: var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .boat-type-icon { width: 80px; height: 80px; margin: 0 auto 15px; background: var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden; }
         .boat-type h3 { font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
         .boat-type p { font-size: 13px; color: var(--gray-600); margin-bottom: 15px; }
         .boat-type-stats { display: flex; justify-content: center; gap: 25px; padding-top: 15px; border-top: 1px solid var(--gray-300); }
@@ -1720,7 +1720,7 @@ const BOATS = {
     aluminum: {
         name: 'Aluminium Boats', 
         desc: 'Professional-grade aluminum hull RHIBs', 
-        icon: '🚤',
+        icon: 'assets/images/alu.png',
         sizes: [
             {size:'6.5M', price:103090, fuel:'150L', pax:8},
             {size:'7.6M', price:120030, fuel:'450L', pax:10},
@@ -1733,7 +1733,7 @@ const BOATS = {
     fiberglass: {
         name: 'Fiberglass Boats (GRP)', 
         desc: 'Versatile GRP construction RHIBs', 
-        icon: '⛵',
+        icon: 'assets/images/grp.png',
         sizes: [
             {size:'4.1M', price:22900, fuel:'N/A', pax:4},
             {size:'5.1M', price:33560, fuel:'90L', pax:6},
@@ -1749,7 +1749,7 @@ const BOATS = {
     inflatable: {
         name: 'Inflatable Boats (HDIB)', 
         desc: 'Heavy Duty Inflatable Boats', 
-        icon: '🛟',
+        icon: 'assets/images/hdib.png',
         sizes: [
             {size:'2.8M', price:8300, fuel:'N/A', pax:3},
             {size:'3.2M', price:9800, fuel:'N/A', pax:4},
@@ -2392,7 +2392,7 @@ function renderBoatTypes() {
         const minPrice = Math.min(...boat.sizes.map(s => s.price));
         grid.innerHTML += `
             <div class="boat-type ${state.boatType === key ? 'selected' : ''}" onclick="selectBoatType('${key}')">
-                <div class="boat-type-icon">${boat.icon}</div>
+                <div class="boat-type-icon"><img src="${boat.icon}" alt="${boat.name}" style="width:60px;height:60px;object-fit:contain;border-radius:50%;"></div>
                 <h3>${boat.name}</h3>
                 <p>${boat.desc}</p>
                 <div class="boat-type-stats">
@@ -4498,13 +4498,13 @@ async function downloadPDF() {
             const smallColor = PDFLib.rgb(0.5, 0.5, 0.5);
             
             // Big bold page number
-            const bigSize = 18;
+            const bigSize = 13;
             const bigWidth = fonts.helveticaBold.widthOfTextAtSize(bigNum, bigSize);
             const rightEdge = width - 25; // All pages now 612x792 with clean coordinates
             const baseY = 14;
             
             // Layout: [big number] [gold line] [of / total]
-            const smallSize = 8;
+            const smallSize = 6.5;
             const ofText = 'of';
             const ofWidth = fonts.timesRoman.widthOfTextAtSize(ofText, smallSize);
             const totalWidth = fonts.timesRoman.widthOfTextAtSize(totalNum, smallSize);
@@ -4515,7 +4515,7 @@ async function downloadPDF() {
             
             // Draw big number with white outline for contrast
             // Draw outline in 8 directions
-            for (const [ox, oy] of [[0.8,0],[-0.8,0],[0,0.8],[0,-0.8],[0.6,0.6],[-0.6,-0.6],[0.6,-0.6],[-0.6,0.6]]) {
+            for (const [ox, oy] of [[0.6,0],[-0.6,0],[0,0.6],[0,-0.6],[0.45,0.45],[-0.45,-0.45],[0.45,-0.45],[-0.45,0.45]]) {
                 pg.drawText(bigNum, { x: startX + ox, y: baseY + oy, size: bigSize, font: fonts.helveticaBold, color: outlineColor });
             }
             // Draw main number on top
@@ -4524,20 +4524,20 @@ async function downloadPDF() {
             // Draw gold vertical line
             const lineX = startX + bigWidth + 1.5;
             pg.drawLine({
-                start: { x: lineX, y: baseY - 2 },
-                end: { x: lineX, y: baseY + 16 },
-                thickness: 0.8,
+                start: { x: lineX, y: baseY - 1 },
+                end: { x: lineX, y: baseY + 12 },
+                thickness: 0.6,
                 color: goldColor
             });
             
             // Draw "of" (top) and total (bottom) with white outline
-            const smallX = lineX + 3;
-            for (const [ox, oy] of [[0.5,0],[-0.5,0],[0,0.5],[0,-0.5]]) {
-                pg.drawText(ofText, { x: smallX + ox, y: baseY + 8 + oy, size: smallSize, font: fonts.timesRoman, color: outlineColor });
-                pg.drawText(totalNum, { x: smallX + ox, y: baseY - 1 + oy, size: smallSize, font: fonts.timesRoman, color: outlineColor });
+            const smallX = lineX + 2.5;
+            for (const [ox, oy] of [[0.4,0],[-0.4,0],[0,0.4],[0,-0.4]]) {
+                pg.drawText(ofText, { x: smallX + ox, y: baseY + 6 + oy, size: smallSize, font: fonts.timesRoman, color: outlineColor });
+                pg.drawText(totalNum, { x: smallX + ox, y: baseY - 0.5 + oy, size: smallSize, font: fonts.timesRoman, color: outlineColor });
             }
-            pg.drawText(ofText, { x: smallX, y: baseY + 8, size: smallSize, font: fonts.timesRoman, color: smallColor });
-            pg.drawText(totalNum, { x: smallX, y: baseY - 1, size: smallSize, font: fonts.timesRoman, color: smallColor });
+            pg.drawText(ofText, { x: smallX, y: baseY + 6, size: smallSize, font: fonts.timesRoman, color: smallColor });
+            pg.drawText(totalNum, { x: smallX, y: baseY - 0.5, size: smallSize, font: fonts.timesRoman, color: smallColor });
         }
         
         // Save and download
