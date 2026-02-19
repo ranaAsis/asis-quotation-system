@@ -4485,7 +4485,7 @@ async function downloadPDF() {
         const totalPages = allPages.length;
         const goldColor = PDFLib.rgb(0.788, 0.659, 0.298); // ASIS gold
         
-        for (let i = 0; i < totalPages; i++) {
+        for (let i = 1; i < totalPages; i++) {
             const pg = allPages[i];
             const { width, height } = pg.getSize();
             
@@ -4500,7 +4500,7 @@ async function downloadPDF() {
             // Big bold page number
             const bigSize = 13;
             const bigWidth = fonts.helveticaBold.widthOfTextAtSize(bigNum, bigSize);
-            const rightEdge = width - 25; // All pages now 612x792 with clean coordinates
+            const rightEdge = width - 12;
             const baseY = 14;
             
             // Layout: [big number] [gold line] [of / total]
