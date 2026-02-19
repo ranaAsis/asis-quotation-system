@@ -164,6 +164,8 @@
         .confirm-modal .confirm-btn.cancel:hover { background: var(--gray-200); }
         .confirm-modal .confirm-btn.danger { background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: white; }
         .confirm-modal .confirm-btn.danger:hover { transform: translateY(-1px); box-shadow: 0 4px 15px rgba(184,50,64,0.3); }
+        .confirm-modal .confirm-btn.danger.delete-btn { background: linear-gradient(135deg, #dc2626, #ef4444); }
+        .confirm-modal .confirm-btn.danger.delete-btn:hover { box-shadow: 0 4px 15px rgba(220,38,38,0.4); }
 
         /* Professional Footer */
         .app-footer { background: var(--navy-dark); padding: 14px 30px; text-align: center; border-top: 1px solid rgba(255,255,255,0.06); margin-top: auto; }
@@ -551,12 +553,12 @@
     <!-- Custom Confirmation Modal -->
     <div class="confirm-overlay" id="confirmOverlay">
         <div class="confirm-modal">
-            <div class="confirm-icon">⚠️</div>
+            <div class="confirm-icon" id="confirmIcon">⚠️</div>
             <h3 id="confirmTitle">Reset Configuration?</h3>
             <p id="confirmMessage">This will clear all your current accessories and selections. This action cannot be undone.</p>
             <div class="confirm-actions">
                 <button class="confirm-btn cancel" onclick="closeConfirm(false)">Cancel</button>
-                <button class="confirm-btn danger" onclick="closeConfirm(true)">Yes, Reset</button>
+                <button class="confirm-btn danger" id="confirmAction" onclick="closeConfirm(true)">Yes, Reset</button>
             </div>
         </div>
     </div>
@@ -1052,11 +1054,20 @@ let selectedLoginUser = null;
 // ==================== CUSTOM CONFIRMATION MODAL ====================
 let confirmResolve = null;
 
-function showConfirm(title, message) {
+function showConfirm(title, message, options = {}) {
     return new Promise(resolve => {
         confirmResolve = resolve;
         document.getElementById('confirmTitle').textContent = title;
         document.getElementById('confirmMessage').textContent = message;
+        document.getElementById('confirmIcon').innerHTML = options.icon || '⚠️';
+        const actionBtn = document.getElementById('confirmAction');
+        actionBtn.textContent = options.actionText || 'Confirm';
+        actionBtn.className = 'confirm-btn danger' + (options.style === 'delete' ? ' delete-btn' : '');
+        if (options.style === 'delete') {
+            document.getElementById('confirmIcon').style.background = '#fee2e2';
+        } else {
+            document.getElementById('confirmIcon').style.background = '#fef3c7';
+        }
         document.getElementById('confirmOverlay').classList.add('active');
     });
 }
@@ -1311,6 +1322,7 @@ function renderDashboard() {
             <td>${dateStr}<br><span style="color:var(--gray-400);font-size:11px;">${timeStr}</span></td>
             <td class="dash-actions" onclick="event.stopPropagation()">
                 <button onclick="loadQuotation('${q.id}')" title="Edit">✏️</button>
+                <button onclick="downloadPdfFromDashboard('${q.id}')" title="Download PDF">📄</button>
                 <button onclick="duplicateQuotation('${q.id}')" title="Duplicate">📋</button>
                 <select class="status-select" onchange="updateQuoteStatus('${q.id}', this.value)" title="Change status">
                     <option value="draft" ${q.status==='draft'?'selected':''}>Draft</option>
@@ -1597,7 +1609,15 @@ async function duplicateQuotation(docId) {
 }
 
 async function deleteQuotation(docId) {
-    if (!confirm('Delete this quotation permanently?')) return;
+    const q = allQuotations.find(q => q.id === docId);
+    const label = q ? (q.quoteNumber || q.title || 'this quotation') : 'this quotation';
+    
+    const confirmed = await showConfirm(
+        'Delete Quotation?',
+        `"${label}" will be permanently deleted. This action cannot be undone.`,
+        { icon: '🗑️', actionText: 'Yes, Delete', style: 'delete' }
+    );
+    if (!confirmed) return;
     
     try {
         if (useLocalFallback) {
@@ -1612,6 +1632,46 @@ async function deleteQuotation(docId) {
     } catch(e) {
         showToast('Failed to delete', 'error');
     }
+}
+
+async function downloadPdfFromDashboard(docId) {
+    const data = allQuotations.find(q => q.id === docId);
+    if (!data || !data.fullState) {
+        showToast('Cannot generate PDF — quotation data missing', 'error');
+        return;
+    }
+    
+    showToast('Generating PDF...', 'info', 2000);
+    
+    // Silently load the quote into editor state
+    const prevDocId = currentDocId;
+    currentDocId = docId;
+    
+    // Hide editor visually but restore state so gatherFormData works
+    const editor = document.getElementById('editorScreen');
+    const dashboard = document.getElementById('dashboardScreen');
+    editor.style.display = 'block';
+    editor.style.visibility = 'hidden';
+    editor.style.position = 'absolute';
+    editor.style.pointerEvents = 'none';
+    
+    deserializeQuotation(data);
+    
+    try {
+        await downloadPDF(true); // pass silent flag
+    } catch(e) {
+        console.error('PDF generation failed:', e);
+        showToast('PDF generation failed', 'error');
+    }
+    
+    // Restore dashboard view
+    editor.style.display = 'none';
+    editor.style.visibility = '';
+    editor.style.position = '';
+    editor.style.pointerEvents = '';
+    dashboard.style.display = 'block';
+    dashboard.classList.add('active');
+    currentDocId = prevDocId;
 }
 
 async function updateQuoteStatus(docId, newStatus) {
@@ -4473,14 +4533,18 @@ function getSpecPdfFilename() {
 }
 
 // ==================== EXPORT ====================
-async function downloadPDF() {
+async function downloadPDF(silent = false) {
     const { PDFDocument, rgb, StandardFonts } = PDFLib;
     
     // Show loading indicator
-    const btn = event.target;
-    const originalText = btn.textContent;
-    btn.textContent = 'Generating PDF...';
-    btn.disabled = true;
+    let btn;
+    let originalText;
+    if (!silent && event && event.target) {
+        btn = event.target;
+        originalText = btn.textContent;
+        btn.textContent = 'Generating PDF...';
+        btn.disabled = true;
+    }
     
     try {
         // Gather all form data
@@ -4596,8 +4660,10 @@ async function downloadPDF() {
         // Fallback: generate simplified PDF without static pages
         await generateSimplifiedPDF();
     } finally {
-        btn.textContent = originalText;
-        btn.disabled = false;
+        if (btn) {
+            btn.textContent = originalText;
+            btn.disabled = false;
+        }
     }
 }
 
