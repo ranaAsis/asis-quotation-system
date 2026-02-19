@@ -703,7 +703,7 @@
                     <span class="dot saved" id="cloudDot"></span>
                     <span id="cloudText">Saved</span>
                 </div>
-                <input type="text" class="quote-badge-input" id="quoteBadgeInput" value="ASIS-25-0001" 
+                <input type="text" class="quote-badge-input" id="quoteBadgeInput" value="" 
                     oninput="syncQuoteNumber(this.value, 'header')" 
                     onclick="this.select()">
             </div>
@@ -836,7 +836,7 @@
                         <div class="card-body">
                             <div class="form-grid">
                                 <div class="form-group" style="grid-column: span 2;"><label>Quotation Title <span style="color:var(--gold);font-weight:700;">*</span></label><input type="text" id="quoteTitle" placeholder="e.g., 12m Aluminum RIB Boats" autocomplete="off"></div>
-                                <div class="form-group"><label>Quote Number <span style="color:var(--gold);font-weight:700;">*</span></label><input type="text" id="quoteNum" value="ASIS-25-0001" oninput="syncQuoteNumber(this.value, 'step3')" autocomplete="off"></div>
+                                <div class="form-group"><label>Quote Number <span style="color:var(--gold);font-weight:700;">*</span></label><input type="text" id="quoteNum" value="" oninput="syncQuoteNumber(this.value, 'step3')" autocomplete="off"></div>
                                 <div class="form-group"><label>Boat Quantity</label><input type="number" id="boatQty" value="1" min="1" max="100" onchange="updateTotals()"></div>
                                 <div class="form-group"><label>Date <span style="color:var(--gold);font-weight:700;">*</span></label><input type="date" id="quoteDate"></div>
                                 <div class="form-group"><label>Validity</label><select id="validity"><option selected>30 Days</option><option>90 Days</option></select></div>
@@ -1373,7 +1373,7 @@ function serializeQuotation() {
             itemCounter: itemCounter,
             form: {
                 quoteTitle: document.getElementById('quoteTitle')?.value || '',
-                quoteNum: document.getElementById('quoteNum')?.value || 'ASIS-25-0001',
+                quoteNum: document.getElementById('quoteNum')?.value || generateNextQuoteNumber(),
                 boatQty: document.getElementById('boatQty')?.value || '1',
                 quoteDate: document.getElementById('quoteDate')?.value || '',
                 validity: document.getElementById('validity')?.value || '30 Days',
@@ -1414,8 +1414,8 @@ function deserializeQuotation(data) {
     // Restore form fields
     const f = full.form;
     document.getElementById('quoteTitle').value = f.quoteTitle || '';
-    document.getElementById('quoteNum').value = f.quoteNum || 'ASIS-25-0001';
-    document.getElementById('quoteBadgeInput').value = f.quoteNum || 'ASIS-25-0001';
+    document.getElementById('quoteNum').value = f.quoteNum || generateNextQuoteNumber();
+    document.getElementById('quoteBadgeInput').value = f.quoteNum || generateNextQuoteNumber();
     document.getElementById('boatQty').value = f.boatQty || '1';
     document.getElementById('quoteDate').value = f.quoteDate || new Date().toISOString().split('T')[0];
     document.getElementById('validity').value = f.validity || '30 Days';
@@ -1477,6 +1477,11 @@ async function saveQuotationToCloud(silent = false) {
     updateCloudStatus('saving');
     
     const data = serializeQuotation();
+    
+    // Warn about duplicate quote number (but still allow save)
+    if (data.quoteNumber) {
+        checkDuplicateQuoteNumber(data.quoteNumber);
+    }
     
     try {
         if (useLocalFallback) {
@@ -1561,7 +1566,7 @@ async function duplicateQuotation(docId) {
     
     const newData = { ...source };
     delete newData.id;
-    newData.quoteNumber = (source.quoteNumber || 'ASIS') + '-COPY';
+    newData.quoteNumber = generateNextQuoteNumber();
     newData.status = 'draft';
     newData.title = (source.title || '') + ' (Copy)';
     
@@ -1676,8 +1681,9 @@ function startNewEditor() {
     itemCounter = 0;
     
     document.getElementById('quoteTitle').value = '';
-    document.getElementById('quoteNum').value = 'ASIS-25-0001';
-    document.getElementById('quoteBadgeInput').value = 'ASIS-25-0001';
+    const nextQuoteNum = generateNextQuoteNumber();
+    document.getElementById('quoteNum').value = nextQuoteNum;
+    document.getElementById('quoteBadgeInput').value = nextQuoteNum;
     document.getElementById('boatQty').value = '1';
     document.getElementById('quoteDate').value = new Date().toISOString().split('T')[0];
     document.getElementById('discount').value = '0';
@@ -2335,6 +2341,35 @@ function togglePdfOption(option) {
     }
 }
 
+// Generate next sequential quote number: ASIS-YY-NNN
+function generateNextQuoteNumber() {
+    const yy = String(new Date().getFullYear()).slice(-2);
+    const prefix = `ASIS-${yy}-`;
+    
+    // Find highest existing number for this year
+    let maxNum = 0;
+    allQuotations.forEach(q => {
+        const qn = q.quoteNumber || '';
+        if (qn.startsWith(prefix)) {
+            const num = parseInt(qn.replace(prefix, ''), 10);
+            if (!isNaN(num) && num > maxNum) maxNum = num;
+        }
+    });
+    
+    return prefix + String(maxNum + 1).padStart(3, '0');
+}
+
+// Check if quote number is duplicate (exclude current doc)
+function checkDuplicateQuoteNumber(value) {
+    const isDuplicate = allQuotations.some(q => 
+        q.quoteNumber === value && q.id !== currentDocId
+    );
+    if (isDuplicate) {
+        showToast(`⚠️ Quote number "${value}" already exists! Please use a unique number.`, 'warning', 5000);
+    }
+    return isDuplicate;
+}
+
 // Sync quote number between header and step 3
 function syncQuoteNumber(value, source) {
     if (source === 'header') {
@@ -2342,6 +2377,9 @@ function syncQuoteNumber(value, source) {
     } else {
         document.getElementById('quoteBadgeInput').value = value;
     }
+    // Check for duplicates after a short debounce
+    clearTimeout(syncQuoteNumber._timer);
+    syncQuoteNumber._timer = setTimeout(() => checkDuplicateQuoteNumber(value), 500);
 }
 
 // ==================== UTILITIES ====================
