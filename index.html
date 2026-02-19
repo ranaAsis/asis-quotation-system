@@ -1817,12 +1817,12 @@ const BOATS = {
         desc: 'Heavy Duty Inflatable Boats', 
         icon: 'assets/images/hdib.png',
         sizes: [
-            {size:'2.8M', price:8300, fuel:'N/A', pax:3},
-            {size:'3.2M', price:9800, fuel:'N/A', pax:4},
-            {size:'3.5M', price:10800, fuel:'N/A', pax:5},
-            {size:'4.2M', price:12600, fuel:'N/A', pax:6},
-            {size:'4.8M', price:15700, fuel:'N/A', pax:7},
-            {size:'5.1M', price:16900, fuel:'N/A', pax:8}
+            {size:'2.8M', price:9800, fuel:'N/A', pax:3},
+            {size:'3.2M', price:11100, fuel:'N/A', pax:4},
+            {size:'3.5M', price:12100, fuel:'N/A', pax:5},
+            {size:'4.2M', price:14000, fuel:'N/A', pax:6},
+            {size:'4.8M', price:16800, fuel:'N/A', pax:7},
+            {size:'5.1M', price:18200, fuel:'N/A', pax:8}
         ]
     }
 };
@@ -1872,85 +1872,98 @@ function getStateItemTag(category, stateItem) {
 const ACCESSORIES = {
     aluminum: {
         "Propulsion / Engine": [
-            {name: "Single Mercury F150Hp EXLPT (incl. controls, steering, gauges)", prices: {"6.5M":18620,"7.6M":"X","8.5M":"X","9.5M":"X","11.5M":"X","13M":"X"}},
-            {name: "Twin Mercury F150Hp XLPT/CXLPT (incl. controls, steering, gauges)", prices: {"6.5M":"X","7.6M":34255,"8.5M":"X","9.5M":"X","11.5M":"X","13M":"X"}},
-            {name: "Twin Mercury Verado F300 V8 XL/CXL (DTS, Vessel View 502)", prices: {"6.5M":"X","7.6M":"X","8.5M":68975,"9.5M":68975,"11.5M":68975,"13M":"X"}},
-            {name: "Twin Mercury F400 V10 XL/CXL (DTS, Vessel View 502)", prices: {"6.5M":"X","7.6M":"X","8.5M":"X","9.5M":103120,"11.5M":103120,"13M":103120}},
-            {name: "Triple Mercury Verado F300 V8 XL/CXL (DTS, Vessel View 702)", prices: {"6.5M":"X","7.6M":"X","8.5M":"X","9.5M":"X","11.5M":"X","13M":114950}},
-            {name: "Triple Mercury F400 V10 XL/CXL (DTS, Vessel View 502)", prices: {"6.5M":"X","7.6M":"X","8.5M":"X","9.5M":"X","11.5M":"X","13M":166180}}
+            {name: "Single Mercury 4 Stroke F150Hp XL SeaPro Outboard Engine with Mechanical binnacle‐mount Remote Control, Hydraulic Steernig system , Std Gauges, Steering Wheel, Battery, etc", prices: {"6.5M":17510,"7.6M":"X","8.5M":"X","9.5M":"X","11.5M":"X","13M":"X"}},
+            {name: "Single Mercury 4 Stroke F225 V6 XL Outboard Engine with DTS Fly By Wire binnacle-mount Remote Control, Hydraulic Steernig system, Vessel View 403 4 (Four) inch Display, Steering Wheel, Battery, etc", prices: {"6.5M":24915,"7.6M":24915,"8.5M":"X","9.5M":"X","11.5M":"X","13M":"X"}},
+            {name: "Single Mercury F250 V8 XL CMS Outboard Engine with DTS Fly By Wire binnacle-mount Remote Control, Electro-Hydraulic Steernig system, Vessel View 502 5 (Five) inch Display, Steering Wheel, Battery, etc", prices: {"6.5M":"X","7.6M":28700,"8.5M":28700,"9.5M":"X","11.5M":"X","13M":"X"}},
+            {name: "Single Mercury AMS Verado F300 V8 XL Outboard Engine with DTS Fly By Wire binnacle-mount Remote Control, Electro-Hydraulic Steernig system, Vessel View 502 5 (Five) inch Display, Steering Wheel, Battery, etc", prices: {"6.5M":"X","7.6M":32285,"8.5M":32285,"9.5M":32285,"11.5M":"X","13M":"X"}},
+            {name: "Single Mercury AMS Verado F350 V10 XL Outboard Engine with DTS Fly By Wire binnacle-mount Remote Control, Electro-Hydraulic Steernig system, Vessel View 502 5 (Five) inch Display, Steering Wheel, Battery, etc", prices: {"6.5M":"X","7.6M":46615,"8.5M":46615,"9.5M":46615,"11.5M":"X","13M":"X"}},
+            {name: "Twin Mercury 4 Stroke F115Hp EXLPT Outboard Engines with Mechanical binnacle-mount Remote Control, Hydraulic Steernig system , Std Gauges, Steering Wheel, Tie Bar, Batteries, etc", prices: {"6.5M":30910,"7.6M":30910,"8.5M":"X","9.5M":"X","11.5M":"X","13M":"X"}},
+            {name: "Twin Mercury 4 Stroke F150Hp XLPT / CXLPT Outboard Engines with Mechanical binnacle‐mount Remote Control, Hydraulic Steernig system , Std Gauges, Steering Wheel, Tie Bar, Batteries, etc", prices: {"6.5M":"X","7.6M":32925,"8.5M":32925,"9.5M":"X","11.5M":"X","13M":"X"}},
+            {name: "Twin Mercury 4 Stroke F225 V6 XL/CXL Outboard Engines with DTS Fly By Wire binnacle-mount Remote Control, Hydraulic Steernig system, Vessel View 403 4 (Four) inch Display, Steering Wheel, Tie Bar, Batteries, etc", prices: {"6.5M":"X","7.6M":44400,"8.5M":44400,"9.5M":44400,"11.5M":"X","13M":"X"}},
+            {name: "Twin Mercury F250 V8 XL/CXL CMS Outboard Engines with DTS Fly By Wire binnacle-mount Remote Control, Electro-Hydraulic Steernig system, Vessel View 502 5 (Five) inch Display, Steering Wheel, Tie Bar, Batteries, etc", prices: {"6.5M":"X","7.6M":"X","8.5M":55000,"9.5M":55000,"11.5M":"X","13M":"X"}},
+            {name: "Twin Mercury Verado F300 V8 XL/CXL Outboard Engines with DTS Fly By Wire binnacle‐mount Remote Twin binnacle Control, Electro‐Hydraulic Steernig system, Vessel View 502 5 (Five) inch Display, Steering Wheel, Tie Bar, Batteries, etc", prices: {"6.5M":"X","7.6M":"X","8.5M":63230,"9.5M":63230,"11.5M":63230,"13M":"X"}},
+            {name: "Twin Mercury AMS Verado F350 V10 XL/CXL Outboard Engines with DTS Fly By Wire binnacle-mount Remote Control, Electro-Hydraulic Steernig system, Vessel View 502 5 (Five) inch Display, Steering Wheel, Tie Bar, Batteries, etc", prices: {"6.5M":"X","7.6M":"X","8.5M":90635,"9.5M":90635,"11.5M":90635,"13M":90635}},
+            {name: "Twin Mercury F400 V10 XL/CXL Outboard Engines with DTS Fly By Wire binnacle‐mount Remote Control, Electro‐Hydraulic Steernig system, Vessel View 502 5 (Five) inch Display, Steering Wheel, Tie Bar, Batteries, etc", prices: {"6.5M":"X","7.6M":"X","8.5M":"X","9.5M":110605,"11.5M":110605,"13M":110605}},
+            {name: "Triple Mercury Verado F300 V8 XL/CXL Outboard Engines with DTS Fly By Wire binnacle‐mount Remote Twin binnacle Control, Electro‐Hydraulic Steernig system, Vessel View 702 (Seven) inch Display, Steering Wheel, Tie Bar, Batteries, etc", prices: {"6.5M":"X","7.6M":"X","8.5M":"X","9.5M":"X","11.5M":94310,"13M":94310}},
+            {name: "Triple Mercury AMS Verado F350 V10 XL/CXL Outboard Engines with DTS Fly By Wire binnacle-mount Remote Control, Electro-Hydraulic Steernig system, Vessel View 703 7 (Seven) inch Display, Steering Wheel, Tie Bar, Batteries, etc", prices: {"6.5M":"X","7.6M":"X","8.5M":"X","9.5M":"X","11.5M":132275,"13M":132275}},
+            {name: "Triple Mercury F400 V10 XL/CXL Outboard Engines with DTS Fly By Wire binnacle‐mount Remote Control, Electro‐Hydraulic Steernig system, Vessel View 502 5 (Five) inch Display, Steering Wheel, Tie Bar, Batteries, etc", prices: {"6.5M":"X","7.6M":"X","8.5M":"X","9.5M":"X","11.5M":165300,"13M":165300}},
+            {name: "Triple Mercury F500 XL/CXL Outboard Engines with DTS Fly By Wire binnacle-mount Remote Control, Electro-Hydraulic Steernig system, Vessel View 903 9 (Nine) inch Display, Active Trimp, Steering Wheel, Tie Bar, Batteries, etc", prices: {"6.5M":"X","7.6M":"X","8.5M":"X","9.5M":"X","11.5M":283500,"13M":283500}},
+            {name: "Quadruple Mercury AMS Verado F300 V8 XL/CXL Outboard Engines with DTS Fly By Wire binnacle-mount Remote Control, Electro-Hydraulic Steernig system, Vessel View 703 7 (Seven) inch Display, Steering Wheel, Tie Bar, Batteries, etc", prices: {"6.5M":"X","7.6M":"X","8.5M":"X","9.5M":"X","11.5M":124950,"13M":124950}},
+            {name: "Quadruple Mercury AMS Verado F350 V10 XL/CXL Outboard Engines with DTS Fly By Wire binnacle-mount Remote Control, Electro-Hydraulic Steernig system, Vessel View 703 7 (Seven) inch Display, Steering Wheel, Tie Bar, Batteries, etc", prices: {"6.5M":"X","7.6M":"X","8.5M":"X","9.5M":"X","11.5M":172530,"13M":172530}},
+            {name: "Quadruple Mercury AMS Verado F400 V10 XL/CXL Outboard Engines with DTS Fly By Wire binnacle-mount Remote Control, Electro-Hydraulic Steernig system, Vessel View 703 7 (Seven) inch Display, Steering Wheel, Tie Bar, Batteries, etc", prices: {"6.5M":"X","7.6M":"X","8.5M":"X","9.5M":"X","11.5M":218760,"13M":218760}}
         ],
         "General": [
             {name: "Boat Painting", prices: {"6.5M":17000,"7.6M":20000,"8.5M":22000,"9.5M":25500,"11.5M":30000,"13M":32000}},
             {name: "Custom Color Hypalon", prices: {"6.5M":2500,"7.6M":3000,"8.5M":3500,"9.5M":4000,"11.5M":4500,"13M":5000}},
             {name: "Double Layer Hypalon", prices: {"6.5M":15340,"7.6M":17500,"8.5M":20000,"9.5M":22420,"11.5M":27000,"13M":28320}},
-            {name: "Hypalon Strip Between Fender", prices: {"6.5M":5000,"7.6M":6000,"8.5M":6880,"9.5M":7700,"11.5M":9300,"13M":9720}},
+            {name: "Hypalon Strip Between Fender", prices: {"6.5M":2600,"7.6M":2800,"8.5M":3100,"9.5M":3300,"11.5M":3400,"13M":3500}},
             {name: "Hypalon Branding And Numbering", prices: {"6.5M":700,"7.6M":800,"8.5M":900,"9.5M":1000,"11.5M":1100,"13M":1100}},
-            {name: "Extra Handle", prices: {"6.5M":250,"7.6M":250,"8.5M":250,"9.5M":250,"11.5M":250,"13M":250}},
+            {name: "Extra Handle", prices: {"6.5M":50,"7.6M":50,"8.5M":50,"9.5M":50,"11.5M":50,"13M":50}},
             {name: "Diver-Notch", prices: {"6.5M":9800,"7.6M":9800,"8.5M":9800,"9.5M":9800,"11.5M":9800,"13M":9800}},
-            {name: "Notch Filling Inserts", prices: {"6.5M":2500,"7.6M":2500,"8.5M":2500,"9.5M":2500,"11.5M":3500,"13M":3500}},
-            {name: "Bow Step with 2 Stainless Steel Cleats", prices: {"6.5M":545,"7.6M":545,"8.5M":545,"9.5M":545,"11.5M":545,"13M":545}},
+            {name: "Notch Filling \"Inserts\"", prices: {"6.5M":2500,"7.6M":2500,"8.5M":2500,"9.5M":2500,"11.5M":3500,"13M":3500}},
+            {name: "Bow step with 2 stainless Steel Cleats", prices: {"6.5M":545,"7.6M":545,"8.5M":545,"9.5M":545,"11.5M":545,"13M":545}},
             {name: "Aluminium Anchor with S.S Chain", prices: {"6.5M":1075,"7.6M":1075,"8.5M":1075,"9.5M":1075,"11.5M":1075,"13M":1075}},
-            {name: "Aluminium Anchor with Rope 30m", prices: {"6.5M":390,"7.6M":390,"8.5M":390,"9.5M":390,"11.5M":390,"13M":390}},
+            {name: "Aluminium Anchor with Rope 30 Mtr", prices: {"6.5M":390,"7.6M":390,"8.5M":390,"9.5M":390,"11.5M":390,"13M":390}},
             {name: "Windless Clipper with S.S Chain & Anchor", prices: {"6.5M":5360,"7.6M":5360,"8.5M":5360,"9.5M":5360,"11.5M":5360,"13M":5360}},
             {name: "Boat Cover", prices: {"6.5M":2500,"7.6M":4000,"8.5M":4500,"9.5M":5000,"11.5M":5500,"13M":5500}}
         ],
         "Console": [
-            {name: "Aluminium Console with Windscreen and Grab Rail", tag: "console", prices: {"6.5M":10115,"7.6M":10115,"8.5M":10500,"9.5M":11200,"11.5M":12000,"13M":12000}}
+            {name: "Aluminium console with windscreen and grab Rail", tag: "console", prices: {"6.5M":10115,"7.6M":10115,"8.5M":10500,"9.5M":11200,"11.5M":12000,"13M":12000}}
         ],
         "Cabin / T-Top": [
             {name: "Aluminum Cabin with Cuddy and Toilet", tag: "cabin", prices: {"6.5M":"X","7.6M":"X","8.5M":"X","9.5M":79570,"11.5M":79570,"13M":79570}},
-            {name: "Aluminum Cabin for 4 Pax", tag: "cabin", prices: {"6.5M":"X","7.6M":"X","8.5M":"X","9.5M":"TBD","11.5M":"TBD","13M":"TBD"}},
-            {name: "Aluminum Wheel-house", tag: "cabin", prices: {"6.5M":19115,"7.6M":19115,"8.5M":21000,"9.5M":21000,"11.5M":24000,"13M":24000}},
-            {name: "Aluminium T-Top with Hard Top 1 (2.7m)", tag: "ttop", prices: {"6.5M":12560,"7.6M":12560,"8.5M":12560,"9.5M":12560,"11.5M":12560,"13M":12560}},
-            {name: "Aluminium T-Top with Hard Top 2 (3.8m)", tag: "ttop", prices: {"6.5M":14920,"7.6M":14920,"8.5M":14920,"9.5M":14920,"11.5M":14920,"13M":14920}},
-            {name: "Aluminium T-Top with Hard Top 3 (4.4m)", tag: "ttop", prices: {"6.5M":"X","7.6M":"X","8.5M":"X","9.5M":"X","11.5M":32000,"13M":32000}}
+            {name: "Aluminum Cabin for 4 Pax", tag: "cabin", prices: {"6.5M":"X","7.6M":"X","8.5M":45000,"9.5M":45000,"11.5M":45000,"13M":45000}},
+            {name: "Aluminum Wheel-house (4 PAX)", tag: "cabin", prices: {"6.5M":19115,"7.6M":19115,"8.5M":19115,"9.5M":19115,"11.5M":19115,"13M":19115}},
+            {name: "Aluminium T Top with Hard Top 1 (Length 2.7m)", tag: "ttop", prices: {"6.5M":15490,"7.6M":15490,"8.5M":15490,"9.5M":15490,"11.5M":15490,"13M":15490}},
+            {name: "Aluminium T Top with Hard Top 2 (Length 3.8m)", tag: "ttop", prices: {"6.5M":"X","7.6M":"X","8.5M":18560,"9.5M":18560,"11.5M":18560,"13M":18560}},
+            {name: "Aluminium T Top with Hard Top 3 (Length 4.4m) (Incl. storage and space reservation for 2nd row electronics)", tag: "ttop", prices: {"6.5M":"X","7.6M":"X","8.5M":"X","9.5M":"X","11.5M":32000,"13M":32000}}
         ],
         "Leaning Posts": [
             {name: "Aluminium Leaning Post Single", prices: {"6.5M":2765,"7.6M":2765,"8.5M":2765,"9.5M":2765,"11.5M":2765,"13M":2765}},
             {name: "Aluminium Leaning Post with Back Rest Single", prices: {"6.5M":3310,"7.6M":3310,"8.5M":3310,"9.5M":3310,"11.5M":3310,"13M":3310}},
             {name: "Aluminium Leaning Post Double", prices: {"6.5M":3400,"7.6M":3400,"8.5M":3400,"9.5M":3400,"11.5M":3400,"13M":3400}},
-            {name: "Aluminium Leaning Post with Back Rest Double", prices: {"6.5M":4000,"7.6M":4000,"8.5M":4000,"9.5M":4000,"11.5M":4000,"13M":4000}}
+            {name: "Aluminium Leaning Post With Back Rest Double", prices: {"6.5M":4000,"7.6M":4000,"8.5M":4000,"9.5M":4000,"11.5M":4000,"13M":4000}}
         ],
         "Jockey & Grab Rail": [
-            {name: "Grab Rail for Front Seat", prices: {"6.5M":650,"7.6M":650,"8.5M":650,"9.5M":650,"11.5M":650,"13M":650}},
-            {name: "Single Aluminium Jockey Seat with Grab Rail", prices: {"6.5M":1270,"7.6M":1270,"8.5M":1270,"9.5M":1270,"11.5M":1270,"13M":1270}},
-            {name: "Double Aluminium Jockey Seat with Grab Rail", prices: {"6.5M":2535,"7.6M":2535,"8.5M":2535,"9.5M":2535,"11.5M":2535,"13M":2535}}
+            {name: "Grab Rail for Front Seat (required for the front Staddle or Jockey Seat)", prices: {"6.5M":650,"7.6M":650,"8.5M":650,"9.5M":650,"11.5M":650,"13M":650}},
+            {name: "Single Aluminium Jockey Seat with Grab Rail", prices: {"6.5M":1760,"7.6M":1760,"8.5M":1760,"9.5M":1760,"11.5M":1760,"13M":1760}},
+            {name: "Double Aluminium Jockey Seat with Grab Rail", prices: {"6.5M":3050,"7.6M":3050,"8.5M":3050,"9.5M":3050,"11.5M":3050,"13M":3050}}
         ],
         "Suspension Seats": [
-            {name: "Ullman BISCAYA Jockey Suspension Seat", prices: {"6.5M":5500,"7.6M":5500,"8.5M":5500,"9.5M":5500,"11.5M":5500,"13M":5500}},
-            {name: "Ullman Patrol Jockey Suspension Seat", prices: {"6.5M":6250,"7.6M":6250,"8.5M":6250,"9.5M":6250,"11.5M":6250,"13M":6250}},
-            {name: "Echelon Midback Jockey Suspension Seat", prices: {"6.5M":16300,"7.6M":16300,"8.5M":16300,"9.5M":16300,"11.5M":16300,"13M":16300}}
+            {name: "Ullman BISCAYA Jockey Suspension seat with side handles", prices: {"6.5M":5500,"7.6M":5500,"8.5M":5500,"9.5M":5500,"11.5M":5500,"13M":5500}},
+            {name: "Ullman Patrol Jockey Suspension seat with side handles", prices: {"6.5M":6250,"7.6M":6250,"8.5M":6250,"9.5M":6250,"11.5M":6250,"13M":6250}},
+            {name: "Echelon Midback Jockey Front, Armrest Adjustable ATL/ECH Right, Handle Pistol Grip Right, Handle Pistol Grip Right, Slider ATL/ECH HD 150 (use for pilot and co-pilot only)", prices: {"6.5M":16300,"7.6M":16300,"8.5M":16300,"9.5M":16300,"11.5M":16300,"13M":16300}}
         ],
         "A-Frame": [
-            {name: "Aluminium A Frame", prices: {"6.5M":2885,"7.6M":2885,"8.5M":2885,"9.5M":2885,"11.5M":3260,"13M":3260}},
-            {name: "Aluminium A Frame With Self-righting System", prices: {"6.5M":9730,"7.6M":9730,"8.5M":9730,"9.5M":9730,"11.5M":10140,"13M":10140}},
-            {name: "Aluminium A Frame with Ladder", prices: {"6.5M":4300,"7.6M":4300,"8.5M":4300,"9.5M":4300,"11.5M":4675,"13M":4675}}
+            {name: "Aluminium A Frame", prices: {"6.5M":2690,"7.6M":3070,"8.5M":3070,"9.5M":3270,"11.5M":3460,"13M":3460}},
+            {name: "Aluminium A Frame With Self-righting System", prices: {"6.5M":15770,"7.6M":15770,"8.5M":15770,"9.5M":16160,"11.5M":16160,"13M":16550}},
+            {name: "Aluminium A Frame with Ladder", prices: {"6.5M":5420,"7.6M":5780,"8.5M":5780,"9.5M":6150,"11.5M":6670,"13M":6670}}
         ],
         "Other Frames & Structure": [
             {name: "Aluminium Tube Ladder", prices: {"6.5M":2500,"7.6M":2500,"8.5M":2500,"9.5M":2500,"11.5M":2500,"13M":2500}},
-            {name: "Swim Platform at Transom for Inboard Engine", prices: {"6.5M":1285,"7.6M":1285,"8.5M":1285,"9.5M":1285,"11.5M":1285,"13M":1285}},
-            {name: "Aluminium Bow Tow Post", prices: {"6.5M":2230,"7.6M":2230,"8.5M":2230,"9.5M":2230,"11.5M":2230,"13M":2230}},
-            {name: "Aluminium Aft Tow Post", prices: {"6.5M":2230,"7.6M":2230,"8.5M":2230,"9.5M":2230,"11.5M":2230,"13M":2230}},
-            {name: "Aluminium Bollard", prices: {"6.5M":835,"7.6M":835,"8.5M":835,"9.5M":835,"11.5M":835,"13M":835}},
-            {name: "Bow HD Tow Post w/Weapons Mount Flange", prices: {"6.5M":7000,"7.6M":7000,"8.5M":7000,"9.5M":7000,"11.5M":7000,"13M":7000}},
-            {name: "Aft HD Tow Post w/Weapons Mount Flange", prices: {"6.5M":7000,"7.6M":7000,"8.5M":7000,"9.5M":7000,"11.5M":7000,"13M":7000}}
+            {name: "Swim Platform at transom for Inboard Engine", prices: {"6.5M":3600,"7.6M":3600,"8.5M":3600,"9.5M":3600,"11.5M":3600,"13M":3600}},
+            {name: "Aluminium Bow Tow Post", prices: {"6.5M":3500,"7.6M":3500,"8.5M":3500,"9.5M":3500,"11.5M":3500,"13M":3500}},
+            {name: "Aluminium Aft Tow Post", prices: {"6.5M":3500,"7.6M":3500,"8.5M":3500,"9.5M":3500,"11.5M":3500,"13M":3500}},
+            {name: "Aluminium Bollard", prices: {"6.5M":1190,"7.6M":1190,"8.5M":1190,"9.5M":1190,"11.5M":1190,"13M":1190}},
+            {name: "Bow HD Tow Post w/Weapons mount flange", prices: {"6.5M":7000,"7.6M":7000,"8.5M":7000,"9.5M":7000,"11.5M":7000,"13M":7000}},
+            {name: "Aft HD Tow Post w/Weapons mount flange", prices: {"6.5M":7000,"7.6M":7000,"8.5M":7000,"9.5M":7000,"11.5M":7000,"13M":7000}}
         ],
         "Life Jackets": [
-            {name: "Life Jacket SOLAS Foam with Flashlight 170N", prices: {"6.5M":85,"7.6M":85,"8.5M":85,"9.5M":85,"11.5M":85,"13M":85}},
-            {name: "Life Jacket Manual Inflatable 170N", prices: {"6.5M":120,"7.6M":120,"8.5M":120,"9.5M":120,"11.5M":120,"13M":120}}
+            {name: "Life jacket SOLAS foam with flashlight, buoyancy 170N", prices: {"6.5M":85,"7.6M":85,"8.5M":85,"9.5M":85,"11.5M":85,"13M":85}},
+            {name: "Life Jackets Manual Inflatable, buoyancy 170N", prices: {"6.5M":120,"7.6M":120,"8.5M":120,"9.5M":120,"11.5M":120,"13M":120}}
         ],
         "Other Safety": [
-            {name: "Distress Signal Kit for Coastal Navigation", prices: {"6.5M":200,"7.6M":200,"8.5M":200,"9.5M":200,"11.5M":200,"13M":200}},
-            {name: "2x Fire Extinguisher (2Kg) IAW COLREGS", prices: {"6.5M":300,"7.6M":300,"8.5M":300,"9.5M":300,"11.5M":300,"13M":300}},
-            {name: "2x 20\" USCG Approved Ring Buoy IAW COLREGS", prices: {"6.5M":160,"7.6M":160,"8.5M":160,"9.5M":160,"11.5M":160,"13M":160}},
-            {name: "2x Mooring Rope 12mm 20m", prices: {"6.5M":300,"7.6M":300,"8.5M":300,"9.5M":300,"11.5M":300,"13M":300}},
-            {name: "2x Gunwale Mounted Boat Hook", prices: {"6.5M":150,"7.6M":150,"8.5M":150,"9.5M":150,"11.5M":150,"13M":150}},
+            {name: "Distress Signal Kit for Coastal Navigation; IAW COLREGS", prices: {"6.5M":200,"7.6M":200,"8.5M":200,"9.5M":200,"11.5M":200,"13M":200}},
+            {name: "2 (Two) Fire Extinguisher (Dry Power 2 Kg); IAW COLREGS", prices: {"6.5M":300,"7.6M":300,"8.5M":300,"9.5M":300,"11.5M":300,"13M":300}},
+            {name: "2 (Two) 20\" USCG Approved Throwable Ring Buoy; IAW COLREGS", prices: {"6.5M":160,"7.6M":160,"8.5M":160,"9.5M":160,"11.5M":160,"13M":160}},
+            {name: "2 (Two) Mooring rope 12mm, in black, with 20 meters per unit", prices: {"6.5M":300,"7.6M":300,"8.5M":300,"9.5M":300,"11.5M":300,"13M":300}},
+            {name: "2 (Two) Gunwale Mounted Boat Hook", prices: {"6.5M":150,"7.6M":150,"8.5M":150,"9.5M":150,"11.5M":150,"13M":150}},
             {name: "Forward Deck Mounted Boarding Team Hand Railing", prices: {"6.5M":5200,"7.6M":5200,"8.5M":5200,"9.5M":5200,"11.5M":5200,"13M":5200}},
             {name: "Single Hoisting Lifting System", prices: {"6.5M":19500,"7.6M":19500,"8.5M":19500,"9.5M":19500,"11.5M":19500,"13M":19500}},
             {name: "Fire Extinguisher Compartment", prices: {"6.5M":310,"7.6M":310,"8.5M":310,"9.5M":310,"11.5M":310,"13M":310}},
             {name: "Anti-fouling Hull Bottom Paint", prices: {"6.5M":2575,"7.6M":3140,"8.5M":3460,"9.5M":3750,"11.5M":4275,"13M":4500}},
             {name: "Life Ring", prices: {"6.5M":110,"7.6M":110,"8.5M":110,"9.5M":110,"11.5M":110,"13M":110}},
-            {name: "Dive Bottle Rack (6 Bottles)", prices: {"6.5M":3250,"7.6M":3250,"8.5M":3250,"9.5M":3250,"11.5M":3250,"13M":3250}}
+            {name: "Dive Bottle Rack (for 6 Bottles)", prices: {"6.5M":3250,"7.6M":3250,"8.5M":3250,"9.5M":3250,"11.5M":3250,"13M":3250}}
         ],
         "Protection & Guards": [
             {name: "Aluminium Bow Guard with Pushing Knee", prices: {"6.5M":8110,"7.6M":8110,"8.5M":8110,"9.5M":8110,"11.5M":8110,"13M":8110}},
@@ -1965,49 +1978,61 @@ const ACCESSORIES = {
             {name: "Galvanized Steel Triple Trailer (Without Brakes)", prices: {"6.5M":"X","7.6M":"X","8.5M":"X","9.5M":"X","11.5M":10000,"13M":10000}}
         ],
         "GPS": [
-            {name: "GARMIN GPSMAP 923 XSV 9\" MFD with Sonar", prices: {"6.5M":2270,"7.6M":2270,"8.5M":2270,"9.5M":2270,"11.5M":2270,"13M":2270}},
-            {name: "GARMIN GPSMAP 8410 XSV 10\" MFD with Sonar", prices: {"6.5M":4400,"7.6M":4400,"8.5M":4400,"9.5M":4400,"11.5M":4400,"13M":4400}},
-            {name: "GARMIN GPSMAP 8410 10\" MFD W/O Sonar", prices: {"6.5M":3500,"7.6M":3500,"8.5M":3500,"9.5M":3500,"11.5M":3500,"13M":3500}}
+            {name: "GARMIN GPSMAP 723 XSV 7\" inch with Sonar Combo , Multifunction Display Chart Plotter, WiFi Connectivity with GT 21-TM Transom Mounted Transducer & Bluechart G2 Vision", prices: {"6.5M":2105,"7.6M":2105,"8.5M":2105,"9.5M":2105,"11.5M":2105,"13M":2105}},
+            {name: "GARMIN GPSMAP 923 XSV 9\" inch with Sonar Combo , Multifunction Display Chart Plotter, WiFi Connectivity with GT 21-TM Transom Mounted Transducer & Bluechart G2 Vision", prices: {"6.5M":2475,"7.6M":2475,"8.5M":2475,"9.5M":2475,"11.5M":2475,"13M":2475}},
+            {name: "GARMIN GPSMAP 8410 XSV 10\" inch with Sonar Combo , Multifunction Display Chart Plotter, WiFi Connectivity with GT 21-TM Transom Mounted Transducer & Bluechart G2 Vision", prices: {"6.5M":4190,"7.6M":4190,"8.5M":4190,"9.5M":4190,"11.5M":4190,"13M":4190}},
+            {name: "GARMIN GPSMAP 1223 XSV 12\" inch with Sonar Combo , Multifunction Display Chart Plotter, WiFi Connectivity, In-hull Transducer & Bluechart G2 Vision", prices: {"6.5M":3580,"7.6M":3580,"8.5M":3580,"9.5M":3580,"11.5M":3580,"13M":3580}},
+            {name: "GARMIN GPSMAP 8412 XSV 12\" inch with Sonar Combo , Multifunction Display Chart Plotter, WiFi Connectivity, In-hull Transducer & Bluechart G2 Vision", prices: {"6.5M":4595,"7.6M":4595,"8.5M":4595,"9.5M":4595,"11.5M":4595,"13M":4595}}
         ],
         "Radar": [
-            {name: "GARMIN GMR 18HD+ 18NM Radar Scanner", prices: {"6.5M":2200,"7.6M":2200,"8.5M":2200,"9.5M":2200,"11.5M":2200,"13M":2200}},
-            {name: "GARMIN GMR Fantom 18x Dome Radar", prices: {"6.5M":2600,"7.6M":2600,"8.5M":2600,"9.5M":2600,"11.5M":2600,"13M":2600}}
+            {name: "GARMIN GMR 18HD+ 18NM Marine Radar Scanner", prices: {"6.5M":2290,"7.6M":2290,"8.5M":2290,"9.5M":2290,"11.5M":2290,"13M":2290}},
+            {name: "GARMIN® GMR Fantom™ 18x Dome Radar Marine Radar Scanner", prices: {"6.5M":2750,"7.6M":2750,"8.5M":2750,"9.5M":2750,"11.5M":2750,"13M":2750}}
         ],
         "VHF": [
-            {name: "Garmin 115i VHF Radio with Antenna", prices: {"6.5M":750,"7.6M":750,"8.5M":750,"9.5M":750,"11.5M":750,"13M":750}},
-            {name: "Garmin 215i AIS VHF Radio with Antenna", prices: {"6.5M":1200,"7.6M":1200,"8.5M":1200,"9.5M":1200,"11.5M":1200,"13M":1200}}
+            {name: "Garmin 115i VHF Radio with Antenna", prices: {"6.5M":650,"7.6M":650,"8.5M":650,"9.5M":650,"11.5M":650,"13M":650}},
+            {name: "Garmin 215i AIS VHF Radio with Antenna", prices: {"6.5M":1180,"7.6M":1180,"8.5M":1180,"9.5M":1180,"11.5M":1180,"13M":1180}}
         ],
         "Other Communication": [
-            {name: "Whelen Siren/PA System IAW COLREGS", prices: {"6.5M":1100,"7.6M":1100,"8.5M":1100,"9.5M":1100,"11.5M":1100,"13M":1100}},
+            {name: "Whelen® Siren / PA System and Built-in Signal Horn IAW COLREGS", prices: {"6.5M":1100,"7.6M":1100,"8.5M":1100,"9.5M":1100,"11.5M":1100,"13M":1100}},
             {name: "Signal Horn 12VDC IAW COLREGS", prices: {"6.5M":250,"7.6M":250,"8.5M":250,"9.5M":250,"11.5M":250,"13M":250}}
         ],
         "FLIR / Thermal": [
-            {name: "FLIR M232 Thermal Camera (320x240, 9Hz)", prices: {"6.5M":6500,"7.6M":6500,"8.5M":6500,"9.5M":6500,"11.5M":6500,"13M":6500}},
-            {name: "FLIR M364C Gyro Stabilized Thermal IP Camera", prices: {"6.5M":27000,"7.6M":27000,"8.5M":27000,"9.5M":27000,"11.5M":27000,"13M":27000}}
+            {name: "FLIR® M232 (320 x 240, 9Hz),with Pan, Tilt and electronic zoom thermal camera w/Joy Stick Control Unit (JCU)", prices: {"6.5M":6500,"7.6M":6500,"8.5M":6500,"9.5M":6500,"11.5M":6500,"13M":6500}},
+            {name: "FLIR® M364C Gyro stabilized 9HZ Thermal IP Camera and Color Low Light Camera w/Joy Stick Control Unit (JCU)", prices: {"6.5M":27000,"7.6M":27000,"8.5M":27000,"9.5M":27000,"11.5M":27000,"13M":27000}}
         ],
         "Lighting & Electrical": [
-            {name: "STL K-FORCE LED Law Enforcement Light Bar", prices: {"6.5M":1500,"7.6M":1500,"8.5M":1500,"9.5M":1500,"11.5M":1500,"13M":1500}},
-            {name: "Remote Search Light ACR RCL 95 w/Joystick", prices: {"6.5M":1050,"7.6M":1050,"8.5M":1050,"9.5M":1050,"11.5M":1050,"13M":1050}},
-            {name: "LED Flood Lights / Scene-Lights (4 pieces)", prices: {"6.5M":800,"7.6M":800,"8.5M":800,"9.5M":800,"11.5M":800,"13M":800}},
-            {name: "Deck Light LED Tri-Color Lighting", prices: {"6.5M":1060,"7.6M":1060,"8.5M":1400,"9.5M":1400,"11.5M":1775,"13M":1775}},
-            {name: "12 VDC Air-Compressor Tube Inflation System", prices: {"6.5M":400,"7.6M":400,"8.5M":400,"9.5M":400,"11.5M":400,"13M":400}},
-            {name: "3-Bank Onboard Battery Charging System 40A", prices: {"6.5M":750,"7.6M":750,"8.5M":750,"9.5M":750,"11.5M":750,"13M":750}},
-            {name: "BLUE SEA Accessory Receptacle 12VDC", prices: {"6.5M":75,"7.6M":75,"8.5M":75,"9.5M":75,"11.5M":75,"13M":75}},
-            {name: "BLUE SEA 12VDC Dual USB Charging Outlets", prices: {"6.5M":100,"7.6M":100,"8.5M":100,"9.5M":100,"11.5M":100,"13M":100}},
+            {name: "STL K-FORCE® 27 TIR g LED Law Enforcement Light Bar", prices: {"6.5M":1500,"7.6M":1500,"8.5M":1500,"9.5M":1500,"11.5M":1500,"13M":1500}},
+            {name: "Remote Controlled Search Light ACR RCL 95 w/Joystick Control Unit and FOB Remote", prices: {"6.5M":1160,"7.6M":1160,"8.5M":1160,"9.5M":1160,"11.5M":1160,"13M":1160}},
+            {name: "LED Diffused, Flood Lights / \"Scene-Lights\" (4 pieces)", prices: {"6.5M":800,"7.6M":800,"8.5M":800,"9.5M":800,"11.5M":800,"13M":800}},
+            {name: "Deck light LED tri- color lighting", prices: {"6.5M":1060,"7.6M":1060,"8.5M":1400,"9.5M":1400,"11.5M":1775,"13M":1775}},
+            {name: "12 VDC Air-Compressor Tube Inflation Syste", prices: {"6.5M":400,"7.6M":400,"8.5M":400,"9.5M":400,"11.5M":400,"13M":400}},
+            {name: "3-Bank, Onboard Battery Charging and Float Conditioning System w/Shore-Tie Cable (110 / 220 VDC); 40A", prices: {"6.5M":1200,"7.6M":1200,"8.5M":1200,"9.5M":1200,"11.5M":1200,"13M":1200}},
+            {name: "Automotive Style BLUE SEA Accessory Receptacle 12VDC", prices: {"6.5M":75,"7.6M":75,"8.5M":75,"9.5M":75,"11.5M":75,"13M":75}},
+            {name: "Automotive Style BLUE SEA 12VDC Dual USB type charging outlets", prices: {"6.5M":100,"7.6M":100,"8.5M":100,"9.5M":100,"11.5M":100,"13M":100}},
             {name: "Plastimo Flush Mount Offshore Compass 95", prices: {"6.5M":380,"7.6M":380,"8.5M":380,"9.5M":380,"11.5M":380,"13M":380}}
         ]
     },
     fiberglass: {
         "Propulsion / Engine": [
-            {name: "Single Mercury F150Hp EXLPT (incl. controls, steering, gauges)", prices: {"4.1M":18620,"5.1M":"X","5.5M":"X","6.5M":"X","7.2M":"X","8.0M":"X","8.5M":"X","9.5M":"X","12M":"X"}},
-            {name: "Twin Mercury F150Hp XLPT/CXLPT (incl. controls, steering, gauges)", prices: {"4.1M":"X","5.1M":34255,"5.5M":"X","6.5M":"X","7.2M":"X","8.0M":"X","8.5M":"X","9.5M":"X","12M":"X"}},
-            {name: "Twin Mercury Verado F300 V8 XL/CXL (DTS, Vessel View 502)", prices: {"4.1M":"X","5.1M":"X","5.5M":68975,"6.5M":68975,"7.2M":68975,"8.0M":"X","8.5M":"X","9.5M":"X","12M":"X"}},
-            {name: "Twin Mercury F400 V10 XL/CXL (DTS, Vessel View 502)", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":103120,"7.2M":103120,"8.0M":103120,"8.5M":103120,"9.5M":103120,"12M":103120}},
-            {name: "Triple Mercury Verado F300 V8 XL/CXL (DTS, Vessel View 702)", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":"X","7.2M":"X","8.0M":114950,"8.5M":114950,"9.5M":114950,"12M":114950}},
-            {name: "Triple Mercury F400 V10 XL/CXL (DTS, Vessel View 502)", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":"X","7.2M":"X","8.0M":166180,"8.5M":166180,"9.5M":166180,"12M":166180}}
+            {name: "Single Mercury 4 Stroke F115Hp XL Outboard Engine with Mechanical binnacle-mount Remote Control, Hydraulic Steernig system , Std Gauges, Steering Wheel, Battery, etc", prices: {"4.1M":"X","5.1M":16740,"5.5M":16740,"6.5M":16740,"7.2M":"X","8.0M":"X","8.5M":"X","9.5M":"X","12M":"X"}},
+            {name: "Single Mercury 4 Stroke F150Hp EXLPT Outboard Engine with Mechanical binnacle‐mount Remote Control, Hydraulic Steernig system , Std Gauges, Steering Wheel, Battery, etc", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":17510,"7.2M":17510,"8.0M":"X","8.5M":"X","9.5M":"X","12M":"X"}},
+            {name: "Single Mercury 4 Stroke F225 V6 XL Outboard Engine with DTS Fly By Wire binnacle-mount Remote Control, Hydraulic Steernig system, Vessel View 403 4 (Four) inch Display, Steering Wheel, Battery, etc", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":24915,"7.2M":24915,"8.0M":"X","8.5M":"X","9.5M":"X","12M":"X"}},
+            {name: "Single Mercury F250 V8 XL CMS Outboard Engine with DTS Fly By Wire binnacle-mount Remote Control, Electro-Hydraulic Steernig system, Vessel View 502 5 (Five) inch Display, Steering Wheel, Battery, etc", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":28700,"7.2M":28700,"8.0M":28700,"8.5M":28700,"9.5M":"X","12M":"X"}},
+            {name: "Single Mercury AMS Verado F300 V8 XL Outboard Engine with DTS Fly By Wire binnacle-mount Remote Control, Electro-Hydraulic Steernig system, Vessel View 502 5 (Five) inch Display, Steering Wheel, Battery, etc", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":"X","7.2M":"X","8.0M":32285,"8.5M":32285,"9.5M":32285,"12M":"X"}},
+            {name: "Twin Mercury 4 Stroke F115Hp EXLPT Outboard Engines with Mechanical binnacle-mount Remote Control, Hydraulic Steernig system , Std Gauges, Steering Wheel, Tie Bar, Batteries, etc", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":30910,"7.2M":30910,"8.0M":30910,"8.5M":"X","9.5M":"X","12M":"X"}},
+            {name: "Twin Mercury 4 Stroke F150Hp XL / CX SeaPro Outboard Engines with Mechanical binnacle-mount Remote Control, Hydraulic Steernig system , Std Gauges, Steering Wheel, Tie Bar, Batteries, etc", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":"X","7.2M":"X","8.0M":32925,"8.5M":32925,"9.5M":32925,"12M":"X"}},
+            {name: "Twin Mercury 4 Stroke F225 V6 XL/CXL Outboard Engines with DTS Fly By Wire binnacle-mount Remote Control, Hydraulic Steernig system, Vessel View 403 4 (Four) inch Display, Steering Wheel, Tie Bar, Batteries, etc", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":"X","7.2M":"X","8.0M":44400,"8.5M":44400,"9.5M":44400,"12M":"X"}},
+            {name: "Twin Mercury F250 V8 XL/CXL CMS Outboard Engines with DTS Fly By Wire binnacle-mount Remote Control, Electro-Hydraulic Steernig system, Vessel View 502 5 (Five) inch Display, Steering Wheel, Tie Bar, Batteries, etc", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":"X","7.2M":"X","8.0M":"X","8.5M":55000,"9.5M":55000,"12M":55000}},
+            {name: "Twin Mercury Verado F300 V8 XL/CXL Outboard Engines with DTS Fly By Wire binnacle‐mount Remote Twin binnacle Control, Electro‐Hydraulic Steernig system, Vessel View 502 5 (Five) inch Display, Steering Wheel, Tie Bar, Batteries, etc", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":"X","7.2M":"X","8.0M":"X","8.5M":63230,"9.5M":63230,"12M":63230}},
+            {name: "Twin Mercury AMS Verado F350 V10 XL/CXL Outboard Engines with DTS Fly By Wire binnacle-mount Remote Control, Electro-Hydraulic Steernig system, Vessel View 502 5 (Five) inch Display, Steering Wheel, Tie Bar, Batteries, etc", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":"X","7.2M":"X","8.0M":"X","8.5M":"X","9.5M":90635,"12M":90635}},
+            {name: "Twin Mercury F400 V10 XL/CXL Outboard Engines with DTS Fly By Wire binnacle‐mount Remote Control, Electro‐Hydraulic Steernig system, Vessel View 502 5 (Five) inch Display, Steering Wheel, Tie Bar, Batteries, etc", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":"X","7.2M":"X","8.0M":"X","8.5M":"X","9.5M":110605,"12M":110605}},
+            {name: "Twin Mercury F500 XL/CXL Outboard Engines with DTS Fly By Wire binnacle-mount Remote Control, Electro-Hydraulic Steernig system, Vessel View 903 9 (Nine) inch Display, Active Trimp, Steering Wheel, Tie Bar, Batteries, etc", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":"X","7.2M":"X","8.0M":"X","8.5M":"X","9.5M":"X","12M":189230}},
+            {name: "Triple Mercury Verado F300 V8 XL/CXL Outboard Engines with DTS Fly By Wire binnacle‐mount Remote Twin binnacle Control, Electro‐Hydraulic Steernig system, Vessel View 702 (Seven) inch Display, Steering Wheel, Tie Bar, Batteries, etc", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":"X","7.2M":"X","8.0M":"X","8.5M":"X","9.5M":"X","12M":94310}},
+            {name: "Triple Mercury AMS Verado F350 V10 XL/CXL Outboard Engines with DTS Fly By Wire binnacle-mount Remote Control, Electro-Hydraulic Steernig system, Vessel View 703 7 (Seven) inch Display, Steering Wheel, Tie Bar, Batteries, etc", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":"X","7.2M":"X","8.0M":"X","8.5M":"X","9.5M":"X","12M":132275}},
+            {name: "Triple Mercury F400 V10 XL/CXL Outboard Engines with DTS Fly By Wire binnacle‐mount Remote Control, Electro‐Hydraulic Steernig system, Vessel View 502 5 (Five) inch Display, Steering Wheel, Tie Bar, Batteries, etc", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":"X","7.2M":"X","8.0M":"X","8.5M":"X","9.5M":"X","12M":165300}}
         ],
         "General": [
-            {name: "Hybrid Foam-Filled Tube-Set", prices: {"4.1M":9880,"5.1M":12010,"5.5M":12955,"6.5M":15310,"7.2M":16960,"8.0M":18840,"8.5M":20608,"9.5M":22375,"12M":29300}},
+            {name: "Hybrid Foam-Filled Tube-Set", prices: {"4.1M":9880,"5.1M":12010,"5.5M":12955,"6.5M":15310,"7.2M":16960,"8.0M":18840,"8.5M":20610,"9.5M":22375,"12M":29300}},
             {name: "Custom Color Hypalon", prices: {"4.1M":2500,"5.1M":3000,"5.5M":3500,"6.5M":4000,"7.2M":4500,"8.0M":5000,"8.5M":5000,"9.5M":5000,"12M":5000}},
             {name: "Double Layer Hypalon", prices: {"4.1M":15340,"5.1M":17500,"5.5M":20000,"6.5M":22420,"7.2M":27000,"8.0M":28320,"8.5M":28320,"9.5M":28320,"12M":28320}},
             {name: "Hypalon Strip Between Fender", prices: {"4.1M":2000,"5.1M":2200,"5.5M":2400,"6.5M":2600,"7.2M":2800,"8.0M":3000,"8.5M":3100,"9.5M":3300,"12M":3500}},
@@ -2015,21 +2040,21 @@ const ACCESSORIES = {
             {name: "Hypalon Branding And Numbering", prices: {"4.1M":700,"5.1M":700,"5.5M":700,"6.5M":700,"7.2M":700,"8.0M":700,"8.5M":700,"9.5M":700,"12M":700}},
             {name: "Extra Handle", prices: {"4.1M":50,"5.1M":50,"5.5M":50,"6.5M":50,"7.2M":50,"8.0M":50,"8.5M":50,"9.5M":50,"12M":50}},
             {name: "Diver-Notch", prices: {"4.1M":3200,"5.1M":3200,"5.5M":3200,"6.5M":3200,"7.2M":3200,"8.0M":3200,"8.5M":3200,"9.5M":3200,"12M":3200}},
-            {name: "Notch Filling Inserts", prices: {"4.1M":2500,"5.1M":2500,"5.5M":2500,"6.5M":2500,"7.2M":3500,"8.0M":3500,"8.5M":3500,"9.5M":3500,"12M":3500}},
-            {name: "Bow Step with 2 Stainless Steel Cleats", prices: {"4.1M":545,"5.1M":545,"5.5M":545,"6.5M":545,"7.2M":545,"8.0M":545,"8.5M":545,"9.5M":545,"12M":545}},
+            {name: "Notch Filling \"Inserts\"", prices: {"4.1M":2500,"5.1M":2500,"5.5M":2500,"6.5M":2500,"7.2M":3500,"8.0M":3500,"8.5M":3500,"9.5M":3500,"12M":3500}},
+            {name: "Bow step with 2 stainless Steel Cleats", prices: {"4.1M":545,"5.1M":545,"5.5M":545,"6.5M":545,"7.2M":545,"8.0M":545,"8.5M":545,"9.5M":545,"12M":545}},
             {name: "Aluminium Anchor with S.S Chain", prices: {"4.1M":1075,"5.1M":1075,"5.5M":1075,"6.5M":1075,"7.2M":1075,"8.0M":1075,"8.5M":1075,"9.5M":1075,"12M":1075}},
-            {name: "Aluminium Anchor with Rope 30m", prices: {"4.1M":390,"5.1M":390,"5.5M":390,"6.5M":390,"7.2M":390,"8.0M":390,"8.5M":390,"9.5M":390,"12M":390}},
+            {name: "Aluminium Anchor with Rope 30 Mtr", prices: {"4.1M":390,"5.1M":390,"5.5M":390,"6.5M":390,"7.2M":390,"8.0M":390,"8.5M":390,"9.5M":390,"12M":390}},
             {name: "Windless Clipper with S.S Chain & Anchor", prices: {"4.1M":5360,"5.1M":5360,"5.5M":5360,"6.5M":5360,"7.2M":5360,"8.0M":5360,"8.5M":5360,"9.5M":5360,"12M":5360}},
             {name: "Boat Cover", prices: {"4.1M":2500,"5.1M":4000,"5.5M":4500,"6.5M":5000,"7.2M":5500,"8.0M":5500,"8.5M":5500,"9.5M":5500,"12M":5500}}
         ],
         "Console": [
             {name: "Single Futura Console with Forward Seat", tag: "console", prices: {"4.1M":"X","5.1M":4610,"5.5M":4610,"6.5M":4610,"7.2M":4610,"8.0M":4610,"8.5M":4610,"9.5M":4610,"12M":4610}},
-            {name: "Single Futura Console without Forward Seat", tag: "console", prices: {"4.1M":"X","5.1M":3647,"5.5M":3647,"6.5M":3647,"7.2M":3647,"8.0M":3647,"8.5M":3647,"9.5M":3647,"12M":3647}},
-            {name: "Double Futura Console with Forward Seat - Low Rail", tag: "console", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":6380,"7.2M":6380,"8.0M":6380,"8.5M":6380,"9.5M":6380,"12M":6380}},
-            {name: "Double Futura Console with Forward Seat - High Rail", tag: "console", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":8390,"7.2M":8390,"8.0M":8390,"8.5M":8390,"9.5M":8390,"12M":8390}},
+            {name: "Single Futura Console without Forward Seat", tag: "console", prices: {"4.1M":"X","5.1M":3645,"5.5M":3645,"6.5M":3645,"7.2M":3645,"8.0M":3645,"8.5M":3645,"9.5M":3645,"12M":3645}},
+            {name: "Double Futura Console with Forward Seat- Low Rail", tag: "console", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":6380,"7.2M":6380,"8.0M":6380,"8.5M":6380,"9.5M":6380,"12M":6380}},
+            {name: "Double Futura Console with Forward Seat- High Rail", tag: "console", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":8390,"7.2M":8390,"8.0M":8390,"8.5M":8390,"9.5M":8390,"12M":8390}},
             {name: "Double Futura Console without Forward Seat - Low Rail", tag: "console", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":4950,"7.2M":4950,"8.0M":4950,"8.5M":4950,"9.5M":4950,"12M":4950}},
             {name: "Double Futura Console without Forward Seat - High Rail", tag: "console", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":6960,"7.2M":6960,"8.0M":6960,"8.5M":6960,"9.5M":6960,"12M":6960}},
-            {name: "Aluminium Console with Windscreen and Grab Rail", tag: "console", prices: {"4.1M":10115,"5.1M":10115,"5.5M":10500,"6.5M":11200,"7.2M":12000,"8.0M":12000,"8.5M":12000,"9.5M":12800,"12M":12800}},
+            {name: "Aluminium console with windscreen and grab Rail", tag: "console", prices: {"4.1M":10115,"5.1M":10115,"5.5M":10500,"6.5M":11200,"7.2M":12000,"8.0M":12000,"8.5M":12000,"9.5M":12800,"12M":12800}},
             {name: "Double Ballistic Console", tag: "console", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":5840,"7.2M":5840,"8.0M":5840,"8.5M":5840,"9.5M":5840,"12M":5840}},
             {name: "Double Console with Toilet", tag: "console", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":"X","7.2M":"X","8.0M":23570,"8.5M":23570,"9.5M":23570,"12M":23570}},
             {name: "Beachlander Console", tag: "console", prices: {"4.1M":"X","5.1M":2590,"5.5M":2590,"6.5M":2590,"7.2M":2590,"8.0M":2590,"8.5M":2590,"9.5M":2590,"12M":2590}},
@@ -2037,80 +2062,96 @@ const ACCESSORIES = {
             {name: "Mamba Console", tag: "console", prices: {"4.1M":"X","5.1M":3290,"5.5M":3290,"6.5M":"X","7.2M":"X","8.0M":"X","8.5M":"X","9.5M":"X","12M":"X"}}
         ],
         "Cabin / T-Top": [
-            {name: "Aluminum Cabin for 4 PAX", tag: "cabin", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":"TBD","7.2M":"TBD","8.0M":"TBD","8.5M":"TBD","9.5M":"TBD","12M":"TBD"}},
+            {name: "Aluminum Cabin for 4 PAX", tag: "cabin", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":"X","7.2M":"X","8.0M":"X","8.5M":45000,"9.5M":45000,"12M":45000}},
             {name: "Aluminum Cabin with Cuddy and Toilet", tag: "cabin", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":"X","7.2M":"X","8.0M":"X","8.5M":"X","9.5M":79570,"12M":79570}},
             {name: "Aluminum Wheel-house", tag: "cabin", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":"X","7.2M":"X","8.0M":19200,"8.5M":19200,"9.5M":19200,"12M":19200}},
-            {name: "Standard HD T-Top", tag: "ttop", prices: {"4.1M":"X","5.1M":8300,"5.5M":8300,"6.5M":8300,"7.2M":8300,"8.0M":8300,"8.5M":8300,"9.5M":8300,"12M":8300}},
-            {name: "S.S. HD T-Top", tag: "ttop", prices: {"4.1M":"X","5.1M":13250,"5.5M":13250,"6.5M":13250,"7.2M":13250,"8.0M":13250,"8.5M":13250,"9.5M":13250,"12M":13250}},
-            {name: "Aluminium T-Top with Hard Top 1 (2.7m)", tag: "ttop", prices: {"4.1M":12560,"5.1M":12560,"5.5M":12560,"6.5M":12560,"7.2M":12560,"8.0M":12560,"8.5M":12560,"9.5M":12560,"12M":12560}},
-            {name: "Aluminium T-Top with Hard Top 2 (3.8m)", tag: "ttop", prices: {"4.1M":14920,"5.1M":14920,"5.5M":14920,"6.5M":14920,"7.2M":14920,"8.0M":14920,"8.5M":14920,"9.5M":14920,"12M":14920}},
-            {name: "Aluminium T-Top with Hard Top 3 (4.4m)", tag: "ttop", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":"X","7.2M":26100,"8.0M":26100,"8.5M":26100,"9.5M":26100,"12M":26100}},
+            {name: "Stainless Steel Polished Standard T-Top", tag: "ttop", prices: {"4.1M":"X","5.1M":6230,"5.5M":6230,"6.5M":6230,"7.2M":6230,"8.0M":6230,"8.5M":6230,"9.5M":6230,"12M":6230}},
+            {name: "Stainless Steel Polished HD Double T Top", tag: "ttop", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":10910,"7.2M":10910,"8.0M":10910,"8.5M":10910,"9.5M":10910,"12M":10910}},
+            {name: "Painted Aluminum HD Double T Top", tag: "ttop", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":9430,"7.2M":9430,"8.0M":9430,"8.5M":9430,"9.5M":9430,"12M":9430}},
+            {name: "Aluminium T Top with Hard Top 1 (Length 2.7m)", tag: "ttop", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":15490,"7.2M":15490,"8.0M":15490,"8.5M":15490,"9.5M":15490,"12M":15490}},
+            {name: "Aluminium T Top with Hard Top 2 (Length 3.8m)", tag: "ttop", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":"X","7.2M":"X","8.0M":"X","8.5M":18560,"9.5M":18560,"12M":18560}},
+            {name: "Aluminium T Top with Hard Top 3 (Length 4.4m) (Incl. storage and space reservation for 2nd row electronics)", tag: "ttop", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":"X","7.2M":"X","8.0M":"X","8.5M":"X","9.5M":"X","12M":32000}},
             {name: "Aluminium Foldable T-Top", tag: "ttop", prices: {"4.1M":"X","5.1M":10615,"5.5M":10615,"6.5M":10615,"7.2M":10615,"8.0M":10615,"8.5M":10615,"9.5M":10615,"12M":10615}},
             {name: "Extended Canopy to A-Frame", prices: {"4.1M":"X","5.1M":655,"5.5M":655,"6.5M":655,"7.2M":655,"8.0M":655,"8.5M":655,"9.5M":655,"12M":655}}
         ],
         "Leaning Posts": [
-            {name: "Leaning Post Single", prices: {"4.1M":"X","5.1M":2765,"5.5M":2765,"6.5M":2765,"7.2M":2765,"8.0M":2765,"8.5M":2765,"9.5M":2765,"12M":2765}},
-            {name: "Leaning Post with Back Rest Single", prices: {"4.1M":"X","5.1M":3310,"5.5M":3310,"6.5M":3310,"7.2M":3310,"8.0M":3310,"8.5M":3310,"9.5M":3310,"12M":3310}},
-            {name: "Leaning Post Double", prices: {"4.1M":"X","5.1M":3400,"5.5M":3400,"6.5M":3400,"7.2M":3400,"8.0M":3400,"8.5M":3400,"9.5M":3400,"12M":3400}},
-            {name: "Leaning Post With Back Rest Double", prices: {"4.1M":"X","5.1M":4000,"5.5M":4000,"6.5M":4000,"7.2M":4000,"8.0M":4000,"8.5M":4000,"9.5M":4000,"12M":4000}},
-            {name: "Fiber Glass Leaning Post with Back Rest - Single", prices: {"4.1M":"X","5.1M":"X","5.5M":9000,"6.5M":9000,"7.2M":9000,"8.0M":9000,"8.5M":9000,"9.5M":9000,"12M":9000}}
+            {name: "Leaning Post Single", prices: {"4.1M":"X","5.1M":3110,"5.5M":3110,"6.5M":3110,"7.2M":3110,"8.0M":3110,"8.5M":3110,"9.5M":3110,"12M":3110}},
+            {name: "Leaning Post with Back Rest Single", prices: {"4.1M":"X","5.1M":3830,"5.5M":3830,"6.5M":3830,"7.2M":3830,"8.0M":3830,"8.5M":3830,"9.5M":3830,"12M":3830}},
+            {name: "Leaning Post Double", prices: {"4.1M":"X","5.1M":3800,"5.5M":3800,"6.5M":3800,"7.2M":3800,"8.0M":3800,"8.5M":3800,"9.5M":3800,"12M":3800}},
+            {name: "Leaning Post With Back Rest Double", prices: {"4.1M":"X","5.1M":4470,"5.5M":4470,"6.5M":4470,"7.2M":4470,"8.0M":4470,"8.5M":4470,"9.5M":4470,"12M":4470}},
+            {name: "Fiber Glass Leaning Post with Back Rest - Single", prices: {"4.1M":"X","5.1M":6625,"5.5M":6625,"6.5M":6625,"7.2M":6625,"8.0M":6625,"8.5M":6625,"9.5M":6625,"12M":6625}},
+            {name: "Fiber Glass Leaning Post with Back Rest - Double", prices: {"4.1M":"X","5.1M":"X","5.5M":9000,"6.5M":9000,"7.2M":9000,"8.0M":9000,"8.5M":9000,"9.5M":9000,"12M":9000}}
         ],
         "Jockey & Straddle": [
-            {name: "Grab Rail for Front Seat", prices: {"4.1M":650,"5.1M":650,"5.5M":650,"6.5M":650,"7.2M":650,"8.0M":650,"8.5M":650,"9.5M":650,"12M":650}},
+            {name: "Grab Rail for Front Seat (required for the front Staddle or Jockey Seat)", prices: {"4.1M":650,"5.1M":650,"5.5M":650,"6.5M":650,"7.2M":650,"8.0M":650,"8.5M":650,"9.5M":650,"12M":650}},
             {name: "Straddle Seat with Handle", prices: {"4.1M":1980,"5.1M":1980,"5.5M":1980,"6.5M":1980,"7.2M":1980,"8.0M":1980,"8.5M":1980,"9.5M":1980,"12M":1980}},
             {name: "Single GRP Jockey Seat with Back Rail", prices: {"4.1M":1700,"5.1M":1700,"5.5M":1700,"6.5M":1700,"7.2M":1700,"8.0M":1700,"8.5M":1700,"9.5M":1700,"12M":1700}},
             {name: "Double GRP Jockey Seat with Back Rail", prices: {"4.1M":3400,"5.1M":3400,"5.5M":3400,"6.5M":3400,"7.2M":3400,"8.0M":3400,"8.5M":3400,"9.5M":3400,"12M":3400}}
         ],
         "Bench Seats": [
-            {name: "Painted Aluminum Bench Seat 1 PAX with Storage", prices: {"4.1M":4420,"5.1M":4420,"5.5M":4420,"6.5M":4420,"7.2M":4420,"8.0M":4420,"8.5M":4420,"9.5M":4420,"12M":4420}},
-            {name: "S.S. Bench Seat 1 PAX with Storage", prices: {"4.1M":5530,"5.1M":5530,"5.5M":5530,"6.5M":5530,"7.2M":5530,"8.0M":5530,"8.5M":5530,"9.5M":5530,"12M":5530}},
-            {name: "Painted Aluminum Bench Seat 2 PAX with Storage", prices: {"4.1M":5150,"5.1M":5150,"5.5M":5150,"6.5M":5150,"7.2M":5150,"8.0M":5150,"8.5M":5150,"9.5M":5150,"12M":5150}},
-            {name: "S.S. Bench Seat 2 PAX with Storage", prices: {"4.1M":6240,"5.1M":6240,"5.5M":6240,"6.5M":6240,"7.2M":6240,"8.0M":6240,"8.5M":6240,"9.5M":6240,"12M":6240}},
-            {name: "Painted Aluminum Bench Seat 3 PAX with Storage", prices: {"4.1M":6570,"5.1M":6570,"5.5M":6570,"6.5M":6570,"7.2M":6570,"8.0M":6570,"8.5M":6570,"9.5M":6570,"12M":6570}},
-            {name: "S.S. Bench Seat 3 PAX with Storage", prices: {"4.1M":7890,"5.1M":7890,"5.5M":7890,"6.5M":7890,"7.2M":7890,"8.0M":7890,"8.5M":7890,"9.5M":7890,"12M":7890}},
-            {name: "Painted Aluminum Bench Seat 4 PAX with Storage", prices: {"4.1M":8360,"5.1M":8360,"5.5M":8360,"6.5M":8360,"7.2M":8360,"8.0M":8360,"8.5M":8360,"9.5M":8360,"12M":8360}},
-            {name: "S.S. Bench Seat 4 PAX with Storage", prices: {"4.1M":8350,"5.1M":8350,"5.5M":8350,"6.5M":8350,"7.2M":8350,"8.0M":8350,"8.5M":8350,"9.5M":8350,"12M":8350}}
+            {name: "Painted Aluminum Front Hand Rail for Bench Seat (1PAX)", prices: {"4.1M":530,"5.1M":530,"5.5M":530,"6.5M":530,"7.2M":530,"8.0M":530,"8.5M":530,"9.5M":530,"12M":530}},
+            {name: "S.S. Front Hand Rail for Bench Seat (1PAX)", prices: {"4.1M":650,"5.1M":650,"5.5M":650,"6.5M":650,"7.2M":650,"8.0M":650,"8.5M":650,"9.5M":650,"12M":650}},
+            {name: "S.S. Bench Seat for 1 PAX", prices: {"4.1M":3690,"5.1M":3690,"5.5M":3690,"6.5M":3690,"7.2M":3690,"8.0M":3690,"8.5M":3690,"9.5M":3690,"12M":3690}},
+            {name: "S.S. Bench Seat for 1 PAX - with Storage", prices: {"4.1M":4500,"5.1M":4500,"5.5M":4500,"6.5M":4500,"7.2M":4500,"8.0M":4500,"8.5M":4500,"9.5M":4500,"12M":4500}},
+            {name: "Painted Aluminum Bench Seat for 1 PAX", prices: {"4.1M":2830,"5.1M":2830,"5.5M":2830,"6.5M":2830,"7.2M":2830,"8.0M":2830,"8.5M":2830,"9.5M":2830,"12M":2830}},
+            {name: "Painted Aluminum Bench Seat for 1 PAX - with Storage", prices: {"4.1M":3650,"5.1M":3650,"5.5M":3650,"6.5M":3650,"7.2M":3650,"8.0M":3650,"8.5M":3650,"9.5M":3650,"12M":3650}},
+            {name: "Painted Aluminum Bench Seat for 2 PAX", prices: {"4.1M":3620,"5.1M":3620,"5.5M":3620,"6.5M":3620,"7.2M":3620,"8.0M":3620,"8.5M":3620,"9.5M":3620,"12M":3620}},
+            {name: "Painted Aluminum Bench Seat for 2 PAX - with Storage", prices: {"4.1M":4560,"5.1M":4560,"5.5M":4560,"6.5M":4560,"7.2M":4560,"8.0M":4560,"8.5M":4560,"9.5M":4560,"12M":4560}},
+            {name: "S.S. Bench Seat for 2 PAX", prices: {"4.1M":4300,"5.1M":4300,"5.5M":4300,"6.5M":4300,"7.2M":4300,"8.0M":4300,"8.5M":4300,"9.5M":4300,"12M":4300}},
+            {name: "S.S. Bench Seat for 2 PAX - with Storage", prices: {"4.1M":5250,"5.1M":5250,"5.5M":5250,"6.5M":5250,"7.2M":5250,"8.0M":5250,"8.5M":5250,"9.5M":5250,"12M":5250}},
+            {name: "Painted Aluminum Bench Seat for 3 PAX", prices: {"4.1M":4430,"5.1M":4430,"5.5M":4430,"6.5M":4430,"7.2M":4430,"8.0M":4430,"8.5M":4430,"9.5M":4430,"12M":4430}},
+            {name: "Painted Aluminum Bench Seat for 3 PAX - with Storage", prices: {"4.1M":5910,"5.1M":5910,"5.5M":5910,"6.5M":5910,"7.2M":5910,"8.0M":5910,"8.5M":5910,"9.5M":5910,"12M":5910}},
+            {name: "S.S. Bench Seat for 3 PAX", prices: {"4.1M":5150,"5.1M":5150,"5.5M":5150,"6.5M":5150,"7.2M":5150,"8.0M":5150,"8.5M":5150,"9.5M":5150,"12M":5150}},
+            {name: "S.S. Bench Seat for 3 PAX - with Storage", prices: {"4.1M":6630,"5.1M":6630,"5.5M":6630,"6.5M":6630,"7.2M":6630,"8.0M":6630,"8.5M":6630,"9.5M":6630,"12M":6630}},
+            {name: "Painted Aluminum Bench Seat for 4 PAX", prices: {"4.1M":4900,"5.1M":4900,"5.5M":4900,"6.5M":4900,"7.2M":4900,"8.0M":4900,"8.5M":4900,"9.5M":4900,"12M":4900}},
+            {name: "Painted Aluminum Bench Seat for 4 PAX - with Storage", prices: {"4.1M":6320,"5.1M":6320,"5.5M":6320,"6.5M":6320,"7.2M":6320,"8.0M":6320,"8.5M":6320,"9.5M":6320,"12M":6320}},
+            {name: "S.S. Bench Seat for 4 PAX", prices: {"4.1M":5700,"5.1M":5700,"5.5M":5700,"6.5M":5700,"7.2M":5700,"8.0M":5700,"8.5M":5700,"9.5M":5700,"12M":5700}},
+            {name: "S.S. Bench Seat for 4 PAX - with Storage", prices: {"4.1M":7120,"5.1M":7120,"5.5M":7120,"6.5M":7120,"7.2M":7120,"8.0M":7120,"8.5M":7120,"9.5M":7120,"12M":7120}},
+            {name: "Aft Bench Seat", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":4730,"7.2M":"X","8.0M":4730,"8.5M":4730,"9.5M":"X","12M":5400}},
+            {name: "S.S Foldable Bench Seat", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":4150,"7.2M":"X","8.0M":4150,"8.5M":4150,"9.5M":"X","12M":4600}}
         ],
         "Suspension Seats": [
-            {name: "Ullman BISCAYA Jockey Suspension Seat", prices: {"4.1M":5500,"5.1M":5500,"5.5M":5500,"6.5M":5500,"7.2M":5500,"8.0M":5500,"8.5M":5500,"9.5M":5500,"12M":5500}},
-            {name: "Ullman Patrol Jockey Suspension Seat", prices: {"4.1M":6250,"5.1M":6250,"5.5M":6250,"6.5M":6250,"7.2M":6250,"8.0M":6250,"8.5M":6250,"9.5M":6250,"12M":6250}},
-            {name: "Echelon Midback Jockey Suspension Seat", prices: {"4.1M":16300,"5.1M":16300,"5.5M":16300,"6.5M":16300,"7.2M":16300,"8.0M":16300,"8.5M":16300,"9.5M":16300,"12M":16300}}
+            {name: "Ullman BISCAYA Jockey Suspension seat with side handles", prices: {"4.1M":"X","5.1M":5500,"5.5M":5500,"6.5M":5500,"7.2M":5500,"8.0M":5500,"8.5M":5500,"9.5M":5500,"12M":5500}},
+            {name: "Ullman Patrol Jockey Suspension seat with side handles", prices: {"4.1M":"X","5.1M":6250,"5.5M":6250,"6.5M":6250,"7.2M":6250,"8.0M":6250,"8.5M":6250,"9.5M":6250,"12M":6250}},
+            {name: "Echelon Midback Jockey Front, Armrest Adjustable ATL/ECH Right, Handle Pistol Grip Right, Handle Pistol Grip Right, Slider ATL/ECH HD 150 (used for pilot and co-pilot only)", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":16300,"7.2M":16300,"8.0M":16300,"8.5M":16300,"9.5M":16300,"12M":16300}}
         ],
         "A-Frame": [
-            {name: "Aluminium A Frame", prices: {"4.1M":2885,"5.1M":2885,"5.5M":2885,"6.5M":2885,"7.2M":3260,"8.0M":3260,"8.5M":3400,"9.5M":3400,"12M":3600}},
-            {name: "Aluminium A Frame With Self-righting System", prices: {"4.1M":9730,"5.1M":9730,"5.5M":9730,"6.5M":9730,"7.2M":10140,"8.0M":10140,"8.5M":10500,"9.5M":10500,"12M":10800}},
-            {name: "Aluminium A Frame with Swim Platform and Ladder", prices: {"4.1M":4300,"5.1M":4300,"5.5M":4300,"6.5M":4300,"7.2M":4675,"8.0M":4675,"8.5M":4800,"9.5M":4800,"12M":5000}}
+            {name: "Aluminium A Frame", prices: {"4.1M":2690,"5.1M":2690,"5.5M":2690,"6.5M":2690,"7.2M":3070,"8.0M":3070,"8.5M":3270,"9.5M":3270,"12M":3460}},
+            {name: "Aluminium A Frame With Self-righting System", prices: {"4.1M":15770,"5.1M":15770,"5.5M":15770,"6.5M":15770,"7.2M":15770,"8.0M":10140,"8.5M":16160,"9.5M":16160,"12M":16560}},
+            {name: "Aluminium A Frame with swim platform and Ladder", prices: {"4.1M":5420,"5.1M":5420,"5.5M":5420,"6.5M":5420,"7.2M":5780,"8.0M":5780,"8.5M":6150,"9.5M":6150,"12M":6670}},
+            {name: "Stainless Steel A Frame", prices: {"4.1M":4430,"5.1M":4430,"5.5M":4430,"6.5M":4430,"7.2M":4430,"8.0M":4430,"8.5M":4820,"9.5M":4820,"12M":5210}}
         ],
         "Other Frames & Structure": [
             {name: "Aluminium Tube Ladder", prices: {"4.1M":2500,"5.1M":2500,"5.5M":2500,"6.5M":2500,"7.2M":2500,"8.0M":2500,"8.5M":2500,"9.5M":2500,"12M":2500}},
-            {name: "Swim Platform at Transom for Inboard Engine", prices: {"4.1M":1285,"5.1M":1285,"5.5M":1285,"6.5M":1285,"7.2M":1285,"8.0M":1285,"8.5M":1285,"9.5M":1285,"12M":1285}},
-            {name: "Bow Tow Post", prices: {"4.1M":2230,"5.1M":2230,"5.5M":2230,"6.5M":2230,"7.2M":2230,"8.0M":2230,"8.5M":2230,"9.5M":2230,"12M":2230}},
-            {name: "Aft Tow Post", prices: {"4.1M":2230,"5.1M":2230,"5.5M":2230,"6.5M":2230,"7.2M":2230,"8.0M":2230,"8.5M":2230,"9.5M":2230,"12M":2230}},
-            {name: "Bollard", prices: {"4.1M":835,"5.1M":835,"5.5M":835,"6.5M":835,"7.2M":835,"8.0M":835,"8.5M":835,"9.5M":835,"12M":835}},
-            {name: "Bow HD Tow Post w/Weapons Mount Flange", prices: {"4.1M":7000,"5.1M":7000,"5.5M":7000,"6.5M":7000,"7.2M":7000,"8.0M":7000,"8.5M":7000,"9.5M":7000,"12M":7000}},
-            {name: "Aft HD Tow Post w/Weapons Mount Flange", prices: {"4.1M":7000,"5.1M":7000,"5.5M":7000,"6.5M":7000,"7.2M":7000,"8.0M":7000,"8.5M":7000,"9.5M":7000,"12M":7000}}
+            {name: "Swim Platform at transom for Inboard Engine", prices: {"4.1M":2800,"5.1M":2800,"5.5M":2800,"6.5M":2800,"7.2M":2800,"8.0M":2800,"8.5M":2800,"9.5M":2800,"12M":2800}},
+            {name: "Bow Tow Post", prices: {"4.1M":3500,"5.1M":3500,"5.5M":3500,"6.5M":3500,"7.2M":3500,"8.0M":3500,"8.5M":3500,"9.5M":3500,"12M":3500}},
+            {name: "Aft Tow Post", prices: {"4.1M":3500,"5.1M":3500,"5.5M":3500,"6.5M":3500,"7.2M":3500,"8.0M":3500,"8.5M":3500,"9.5M":3500,"12M":3500}},
+            {name: "Bollard", prices: {"4.1M":1190,"5.1M":1190,"5.5M":1190,"6.5M":1190,"7.2M":1190,"8.0M":1190,"8.5M":1190,"9.5M":1190,"12M":1190}},
+            {name: "Bow HD Tow Post w/Weapons mount flange", prices: {"4.1M":"X","5.1M":7000,"5.5M":7000,"6.5M":7000,"7.2M":7000,"8.0M":7000,"8.5M":7000,"9.5M":7000,"12M":7000}},
+            {name: "Aft HD Tow Post w/Weapons mount flange", prices: {"4.1M":"X","5.1M":7000,"5.5M":7000,"6.5M":7000,"7.2M":7000,"8.0M":7000,"8.5M":7000,"9.5M":7000,"12M":7000}}
         ],
         "Life Jackets": [
-            {name: "Life Jacket SOLAS Foam with Flashlight 170N", prices: {"4.1M":85,"5.1M":85,"5.5M":85,"6.5M":85,"7.2M":85,"8.0M":85,"8.5M":85,"9.5M":85,"12M":85}},
-            {name: "Life Jacket Manual Inflatable 170N", prices: {"4.1M":120,"5.1M":120,"5.5M":120,"6.5M":120,"7.2M":120,"8.0M":120,"8.5M":120,"9.5M":120,"12M":120}}
+            {name: "Life jacket SOLAS foam with flashlight, buoyancy 170N", prices: {"4.1M":85,"5.1M":85,"5.5M":85,"6.5M":85,"7.2M":85,"8.0M":85,"8.5M":85,"9.5M":85,"12M":85}},
+            {name: "Life Jackets Manual Inflatable, buoyancy 170N", prices: {"4.1M":120,"5.1M":120,"5.5M":120,"6.5M":120,"7.2M":120,"8.0M":120,"8.5M":120,"9.5M":120,"12M":120}}
         ],
         "Other Safety": [
-            {name: "Distress Signal Kit for Coastal Navigation", prices: {"4.1M":200,"5.1M":200,"5.5M":200,"6.5M":200,"7.2M":200,"8.0M":200,"8.5M":200,"9.5M":200,"12M":200}},
-            {name: "2x Fire Extinguisher (2Kg) IAW COLREGS", prices: {"4.1M":300,"5.1M":300,"5.5M":300,"6.5M":300,"7.2M":300,"8.0M":300,"8.5M":300,"9.5M":300,"12M":300}},
-            {name: "2x 20\" USCG Approved Ring Buoy IAW COLREGS", prices: {"4.1M":160,"5.1M":160,"5.5M":160,"6.5M":160,"7.2M":160,"8.0M":160,"8.5M":160,"9.5M":160,"12M":160}},
-            {name: "2x Mooring Rope 12mm 20m", prices: {"4.1M":300,"5.1M":300,"5.5M":300,"6.5M":300,"7.2M":300,"8.0M":300,"8.5M":300,"9.5M":300,"12M":300}},
-            {name: "2x Gunwale Mounted Boat Hook", prices: {"4.1M":150,"5.1M":150,"5.5M":150,"6.5M":150,"7.2M":150,"8.0M":150,"8.5M":150,"9.5M":150,"12M":150}},
-            {name: "Single Hoisting Lifting System", prices: {"4.1M":15000,"5.1M":15000,"5.5M":15000,"6.5M":15000,"7.2M":19500,"8.0M":19500,"8.5M":19500,"9.5M":19500,"12M":19500}},
+            {name: "Distress Signal Kit for Coastal Navigation; IAW COLREGS", prices: {"4.1M":200,"5.1M":200,"5.5M":200,"6.5M":200,"7.2M":200,"8.0M":200,"8.5M":200,"9.5M":200,"12M":200}},
+            {name: "2 (Two) Fire Extinguisher (Dry Power 2 Kg); IAW COLREGS", prices: {"4.1M":300,"5.1M":300,"5.5M":300,"6.5M":300,"7.2M":300,"8.0M":300,"8.5M":300,"9.5M":300,"12M":300}},
+            {name: "2 (Two) 20\" USCG Approved Throwable Ring Buoy; IAW COLREGS", prices: {"4.1M":160,"5.1M":160,"5.5M":160,"6.5M":160,"7.2M":160,"8.0M":160,"8.5M":160,"9.5M":160,"12M":160}},
+            {name: "2 (Two) Mooring rope 12mm, in black, with 20 meters per unit", prices: {"4.1M":300,"5.1M":300,"5.5M":300,"6.5M":300,"7.2M":300,"8.0M":300,"8.5M":300,"9.5M":300,"12M":300}},
+            {name: "2 (Two) Gunwale Mounted Boat Hook", prices: {"4.1M":150,"5.1M":150,"5.5M":150,"6.5M":150,"7.2M":150,"8.0M":150,"8.5M":150,"9.5M":150,"12M":150}},
+            {name: "Forward Deck Mounted Boarding Team Hand Railing", prices: {"4.1M":4190,"5.1M":"X","5.5M":"X","6.5M":5200,"7.2M":5200,"8.0M":5200,"8.5M":5200,"9.5M":5200,"12M":5200}},
+            {name: "Single Hoisting Lifting System", prices: {"4.1M":15000,"5.1M":15000,"5.5M":1500,"6.5M":15000,"7.2M":19500,"8.0M":19500,"8.5M":19500,"9.5M":19500,"12M":19500}},
             {name: "Anti-fouling Hull Bottom Paint", prices: {"4.1M":2575,"5.1M":3140,"5.5M":3460,"6.5M":3750,"7.2M":4275,"8.0M":4500,"8.5M":4500,"9.5M":4500,"12M":4500}},
             {name: "Life Ring", prices: {"4.1M":110,"5.1M":110,"5.5M":110,"6.5M":110,"7.2M":110,"8.0M":110,"8.5M":110,"9.5M":110,"12M":110}},
-            {name: "Dive Bottle Rack (6 Bottles)", prices: {"4.1M":3250,"5.1M":3250,"5.5M":3250,"6.5M":3250,"7.2M":3250,"8.0M":3250,"8.5M":3250,"9.5M":3250,"12M":3250}}
+            {name: "Dive Bottle Rack (for 6 Bottles)", prices: {"4.1M":3250,"5.1M":3250,"5.5M":3250,"6.5M":3250,"7.2M":3250,"8.0M":3250,"8.5M":3250,"9.5M":3250,"12M":3250}}
         ],
         "Protection & Guards": [
             {name: "Aluminium Bow Guard with Pushing Knee", prices: {"4.1M":8110,"5.1M":8110,"5.5M":8110,"6.5M":8110,"7.2M":8110,"8.0M":8110,"8.5M":8110,"9.5M":8110,"12M":8110}},
-            {name: "Foam Filled Pushing Knee", prices: {"4.1M":4400,"5.1M":4400,"5.5M":4400,"6.5M":4400,"7.2M":4400,"8.0M":4400,"8.5M":4400,"9.5M":4400,"12M":4400}},
+            {name: "Foam filled Pushing Knee", prices: {"4.1M":4400,"5.1M":4400,"5.5M":4400,"6.5M":4400,"7.2M":4400,"8.0M":4400,"8.5M":4400,"9.5M":4400,"12M":4400}},
             {name: "Keel Guard", prices: {"4.1M":1430,"5.1M":1430,"5.5M":1430,"6.5M":1430,"7.2M":1430,"8.0M":1430,"8.5M":1430,"9.5M":1430,"12M":1430}},
-            {name: "Full Length Keel Guard (Bow Eyes to Transom)", prices: {"4.1M":2600,"5.1M":2600,"5.5M":3000,"6.5M":3000,"7.2M":3500,"8.0M":3500,"8.5M":3500,"9.5M":3500,"12M":3500}},
-            {name: "HD Aluminium Engine Guard", prices: {"4.1M":3360,"5.1M":3360,"5.5M":3360,"6.5M":3360,"7.2M":3360,"8.0M":3360,"8.5M":3360,"9.5M":3360,"12M":3360}},
+            {name: "Full Length Keel Guard (from Bow Eyes to Transom)", prices: {"4.1M":2600,"5.1M":2600,"5.5M":3000,"6.5M":3000,"7.2M":3500,"8.0M":3500,"8.5M":3500,"9.5M":3500,"12M":3500}},
+            {name: "HD Aluminium Engine Guard", prices: {"4.1M":2800,"5.1M":2800,"5.5M":2800,"6.5M":2800,"7.2M":2800,"8.0M":3360,"8.5M":3360,"9.5M":3360,"12M":3360}},
             {name: "Propeller Guard", prices: {"4.1M":1680,"5.1M":1680,"5.5M":1680,"6.5M":1680,"7.2M":1680,"8.0M":1680,"8.5M":1680,"9.5M":1680,"12M":1680}},
             {name: "Wooden Pallet with Shrink-Wrap Packaging", prices: {"4.1M":1430,"5.1M":1430,"5.5M":1430,"6.5M":1430,"7.2M":1430,"8.0M":1430,"8.5M":1430,"9.5M":1430,"12M":1430}}
         ],
@@ -2120,45 +2161,47 @@ const ACCESSORIES = {
             {name: "Galvanized Steel Triple Trailer (Without Brakes)", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":"X","7.2M":"X","8.0M":"X","8.5M":"X","9.5M":"X","12M":10000}}
         ],
         "GPS": [
-            {name: "GARMIN GPSMAP 923 XSV 9\" MFD with Sonar", prices: {"4.1M":2270,"5.1M":2270,"5.5M":2270,"6.5M":2270,"7.2M":2270,"8.0M":2270,"8.5M":2270,"9.5M":2270,"12M":2270}},
-            {name: "GARMIN GPSMAP 8410 XSV 10\" MFD with Sonar", prices: {"4.1M":4400,"5.1M":4400,"5.5M":4400,"6.5M":4400,"7.2M":4400,"8.0M":4400,"8.5M":4400,"9.5M":4400,"12M":4400}},
-            {name: "GARMIN GPSMAP 8410 10\" MFD W/O Sonar", prices: {"4.1M":3500,"5.1M":3500,"5.5M":3500,"6.5M":3500,"7.2M":3500,"8.0M":3500,"8.5M":3500,"9.5M":3500,"12M":3500}}
+            {name: "GARMIN GPSMAP 723 XSV 7\" inch with Sonar Combo , Multifunction Display Chart Plotter, WiFi Connectivity with GT 21-TM Transom Mounted Transducer & Bluechart G2 Vision", prices: {"4.1M":"X","5.1M":2105,"5.5M":2105,"6.5M":2105,"7.2M":2105,"8.0M":2105,"8.5M":2105,"9.5M":2105,"12M":2105}},
+            {name: "GARMIN GPSMAP 923 XSV 9\" inch with Sonar Combo , Multifunction Display Chart Plotter, WiFi Connectivity with GT 21-TM Transom Mounted Transducer & Bluechart G2 Vision", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":2475,"7.2M":2475,"8.0M":2475,"8.5M":2475,"9.5M":2475,"12M":2475}},
+            {name: "GARMIN GPSMAP 8410 XSV 10\" inch with Sonar Combo , Multifunction Display Chart Plotter, WiFi Connectivity with GT 21-TM Transom Mounted Transducer & Bluechart G2 Vision", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":4190,"7.2M":4190,"8.0M":4190,"8.5M":4190,"9.5M":4190,"12M":4190}},
+            {name: "GARMIN GPSMAP 1223 XSV 12\" inch with Sonar Combo , Multifunction Display Chart Plotter, WiFi Connectivity, In-hull Transducer & Bluechart G2 Vision", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":3580,"7.2M":3580,"8.0M":3580,"8.5M":3580,"9.5M":3580,"12M":3580}},
+            {name: "GARMIN GPSMAP 8412 XSV 12\" inch with Sonar Combo , Multifunction Display Chart Plotter, WiFi Connectivity, In-hull Transducer & Bluechart G2 Vision", prices: {"4.1M":"X","5.1M":"X","5.5M":"X","6.5M":4595,"7.2M":4595,"8.0M":4595,"8.5M":4595,"9.5M":4595,"12M":4595}}
         ],
         "Radar": [
-            {name: "GARMIN GMR 18HD+ 18NM Radar Scanner", prices: {"4.1M":2200,"5.1M":2200,"5.5M":2200,"6.5M":2200,"7.2M":2200,"8.0M":2200,"8.5M":2200,"9.5M":2200,"12M":2200}},
-            {name: "GARMIN GMR Fantom 18x Dome Radar", prices: {"4.1M":2600,"5.1M":2600,"5.5M":2600,"6.5M":2600,"7.2M":2600,"8.0M":2600,"8.5M":2600,"9.5M":2600,"12M":2600}}
+            {name: "GARMIN GMR 18HD+ 18NM Marine Radar Scanner", prices: {"4.1M":"X","5.1M":2290,"5.5M":2290,"6.5M":2290,"7.2M":2290,"8.0M":2290,"8.5M":2290,"9.5M":2290,"12M":2290}},
+            {name: "GARMIN® GMR Fantom™ 18x Dome Radar Marine Radar Scanner", prices: {"4.1M":"X","5.1M":2750,"5.5M":2750,"6.5M":2750,"7.2M":2750,"8.0M":2750,"8.5M":2750,"9.5M":2750,"12M":2750}}
         ],
         "VHF": [
-            {name: "Garmin 115i VHF Radio with Antenna", prices: {"4.1M":750,"5.1M":750,"5.5M":750,"6.5M":750,"7.2M":750,"8.0M":750,"8.5M":750,"9.5M":750,"12M":750}},
-            {name: "Garmin 215i AIS VHF Radio with Antenna", prices: {"4.1M":1200,"5.1M":1200,"5.5M":1200,"6.5M":1200,"7.2M":1200,"8.0M":1200,"8.5M":1200,"9.5M":1200,"12M":1200}}
+            {name: "Garmin 115i VHF Radio with Antenna", prices: {"4.1M":650,"5.1M":750,"5.5M":750,"6.5M":750,"7.2M":750,"8.0M":750,"8.5M":750,"9.5M":750,"12M":750}},
+            {name: "Garmin 215i AIS VHF Radio with Antenna", prices: {"4.1M":1180,"5.1M":1180,"5.5M":1180,"6.5M":1180,"7.2M":1180,"8.0M":1180,"8.5M":1180,"9.5M":1180,"12M":1180}}
         ],
         "Other Communication": [
-            {name: "Whelen Siren/PA System IAW COLREGS", prices: {"4.1M":1100,"5.1M":1100,"5.5M":1100,"6.5M":1100,"7.2M":1100,"8.0M":1100,"8.5M":1100,"9.5M":1100,"12M":1100}},
+            {name: "Whelen® Siren / PA System and Built-in Signal Horn IAW COLREGS", prices: {"4.1M":1100,"5.1M":1100,"5.5M":1100,"6.5M":1100,"7.2M":1100,"8.0M":1100,"8.5M":1100,"9.5M":1100,"12M":1100}},
             {name: "Signal Horn 12VDC IAW COLREGS", prices: {"4.1M":250,"5.1M":250,"5.5M":250,"6.5M":250,"7.2M":250,"8.0M":250,"8.5M":250,"9.5M":250,"12M":250}}
         ],
         "FLIR / Thermal": [
-            {name: "FLIR M232 Thermal Camera (320x240, 9Hz)", prices: {"4.1M":6500,"5.1M":6500,"5.5M":6500,"6.5M":6500,"7.2M":6500,"8.0M":6500,"8.5M":6500,"9.5M":6500,"12M":6500}},
-            {name: "FLIR M364C Gyro Stabilized Thermal IP Camera", prices: {"4.1M":27000,"5.1M":27000,"5.5M":27000,"6.5M":27000,"7.2M":27000,"8.0M":27000,"8.5M":27000,"9.5M":27000,"12M":27000}}
+            {name: "FLIR® M232 (320 x 240, 9Hz),with Pan, Tilt and electronic zoom thermal camera w/Joy Stick Control Unit (JCU)", prices: {"4.1M":6500,"5.1M":6500,"5.5M":6500,"6.5M":6500,"7.2M":6500,"8.0M":6500,"8.5M":6500,"9.5M":6500,"12M":6500}},
+            {name: "FLIR® M364C Gyro stabilized 9HZ Thermal IP Camera and Color Low Light Camera w/Joy Stick Control Unit (JCU)", prices: {"4.1M":27000,"5.1M":27000,"5.5M":27000,"6.5M":27000,"7.2M":27000,"8.0M":27000,"8.5M":27000,"9.5M":27000,"12M":27000}}
         ],
         "Lighting & Electrical": [
-            {name: "STL K-FORCE LED Law Enforcement Light Bar", prices: {"4.1M":1500,"5.1M":1500,"5.5M":1500,"6.5M":1500,"7.2M":1500,"8.0M":1500,"8.5M":1500,"9.5M":1500,"12M":1500}},
-            {name: "Remote Search Light ACR RCL 95 w/Joystick", prices: {"4.1M":1050,"5.1M":1050,"5.5M":1050,"6.5M":1050,"7.2M":1050,"8.0M":1050,"8.5M":1050,"9.5M":1050,"12M":1050}},
-            {name: "LED Flood Lights / Scene-Lights (4 pieces)", prices: {"4.1M":800,"5.1M":800,"5.5M":800,"6.5M":800,"7.2M":800,"8.0M":800,"8.5M":800,"9.5M":800,"12M":800}},
-            {name: "Deck Light LED Tri-Color Lighting", prices: {"4.1M":1060,"5.1M":1060,"5.5M":1400,"6.5M":1400,"7.2M":1775,"8.0M":1775,"8.5M":1775,"9.5M":1775,"12M":1775}},
-            {name: "12 VDC Air-Compressor Tube Inflation System", prices: {"4.1M":400,"5.1M":400,"5.5M":400,"6.5M":400,"7.2M":400,"8.0M":400,"8.5M":400,"9.5M":400,"12M":400}},
-            {name: "3-Bank Onboard Battery Charging System 40A", prices: {"4.1M":750,"5.1M":750,"5.5M":750,"6.5M":750,"7.2M":750,"8.0M":750,"8.5M":750,"9.5M":750,"12M":750}},
-            {name: "BLUE SEA Accessory Receptacle 12VDC", prices: {"4.1M":75,"5.1M":75,"5.5M":75,"6.5M":75,"7.2M":75,"8.0M":75,"8.5M":75,"9.5M":75,"12M":75}},
-            {name: "BLUE SEA 12VDC Dual USB Charging Outlets", prices: {"4.1M":100,"5.1M":100,"5.5M":100,"6.5M":100,"7.2M":100,"8.0M":100,"8.5M":100,"9.5M":100,"12M":100}},
+            {name: "STL K-FORCE® 27 TIR g LED Law Enforcement Light Bar", prices: {"4.1M":1500,"5.1M":1500,"5.5M":1500,"6.5M":1500,"7.2M":1500,"8.0M":1500,"8.5M":1500,"9.5M":1500,"12M":1500}},
+            {name: "Remote Controlled Search Light ACR RCL 95 w/Joystick Control Unit and FOB Remote", prices: {"4.1M":1160,"5.1M":1160,"5.5M":1160,"6.5M":1160,"7.2M":1160,"8.0M":1160,"8.5M":1160,"9.5M":1160,"12M":1160}},
+            {name: "LED Diffused, Flood Lights / \"Scene-Lights\" (4 pieces)", prices: {"4.1M":800,"5.1M":800,"5.5M":800,"6.5M":800,"7.2M":800,"8.0M":800,"8.5M":800,"9.5M":800,"12M":800}},
+            {name: "Deck light LED tri- color lighting", prices: {"4.1M":1060,"5.1M":1060,"5.5M":1400,"6.5M":1400,"7.2M":1775,"8.0M":1775,"8.5M":1775,"9.5M":1775,"12M":1775}},
+            {name: "12 VDC Air-Compressor Tube Inflation Syste", prices: {"4.1M":400,"5.1M":400,"5.5M":400,"6.5M":400,"7.2M":400,"8.0M":400,"8.5M":400,"9.5M":400,"12M":400}},
+            {name: "3-Bank, Onboard Battery Charging and Float Conditioning System w/Shore-Tie Cable (110 / 220 VDC); 40A", prices: {"4.1M":1200,"5.1M":1200,"5.5M":1200,"6.5M":1200,"7.2M":1200,"8.0M":1200,"8.5M":1200,"9.5M":1200,"12M":1200}},
+            {name: "Automotive Style BLUE SEA Accessory Receptacle 12VDC", prices: {"4.1M":75,"5.1M":75,"5.5M":75,"6.5M":75,"7.2M":75,"8.0M":75,"8.5M":75,"9.5M":75,"12M":75}},
+            {name: "Automotive Style BLUE SEA 12VDC Dual USB type charging outlets", prices: {"4.1M":100,"5.1M":100,"5.5M":100,"6.5M":100,"7.2M":100,"8.0M":100,"8.5M":100,"9.5M":100,"12M":100}},
             {name: "Plastimo Flush Mount Offshore Compass 95", prices: {"4.1M":380,"5.1M":380,"5.5M":380,"6.5M":380,"7.2M":380,"8.0M":380,"8.5M":380,"9.5M":380,"12M":380}}
         ]
     },
     inflatable: {
         "Engine": [],
         "Optional Accessories": [
-            {name: "Custom Color Hypalon", prices: {"2.8M":"TBD","3.2M":"TBD","3.5M":"TBD","4.2M":"TBD","4.8M":"TBD","5.1M":"TBD"}},
+            {name: "Custom Color Hypalon", prices: {"2.8M":2500,"3.2M":2500,"3.5M":2500,"4.2M":2500,"4.8M":2500,"5.1M":2500}},
             {name: "Extra Bench Seat", prices: {"2.8M":650,"3.2M":700,"3.5M":730,"4.2M":990,"4.8M":990,"5.1M":990}},
-            {name: "Extra Hypalon D-ring Patch", prices: {"2.8M":50,"3.2M":50,"3.5M":50,"4.2M":50,"4.8M":50,"5.1M":50}},
-            {name: "Hypalon Pilot Handles", prices: {"2.8M":50,"3.2M":50,"3.5M":50,"4.2M":50,"4.8M":50,"5.1M":50}},
+            {name: "Extra Hypalon D-ring Patch", prices: {"2.8M":200,"3.2M":200,"3.5M":200,"4.2M":200,"4.8M":200,"5.1M":200}},
+            {name: "Hypalon pilot handles", prices: {"2.8M":100,"3.2M":100,"3.5M":100,"4.2M":100,"4.8M":100,"5.1M":100}},
             {name: "Moulded Rubber Handles", prices: {"2.8M":250,"3.2M":250,"3.5M":250,"4.2M":250,"4.8M":250,"5.1M":250}}
         ]
     }
